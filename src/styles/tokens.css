@@ -1,0 +1,155 @@
+/* ==========================================================================
+   DIGITAL MUSEUM BRUTALISM
+   The interface is an invisible, high-contrast structural container. It must
+   make installation mockups and high-fidelity product screens pop, never
+   compete with them.
+
+   Accent is FUNCTIONAL ONLY — cursor, selectors, active nodes, links, focus.
+   It is never decoration, and it is never a project's brand colour.
+   ========================================================================== */
+
+:root {
+  /* --- Structural palette --- */
+  --matte-black: #0b0b0c;
+  --studio-white: #f5f5f7;
+  --cyber-lime: #ccff00;
+  --digital-cyan: #00f0ff;
+
+  /* --- Typography engine ---
+     Headers: wide geometric. Body: neo-grotesque. Data: fixed-width engineering.
+     SF Mono is the system mono on Apple hardware, so the stack resolves to it
+     natively without a webfont round-trip. */
+  --font-display: 'Space Grotesk', 'PP Neue Montreal', 'Inter', sans-serif;
+  --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-body: var(--font-ui);
+  --font-mono: 'Space Mono', ui-monospace, 'SF Mono', SFMono-Regular, Menlo, monospace;
+  /* Serif is used only inside the Design Qualities report theme, where the
+     source is an essay and should read like one. It resolves to system faces
+     so it costs no extra webfont request. */
+  --font-serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Times New Roman', serif;
+
+  /* --- Scale: brutalist means large jumps, not a gentle ramp --- */
+  --step--2: clamp(0.66rem, 0.64rem + 0.1vw, 0.72rem);
+  --step--1: clamp(0.78rem, 0.76rem + 0.1vw, 0.84rem);
+  --step-0: clamp(0.97rem, 0.94rem + 0.16vw, 1.06rem);
+  --step-1: clamp(1.12rem, 1.06rem + 0.3vw, 1.3rem);
+  --step-2: clamp(1.35rem, 1.2rem + 0.7vw, 1.8rem);
+  --step-3: clamp(1.7rem, 1.35rem + 1.7vw, 2.8rem);
+  --step-4: clamp(2.1rem, 1.5rem + 3vw, 4.2rem);
+  --step-billboard: clamp(2.4rem, 1.1rem + 6.2vw, 7rem);
+
+  /* --- Structure --- */
+  --gutter: clamp(1.15rem, 3.5vw, 40px);
+  --bento-gap: clamp(16px, 2.3vw, 32px);
+  --measure: 64ch;
+  --wrap: 1600px;
+  --wrap-narrow: 720px;
+  --radius: 0px;        /* brutalism: no softening */
+  --radius-sm: 0px;
+  --hairline: 1px;
+
+  /* --- Motion philosophy ---
+     Layout glides with weight and inertia; component triggers snap. */
+  --ease-liquid: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-glide: 1.05s;
+  --ease: var(--ease-liquid);
+
+  /* Spring: damping 40, stiffness 400, mass 1.
+     omega0 = sqrt(k/m) = 20 rad/s; zeta = c / (2*sqrt(k*m)) = 1.0 — critically
+     damped, so it settles hard with no overshoot. Sampled from
+     x(t) = 1 - (1 + omega0*t) * e^(-omega0*t) every 25ms; ~99.3% at 350ms.
+     cubic-bezier below is the fallback where linear() is unsupported. */
+  --dur-snap: 0.35s;
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --nav-h: 80px;
+
+  /* --- Deep Tech Gallery core matrix (fixed) --- */
+  --canvas: #0b0b0c;        /* dominant background canvas */
+  --component: #131315;     /* secondary component surface */
+  --elevation: #1a1a1d;     /* tertiary system elevation */
+  --type-primary: #f5f5f7;  /* primary structural typography */
+  --type-secondary: #9e9e9f;/* secondary content typography */
+  --wireframe: #333336;     /* systemic utility border */
+
+  /* --- Chart data encoding.
+     Three efficiency bands, drawn from the shell palette rather than Court
+     Vision's original amber/teal, which clashed against matte black + lime.
+     Accent marks the signal; the other two recede. --- */
+  --viz-high: #ccff00;   /* above average — the thing worth looking at */
+  --viz-mid: #f5f5f7;    /* near average */
+  --viz-low: #6e6e73;    /* below average — recedes */
+}
+
+/* ------------------------- DARK — the designed mode ---------------------- */
+:root,
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg: var(--canvas);
+  --bg-raised: var(--elevation);
+  --surface: var(--component);
+  --surface-2: var(--elevation);
+  /* Media mat is the component surface: screenshots read as objects sitting on
+     an architectural depth layer rather than floating on the canvas. */
+  --surface-media: var(--component);
+
+  --text: var(--type-primary);              /* 18.1:1 on canvas */
+  --text-secondary: var(--type-secondary);  /*  7.4:1 */
+  --text-muted: var(--type-secondary);      /* one secondary tier, per the matrix */
+
+  --line: var(--wireframe);                 /* structural separators */
+  /* Interactive boundaries need 3:1 (WCAG 1.4.11) and #333336 is only 1.6:1 on
+     the canvas, so controls get a lifted border while separators keep the
+     spec value. */
+  --line-strong: #6e6e73;                   /*  3.9:1 */
+  --grid-line: var(--wireframe);
+
+  --accent: var(--cyber-lime);
+  --accent-text: var(--cyber-lime);   /* 16.7:1 */
+  --accent-contrast: var(--matte-black);
+  --accent-soft: #ccff0016;
+  --accent-2: var(--digital-cyan);    /* 14.0:1 */
+
+  --chip-bg: transparent;
+  --shadow: none;
+  --focus: var(--cyber-lime);
+}
+
+/* ------------------------- LIGHT — inverted gallery ----------------------- */
+[data-theme='light'] {
+  color-scheme: light;
+
+  --bg: var(--studio-white);
+  --bg-raised: #ececf0;
+  --surface: #ececf0;
+  --surface-2: #e4e4e9;
+  --surface-media: #ececf0;
+
+  --text: var(--canvas);
+  --text-secondary: #5e5e63;   /* 5.9:1 — the inverted counterpart of #9E9E9F */
+  --text-muted: #5e5e63;
+
+  --line: #d6d6da;
+  --line-strong: #86868b;      /* 3.3:1 */
+  --grid-line: #d6d6da;
+
+  --accent: #4a5c00;        /* lime is 1.1:1 on off-white — unusable as text */
+  --accent-text: #4a5c00;   /* 6.8:1 */
+  --accent-contrast: var(--studio-white);
+  --accent-soft: #ccff0055;
+  --accent-2: #006b73;
+
+  --chip-bg: transparent;
+  --shadow: none;
+  --focus: #4a5c00;
+}
+
+/* Critically-damped spring (d40 / k400 / m1) as a real easing curve. */
+@supports (transition-timing-function: linear(0, 1)) {
+  :root {
+    --ease-spring: linear(
+      0, 0.0902, 0.2642, 0.4422, 0.594, 0.7127, 0.8009, 0.8641,
+      0.9084, 0.9389, 0.9596, 0.9734, 0.9826, 0.9887, 0.9927, 1
+    );
+  }
+}

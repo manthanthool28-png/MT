@@ -1,0 +1,2392 @@
+/* ==========================================================================
+   STRUCTURAL LAYOUT SYSTEM
+   Hard rules, hairline grids, no rounding, no shadows.
+   ========================================================================== */
+
+.rule-top { border-top: var(--hairline) solid var(--line); }
+.rule-bottom { border-bottom: var(--hairline) solid var(--line); }
+
+/* Fixed-width engineering labels — data feeds, component labels, matrices. */
+.tech {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.tech--accent { color: var(--accent-text); }
+
+/* ------------------------------ 1. BILLBOARD ----------------------------- */
+.billboard {
+  min-height: calc(100svh - var(--nav-h));
+  overflow: hidden; /* contains the parallax bleed */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;   /* vertical centre, left aligned */
+  align-items: flex-start;
+  padding-inline: 8%;
+  padding-block: clamp(2rem, 5vw, 4rem);
+  position: relative;
+  max-width: none;
+}
+.billboard__monicker {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  line-height: 1.9;
+  max-width: 68ch;
+}
+.billboard__headline {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 6vw, 96px);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.038em;
+  text-transform: uppercase;
+  margin-block: clamp(1.5rem, 4vw, 2.75rem) 0;
+  max-width: 16ch;
+  text-wrap: balance;
+}
+.billboard__headline em {
+  font-style: normal;
+  color: var(--accent-text);
+}
+.billboard__sub {
+  margin-top: clamp(1.25rem, 3vw, 2rem);
+  max-width: 58ch;
+  color: var(--text-secondary);
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: clamp(17px, 1.45vw, 20px);
+  line-height: 1.6;
+}
+.billboard__foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: clamp(2rem, 6vw, 4rem);
+}
+
+/* Parallax layer: scroll transform factor 0.3, applied behind the type. */
+.parallax {
+  position: absolute;
+  /* Vertical bleed only (horizontal overhang pushed the document wider than
+     the viewport). The layer lags the scroll, so its top edge travels down —
+     it needs enough headroom above to never expose a hard edge. */
+  inset: -70% 0 -10% 0;
+  z-index: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+.billboard > *:not(.parallax) { position: relative; z-index: 1; }
+@media (prefers-reduced-motion: reduce) { .parallax { display: none; } }
+.scroll-cue {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.scroll-cue::after {
+  content: '';
+  width: 46px;
+  height: 1px;
+  background: var(--accent);
+  transform-origin: left;
+  animation: cue 2.4s var(--ease-liquid) infinite;
+}
+@keyframes cue {
+  0%, 100% { transform: scaleX(0.35); opacity: 0.5; }
+  50% { transform: scaleX(1); opacity: 1; }
+}
+
+/* ---------------------------- 2. TRACK ROUTER ---------------------------- */
+.router {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: var(--hairline) solid var(--line);
+  /* Closing rule as well as an opening one: without it the live Court Vision
+     block below runs straight into Track 02 and reads as part of it. */
+  border-bottom: var(--hairline) solid var(--line);
+}
+@media (max-width: 800px) { .router { grid-template-columns: 1fr; } }
+
+.router__gate {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: clamp(2rem, 5vw, 3.75rem) clamp(1.15rem, 3vw, 2.75rem);
+  text-decoration: none;
+  color: inherit;
+  border-right: var(--hairline) solid var(--line);
+  overflow: hidden;
+}
+.router__gate:last-child { border-right: 0; }
+@media (max-width: 800px) {
+  .router__gate { border-right: 0; border-bottom: var(--hairline) solid var(--line); }
+}
+/* Accent wipe on approach — snaps, does not fade. */
+.router__gate::before {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-snap) var(--ease-spring);
+}
+.router__gate:hover::before,
+.router__gate:focus-visible::before { transform: scaleX(1); }
+
+.router__index {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.14em;
+  color: var(--accent-text);
+}
+.router__title {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  line-height: 1.06;
+}
+.router__body {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  max-width: 46ch;
+}
+.router__go {
+  margin-top: auto;
+  padding-top: 1rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+}
+.router__gate:hover .router__go { color: var(--accent-text); }
+
+/* --------------------------- 3. MATRIX FILTERS --------------------------- */
+.matrix-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem 2rem;
+  flex-wrap: wrap;
+  padding-block: clamp(2rem, 5vw, 3rem) 1.25rem;
+}
+.matrix-title {
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.filter {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  padding: 0.5rem 0.85rem;
+  background: transparent;
+  border: var(--hairline) solid var(--line-strong);
+  color: var(--text-muted);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.filter:hover { color: var(--text); border-color: var(--text-muted); }
+.filter[aria-pressed='true'] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-contrast);
+}
+.filter[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+  border-style: dashed;
+}
+.filter__count {
+  margin-left: 0.5rem;
+  opacity: 0.7;
+}
+
+/* ----------------------------- 4. BENTO GRID ----------------------------- */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--bento-gap);
+  width: 100%;
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+@media (max-width: 760px) { .bento { grid-template-columns: 1fr; } }
+
+.bento__item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface); /* card cell, per the palette matrix */
+  /* Border/System is 1.56:1 on the canvas and the card fill is 1.06:1, so with
+     the spec border these cards were invisible in dark mode. Card edges use
+     the interactive line (3.9:1); plain separators keep #333336. */
+  border: 1px solid var(--line-strong);
+  text-decoration: none;
+  color: inherit;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  min-height: 300px;
+  overflow: hidden;
+  transform: translateZ(0);
+  transition:
+    border-color var(--dur-snap) var(--ease-spring),
+    transform var(--dur-snap) var(--ease-spring);
+}
+/* Hover variant: accent border, 1.02 scale, media opacity 0.75 -> 1. */
+.bento__item:hover,
+.bento__item:focus-visible {
+  border-color: var(--accent);
+  transform: scale(1.02);
+  z-index: 2;
+}
+/* Asymmetry inside a two-column grid comes from span + height, not columns. */
+.bento__item--xl { grid-column: span 2; min-height: clamp(340px, 42vw, 560px); }
+.bento__item--wide { grid-column: span 2; min-height: clamp(300px, 30vw, 420px); }
+.bento__item--md { grid-column: span 1; min-height: 340px; }
+.bento__item--sm { grid-column: span 1; min-height: 280px; }
+@media (max-width: 760px) {
+  .bento__item,
+  .bento__item--xl,
+  .bento__item--wide,
+  .bento__item--md,
+  .bento__item--sm { grid-column: span 1; min-height: 280px; }
+}
+
+.bento__item[hidden] { display: none; }
+
+.bento__media {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  margin-bottom: 1rem;
+  background: var(--surface-media);
+  overflow: hidden;
+  opacity: 0.75; /* default variant */
+  transition: opacity var(--dur-snap) var(--ease-spring);
+}
+.bento__item:hover .bento__media,
+.bento__item:focus-visible .bento__media { opacity: 1; }
+.bento__media img,
+.bento__media > svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+.bento__index {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 0.55rem;
+}
+.bento__title {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 600;
+  letter-spacing: -0.018em;
+  text-transform: uppercase;
+}
+.bento__item--xl .bento__title { font-size: var(--step-2); }
+.bento__desc {
+  margin-top: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  max-width: 52ch;
+}
+.bento__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.85rem;
+  list-style: none;
+  padding: 0;
+}
+.bento__tags li {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border: var(--hairline) solid var(--line);
+  padding: 0.22rem 0.5rem;
+}
+.bento__item:hover .bento__title { color: var(--accent-text); }
+
+/* A tile that states what is missing rather than faking it. */
+.bento__item--empty {
+  border: 1px dashed var(--line-strong);
+  background: var(--surface);
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0.6rem;
+  cursor: default;
+}
+.bento__item--empty .bento__title { color: var(--text-muted); }
+
+/* -------------------------- 5. RECOGNITION LOG --------------------------- */
+.recog { border-top: var(--hairline) solid var(--line); }
+.recog__row {
+  display: grid;
+  grid-template-columns: minmax(200px, 0.9fr) minmax(0, 2fr);
+  gap: 1rem clamp(1.5rem, 4vw, 3rem);
+  padding-block: clamp(1.5rem, 3vw, 2.25rem);
+  border-bottom: var(--hairline) solid var(--line);
+}
+@media (max-width: 720px) { .recog__row { grid-template-columns: 1fr; } }
+.recog__stamp {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+  line-height: 1.8;
+}
+.recog__title {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+.recog__venue {
+  margin-top: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+.recog__note {
+  margin-top: 0.6rem;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  max-width: 60ch;
+}
+
+/* -------------------------- 6. CONTACT TERMINAL -------------------------- */
+.terminal {
+  border-top: var(--hairline) solid var(--line);
+  padding-block: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 3vw, 2.25rem);
+}
+.terminal__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+.terminal__tag::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: pulse 2.6s var(--ease-liquid) infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+
+.terminal__mail {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35em;
+  /* nowrap on the flex line: the arrow is its own item, so with wrapping
+     allowed it dropped to a second line on its own. The label wraps
+     internally instead and the arrow stays attached to it. */
+  flex-wrap: nowrap;
+  max-width: 100%;
+  margin-top: clamp(1rem, 3vw, 1.75rem);
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 0.92rem + 0.95vw, 1.7rem);
+  font-weight: 700;
+  letter-spacing: -0.022em;
+  line-height: 1.15;
+  color: var(--text);
+  text-decoration: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  transition: color var(--dur-snap) var(--ease-spring);
+}
+
+.terminal__mail-label { text-wrap: balance; }
+.terminal__mail-arrow { flex: none; }
+
+/* Address in mono at a size it can hold without wrapping. */
+.terminal__address {
+  margin-top: 0.55rem;
+  font-family: var(--font-mono);
+  font-size: clamp(0.85rem, 0.8rem + 0.25vw, 1rem);
+  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+  word-break: break-word;
+}
+.terminal__mail:hover { color: var(--accent-text); }
+.terminal__hint {
+  margin-top: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  min-height: 1.4em;
+}
+.terminal__hint[data-copied] { color: var(--accent-text); }
+
+.terminal__utility {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem 2rem;
+  flex-wrap: wrap;
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+  padding-top: 1.5rem;
+  border-top: var(--hairline) solid var(--line);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.terminal__links {
+  display: flex;
+  gap: 1.25rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-wrap: wrap;
+}
+.terminal__links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+.terminal__links a:hover { color: var(--accent-text); }
+
+/* ---------------------- 7. CASE STUDY STICKY TOC ------------------------- */
+.case-shell {
+  display: grid;
+  grid-template-columns: minmax(190px, 240px) minmax(0, 1fr);
+  gap: clamp(1.5rem, 5vw, 4rem);
+  align-items: start;
+}
+@media (max-width: 900px) { .case-shell { grid-template-columns: 1fr; } }
+
+.toc {
+  position: sticky;
+  top: 84px;
+  align-self: start;
+}
+@media (max-width: 900px) { .toc { display: none; } }
+.toc__label {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding-bottom: 0.75rem;
+  border-bottom: var(--hairline) solid var(--line);
+  margin-bottom: 0.75rem;
+}
+.toc__list { list-style: none; padding: 0; margin: 0; display: grid; }
+.toc__link {
+  display: grid;
+  grid-template-columns: 2.1rem 1fr;
+  gap: 0.35rem;
+  padding: 0.55rem 0;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  padding-left: 0.7rem;
+  transition: color var(--dur-snap) var(--ease-spring),
+    border-color var(--dur-snap) var(--ease-spring);
+}
+.toc__link:hover { color: var(--text-secondary); }
+.toc__link[data-current] {
+  color: var(--accent-text);
+  border-left-color: var(--accent);
+}
+.toc__num { opacity: 0.6; }
+
+/* Sections inside the split canvas must not re-apply the page gutter. */
+.case-canvas .cs-section > .wrap,
+.case-canvas .cs-section > .wrap--narrow {
+  max-width: none;
+  padding-inline: 0;
+  margin-inline: 0;
+}
+.case-canvas .cs-section:first-child { padding-top: 0; }
+
+/* ---------------------- 8. PAGE HEADS (brutalist) ------------------------ */
+.page-head { padding-block: clamp(2.5rem, 7vw, 5rem) clamp(1.5rem, 3vw, 2.5rem); }
+.page-head h1 {
+  font-family: var(--font-display);
+  font-size: var(--step-4);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  line-height: 0.98;
+  max-width: 18ch;
+  margin-top: 1rem;
+}
+.page-head p { max-width: 56ch; color: var(--text-secondary); }
+
+/* --------------------------- 9. ABOUT / MANIFESTO ------------------------ */
+.about-shell {
+  display: grid;
+  grid-template-columns: minmax(220px, 340px) minmax(0, 1fr);
+  gap: clamp(1.75rem, 5vw, 4.5rem);
+  align-items: start;
+}
+@media (max-width: 860px) { .about-shell { grid-template-columns: 1fr; } }
+
+.portrait {
+  position: sticky;
+  top: 84px;
+  border: var(--hairline) solid var(--line-strong);
+  background: var(--surface-media);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+}
+@media (max-width: 860px) {
+  .portrait { position: static; max-width: 300px; }
+}
+.portrait img { width: 100%; height: 100%; object-fit: cover; }
+
+.manifesto {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 0.85rem + 2.2vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.032em;
+  text-transform: uppercase;
+  text-wrap: balance;
+  max-width: 20ch;
+}
+.manifesto em { font-style: normal; color: var(--accent-text); }
+
+.philosophy {
+  margin-top: clamp(1.25rem, 3vw, 2rem);
+  max-width: var(--measure);
+  color: var(--text-secondary);
+  font-size: var(--step-0);
+  line-height: 1.7;
+}
+.philosophy + .philosophy { margin-top: 1.1em; }
+
+/* --------------------------- 10. SKILLS MATRIX --------------------------- */
+.matrix-block {
+  border-top: var(--hairline) solid var(--line);
+  padding-block: clamp(1.5rem, 3vw, 2.25rem);
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 2fr);
+  gap: 1rem clamp(1.5rem, 4vw, 3rem);
+}
+@media (max-width: 700px) { .matrix-block { grid-template-columns: 1fr; } }
+
+.matrix-block__key {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+  line-height: 1.7;
+}
+.matrix-block__items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+.matrix-block__items li {
+  display: grid;
+  grid-template-columns: 1.9rem 1fr;
+  gap: 0.4rem;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+.matrix-block__items li::before {
+  content: attr(data-i);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  color: var(--text-muted);
+  padding-top: 0.22em;
+}
+.matrix-block__note {
+  margin-top: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+/* --------------------------- 11. CHANNEL ROWS ---------------------------- */
+.channels {
+  list-style: none;
+  padding: 0;
+  margin: clamp(1.5rem, 4vw, 2.5rem) 0 0;
+  border-top: var(--hairline) solid var(--line);
+}
+.channels li { border-bottom: var(--hairline) solid var(--line); }
+.channels a {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.7fr) minmax(0, 2fr) auto;
+  align-items: baseline;
+  gap: 0.5rem 1.5rem;
+  padding: clamp(1rem, 2.5vw, 1.5rem) 0;
+  text-decoration: none;
+  color: var(--text);
+}
+@media (max-width: 620px) {
+  .channels a { grid-template-columns: 1fr auto; }
+  .channels .channel__key { grid-column: 1 / -1; }
+}
+.channel__key {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.channel__val {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  word-break: break-word;
+}
+.channel__go { font-family: var(--font-mono); color: var(--text-muted); }
+.channels a:hover .channel__val,
+.channels a:hover .channel__go { color: var(--accent-text); }
+
+/* On /contact the page owns the mail action, so the footer is utility-only. */
+.terminal[data-compact] { padding-top: clamp(1.5rem, 4vw, 2.5rem); }
+.terminal[data-compact] .terminal__utility { margin-top: 0; border-top: 0; padding-top: 0; }
+
+/* --------------------------- 12. TEMPLATE FLAG --------------------------- */
+/* Marks content carried over from the creative-direction brief that hasn't
+   been replaced with real project material yet. Delete the `template: true`
+   flag in src/data/projects.js and this disappears. */
+.tpl-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--accent-contrast);
+  background: var(--accent);
+  padding: 0.22rem 0.55rem;
+}
+.tpl-banner {
+  display: flex;
+  gap: 0.75rem 1.25rem;
+  flex-wrap: wrap;
+  align-items: baseline;
+  border: var(--hairline) dashed var(--accent);
+  padding: 0.9rem 1.1rem;
+  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+}
+.tpl-banner p {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 70ch;
+}
+.bento__item .tpl-flag { position: absolute; top: 0; right: 0; z-index: 2; }
+
+/* Flow map: monospaced node chain that wraps instead of scrolling off. */
+.flowmap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.5rem;
+  margin-top: 1.25rem;
+  padding: 1.1rem;
+  border: var(--hairline) solid var(--line);
+  background: var(--surface-2);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.04em;
+}
+.flowmap__node {
+  border: var(--hairline) solid var(--line-strong);
+  padding: 0.35rem 0.6rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.flowmap__node--io { border-color: var(--accent); color: var(--accent-text); }
+.flowmap__arrow { color: var(--text-muted); }
+
+/* ---------------------- 15. MEDIA VAULT (masonry) ------------------------ */
+.vault {
+  columns: 3;
+  column-gap: var(--hairline);
+  background: var(--line);
+  border-block: var(--hairline) solid var(--line);
+}
+@media (max-width: 1000px) { .vault { columns: 2; } }
+@media (max-width: 620px) { .vault { columns: 1; } }
+
+.vault__item {
+  break-inside: avoid;
+  margin-bottom: var(--hairline);
+  position: relative;
+  display: block;
+  background: var(--surface);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+}
+.vault__media { position: relative; background: var(--surface-media); overflow: hidden; }
+.vault__media img,
+.vault__media video {
+  width: 100%;
+  display: block;
+  transition: transform var(--dur-snap) var(--ease-spring);
+}
+.vault__item:hover .vault__media img,
+.vault__item:hover .vault__media video { transform: scale(1.02); }
+.vault__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 0.85rem 1rem 1.1rem;
+}
+.vault__name {
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  text-transform: uppercase;
+}
+.vault__item:hover .vault__name { color: var(--accent-text); }
+.vault__kind {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.09em;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.vault__badge {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.45rem;
+  background: #000000b8;
+  color: var(--studio-white);
+}
+
+/* Repository link tiles */
+.repo {
+  display: block;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  padding: clamp(1.1rem, 2.5vw, 1.6rem);
+  text-decoration: none;
+  color: inherit;
+  break-inside: avoid;
+  margin-bottom: var(--hairline);
+}
+.repo:hover { border-color: var(--accent); }
+.repo__label {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+.repo:hover .repo__label { color: var(--accent-text); }
+
+/* Full-screen presentation player */
+.player {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: #000000f2;
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 4vw, 3rem);
+}
+.player__inner { width: min(1400px, 100%); max-height: 90svh; }
+.player__inner img,
+.player__inner video { width: 100%; max-height: 82svh; object-fit: contain; }
+.player__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.1em;
+  background: transparent;
+  border: var(--hairline) solid var(--line-strong);
+  color: var(--studio-white);
+  padding: 0.5rem 0.8rem;
+  cursor: pointer;
+}
+.player__close:hover { border-color: var(--cyber-lime); color: var(--cyber-lime); }
+.player__cap {
+  margin-top: 0.9rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.06em;
+  color: #b9b9c0;
+}
+
+/* --------------------- 17. LIVE PROTOTYPE EMBEDDER ----------------------- */
+.embedder {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  overflow: hidden;
+}
+.embedder iframe { width: 100%; height: 100%; border: 0; display: block; }
+.embedder__empty {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-content: center;
+  gap: 0.5rem;
+  text-align: center;
+  padding: 2rem;
+}
+
+/* ------------------------------ 18. BACK BAR ---------------------------- */
+.backbar {
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+}
+.backbar__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 0;
+  background: none;
+  border: 0;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color var(--dur-snap) var(--ease-spring);
+}
+.backbar__btn:hover { color: var(--accent-text); }
+.backbar__btn span { transition: transform var(--dur-snap) var(--ease-spring); }
+.backbar__btn:hover span { transform: translateX(-3px); }
+
+/* ---------------------- 19. PROTOTYPE PANEL (compact) -------------------- */
+/* Was a full-bleed 1360px slab. At that size it competed with the billboard
+   and ran straight into the Court Vision card below it, so the two 3D charts
+   read as one long smear. Now it's a contained panel with framing copy. */
+.proto {
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: center;
+  max-width: 1180px;
+}
+@media (max-width: 860px) { .proto { grid-template-columns: 1fr; } }
+
+.proto__label { max-width: 34ch; }
+.proto__title {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 600;
+  letter-spacing: -0.022em;
+  text-transform: uppercase;
+  line-height: 1.08;
+  margin-block: 0.7rem 0.7rem;
+}
+.proto__body {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+/* Shorter than the old 16:11 — the court reads fine in a wider, flatter frame. */
+.proto .hero-viz__canvas { aspect-ratio: 16 / 10; }
+@media (min-width: 900px) { .proto .hero-viz__canvas { aspect-ratio: 2 / 1; } }
+
+/* ---------------------------- 20. TOOLKIT STRIP -------------------------- */
+/* Text-and-glyph only, no photography: this is what breaks the visual rhythm
+   between the WebGL panel above it and the image grid below. */
+.section--tools {
+  border-block: 1px solid var(--line);
+  padding-block: clamp(2rem, 5vw, 3.5rem);
+}
+.tools__head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
+}
+.tools__title {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 700;
+  letter-spacing: -0.028em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.tools {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  /* Fixed counts rather than auto-fit: with ten tools, auto-fit produced nine
+     columns and a single orphan on row two. 5x2 and 2x5 both close cleanly. */
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line-strong);
+  border: 1px solid var(--line-strong);
+}
+@media (max-width: 560px) { .tools { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.tools__cell {
+  position: relative;
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: clamp(1rem, 2.2vw, 1.6rem) 0.6rem;
+  color: var(--text-secondary);
+  transition: color var(--dur-snap) var(--ease-spring),
+    background-color var(--dur-snap) var(--ease-spring);
+}
+.tools__cell:hover { color: var(--accent-text); background: var(--surface-2); }
+
+/* --- Brand colour on hover, light mode only ------------------------------
+   The strip is deliberately monochrome at rest so ten vendor hues do not land
+   on a shell built to have none. Hovering one cell reveals that tool's colour,
+   which is a reward for pointing at it rather than a permanent decoration.
+
+   Light mode only, for two reasons: the gallery-white background is what most
+   of these marks were drawn for, and several brand colours (React cyan, the
+   Premiere lilac) sit at roughly 1.5:1 on matte black, so on the dark shell
+   they would read as a glyph dimming rather than lighting up. Dark mode keeps
+   the accent tint.
+
+   Values are brand colours adjusted where the published hue is too light to
+   stay legible on #F5F5F7. Pure Data and Processing have no widely published
+   brand colour, so they take hues drawn from their own project sites. */
+[data-theme='light'] .tools__cell { --tool: var(--accent-text); }
+[data-theme='light'] .tools__cell:hover { color: var(--tool); }
+[data-theme='light'] .tools__cell:hover .tools__name { color: var(--tool); }
+
+[data-theme='light'] .tools__cell[data-tool='Figma']       { --tool: #d33d17; }
+[data-theme='light'] .tools__cell[data-tool='Framer']      { --tool: #0047d6; }
+[data-theme='light'] .tools__cell[data-tool='React']       { --tool: #087ea4; }
+[data-theme='light'] .tools__cell[data-tool='TypeScript']  { --tool: #2b6cb0; }
+[data-theme='light'] .tools__cell[data-tool='Three.js']    { --tool: #0f0f10; }
+[data-theme='light'] .tools__cell[data-tool='Arduino']     { --tool: #00747a; }
+[data-theme='light'] .tools__cell[data-tool='Pure Data']   { --tool: #3f6f52; }
+[data-theme='light'] .tools__cell[data-tool='Processing']  { --tool: #006699; }
+[data-theme='light'] .tools__cell[data-tool='Premiere Pro'] { --tool: #4a3fb0; }
+[data-theme='light'] .tools__cell[data-tool='Git']         { --tool: #d9411e; }
+
+/* Figma is the one mark whose identity IS the five colours, so its paths get
+   their own fills rather than inheriting one tint. */
+[data-theme='light'] .tools__cell[data-tool='Figma']:hover .fig-a { fill: #f24e1e; }
+[data-theme='light'] .tools__cell[data-tool='Figma']:hover .fig-b { fill: #ff7262; }
+[data-theme='light'] .tools__cell[data-tool='Figma']:hover .fig-c { fill: #a259ff; }
+[data-theme='light'] .tools__cell[data-tool='Figma']:hover .fig-d { fill: #1abcfe; }
+[data-theme='light'] .tools__cell[data-tool='Figma']:hover .fig-e { fill: #0acf83; }
+[data-theme='light'] .tools__cell[data-tool='Figma']:hover .tools__glyph g > * { opacity: 1; }
+
+.tools__glyph g > * { transition: fill var(--dur-snap) var(--ease-spring); }
+
+.tools__glyph {
+  width: clamp(26px, 3vw, 34px);
+  height: clamp(26px, 3vw, 34px);
+  display: block;
+  color: inherit;
+}
+.tools__name {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.3;
+}
+.tools__idx {
+  position: absolute;
+  top: 0.45rem;
+  left: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  /* No opacity here: 0.55 dropped these to ~2.6:1. They are small numerals,
+     not decoration, so they carry the full muted colour instead. */
+  color: var(--text-muted);
+}
+
+/* --------------------------- 21. EXPERIENCE BAND ------------------------- */
+.exp__points {
+  list-style: none;
+  margin: 0.8rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.45rem;
+  max-width: 62ch;
+}
+.exp__points li {
+  display: grid;
+  grid-template-columns: 1.4rem 1fr;
+  gap: 0.4rem;
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+.exp__points li::before {
+  content: '—';
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+
+/* ------------------------- 22. ABOUT: PERSONAL LAYER --------------------- */
+.pill {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid var(--line-strong);
+  color: var(--accent-text);
+}
+
+.about-statement {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 1rem + 2.9vw, 3.4rem);
+  font-weight: 700;
+  letter-spacing: -0.033em;
+  line-height: 1.02;
+  text-transform: uppercase;
+  max-width: 20ch;
+  text-wrap: balance;
+  margin-block: clamp(1rem, 2.5vw, 1.6rem) 0;
+}
+.about-subline {
+  margin-top: clamp(0.9rem, 2vw, 1.35rem);
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 0.9rem + 0.5vw, 1.3rem);
+  font-weight: 500;
+  color: var(--text-secondary);
+  max-width: 46ch;
+}
+
+/* Three-up cards */
+.trio {
+  display: grid;
+  /* Explicit counts: auto-fit left a collapsed 0px track, and because the gaps
+     show the border colour through, that rendered as a stray rule at the edge.
+     Four cards close cleanly at 4x1, 2x2 and 1x4. */
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line-strong);
+  border: 1px solid var(--line-strong);
+  margin-top: clamp(1.75rem, 4vw, 2.75rem);
+}
+@media (max-width: 1000px) { .trio { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .trio { grid-template-columns: 1fr; } }
+
+.trio__cell {
+  background: var(--surface);
+  padding: clamp(1.25rem, 2.5vw, 1.75rem);
+}
+.trio__k {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+.trio__p {
+  margin-top: 0.6rem;
+  color: var(--text-secondary);
+  font-size: 0.93rem;
+  line-height: 1.6;
+}
+
+/* Photo mosaic: staggered heights, one hairline grid. */
+.mosaic {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-auto-rows: clamp(70px, 8vw, 118px);
+  gap: 1px;
+  background: var(--line-strong);
+  border: 1px solid var(--line-strong);
+  margin-top: clamp(1.75rem, 4vw, 2.75rem);
+}
+@media (max-width: 900px) { .mosaic { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .mosaic { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.mosaic__cell {
+  background: var(--surface-media);
+  overflow: hidden;
+  position: relative;
+}
+.mosaic__cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mosaic__cell--tall { grid-row: span 2; }
+.mosaic__cell--wide { grid-column: span 2; }
+.mosaic__cell--big { grid-column: span 2; grid-row: span 2; }
+.mosaic__empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 0.4rem;
+}
+
+/* Personal prose block */
+.nutshell { margin-top: clamp(2rem, 5vw, 3rem); }
+.nutshell h3 {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.012em;
+  color: var(--accent-text);
+  margin-bottom: 0.9rem;
+}
+.nutshell p {
+  color: var(--text-secondary);
+  font-size: var(--step-0);
+  line-height: 1.72;
+  max-width: var(--measure);
+}
+.nutshell p + p { margin-top: 0.9em; }
+
+/* Download strip */
+.dl-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+  flex-wrap: wrap;
+  border: 1px solid var(--line-strong);
+  padding: clamp(1rem, 2.5vw, 1.4rem);
+  margin-top: clamp(2rem, 5vw, 3rem);
+}
+.dl-strip__t {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: -0.014em;
+}
+.dl-strip__s {
+  margin-top: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+/* Nav resume CTA: the one action a recruiter should never have to hunt for. */
+.nav__cta {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid var(--accent);
+  color: var(--accent-text);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color var(--dur-snap) var(--ease-spring),
+    color var(--dur-snap) var(--ease-spring);
+}
+.nav__cta:hover { background: var(--accent); color: var(--accent-contrast); }
+@media (max-width: 480px) { .nav__cta { padding: 0.45rem 0.55rem; font-size: 0.64rem; } }
+
+.billboard__ctas {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: clamp(1.5rem, 3.5vw, 2.25rem);
+}
+
+/* ------------------------- 23. STAGE TEASER (home) ----------------------- */
+.stage-teaser {
+  border-top: 1px solid var(--line);
+  padding-block: clamp(2.5rem, 6vw, 4.5rem);
+}
+.stage-teaser__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(1.75rem, 5vw, 4rem);
+  align-items: center;
+}
+@media (max-width: 860px) { .stage-teaser__grid { grid-template-columns: 1fr; } }
+
+.stage-teaser__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 0.95rem + 2.2vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  text-transform: uppercase;
+  max-width: 18ch;
+  margin-block: clamp(0.9rem, 2vw, 1.3rem) 1rem;
+  text-wrap: balance;
+}
+.stage-teaser__body {
+  color: var(--text-secondary);
+  font-size: var(--step-0);
+  line-height: 1.65;
+  max-width: 46ch;
+}
+.stage-teaser__list { border-top: 1px solid var(--line); }
+.stage-teaser__row {
+  display: grid;
+  grid-template-columns: minmax(88px, 0.4fr) minmax(0, 1fr);
+  gap: 0.5rem 1.5rem;
+  padding-block: clamp(0.9rem, 2vw, 1.25rem);
+  border-bottom: 1px solid var(--line);
+}
+@media (max-width: 520px) { .stage-teaser__row { grid-template-columns: 1fr; gap: 0.3rem; } }
+.stage-teaser__k {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+.stage-teaser__v { color: var(--text-secondary); font-size: 0.93rem; line-height: 1.55; }
+
+.about-cta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  flex-wrap: wrap;
+  margin-top: clamp(1.5rem, 3.5vw, 2.25rem);
+}
+
+/* ==========================================================================
+   24. REPORT MODE
+   A scoped theme that reproduces the CS4151 report's own visual language:
+   deep navy ground, cool blue accent, translucent section numerals. It is set
+   on <html> so the whole page carries it, and it is torn down on unmount.
+   Contrast verified: body 16.5:1, muted 8.1:1, accent 6.8:1 on the navy.
+   ========================================================================== */
+[data-report] { --rep-scrim: #080d18; }
+
+/* Corvette report: deep navy, cool blue accent. */
+[data-report='navy'] {
+  --bg: #080d18;
+  --bg-raised: #0d1526;
+  --surface: #0d1526;
+  --surface-2: #101a2e;
+  --surface-media: #0a1120;
+
+  --text: #e8edf5;
+  --text-secondary: #c4d0e2;
+  --text-muted: #9aa9bf;
+
+  --line: #1e3050;
+  --line-strong: #2f4a75;
+  --grid-line: #1e3050;
+
+  --accent: #5b9bf0;
+  --accent-text: #5b9bf0;
+  --accent-contrast: #050a14;
+  --accent-soft: #5b9bf01f;
+
+  --chip-bg: #5b9bf014;
+  --focus: #5b9bf0;
+  --rep-scrim: #080d18;
+}
+
+/* King Run report: light ground, vivid violet accent, gradient hero.
+   Contrast: text 15.9:1, muted 4.9:1, accent 5.3:1 on white. */
+[data-report='violet'] {
+  --bg: #ffffff;
+  --bg-raised: #f7f7f9;
+  --surface: #ffffff;
+  --surface-2: #f7f7f9;
+  --surface-media: #f1f1f4;
+
+  --text: #1a1a1e;
+  --text-secondary: #43434d;
+  --text-muted: #62626d;
+
+  --line: #e4e4ea;
+  --line-strong: #b9b9c4;
+  --grid-line: #e4e4ea;
+
+  --accent: #7c3aed;
+  --accent-text: #6d28d9;
+  --accent-contrast: #ffffff;
+  --accent-soft: #7c3aed14;
+
+  --chip-bg: #7c3aed0f;
+  --focus: #6d28d9;
+  --rep-scrim: #4c1d95;
+}
+/* Trinity report: the piece's own colour arc as a theme. Near-black ground and
+   a cold steel-blue for structure, with fire held back for the accent, exactly
+   the way Act III's palette is withheld through Acts I and II.
+   Measured on #05070C: text 17.3:1, secondary 11.2:1, muted 7.6:1,
+   accent 9.6:1, cold 11.3:1. The interactive boundary is #55698A (3.6:1),
+   because the structural line #1B2333 is only 1.3:1 and cannot carry a control. */
+[data-report='trinity'] {
+  --bg: #05070c;
+  --bg-raised: #0b1018;
+  --surface: #0b1018;
+  --surface-2: #101725;
+  --surface-media: #070a10;
+
+  --text: #e9eef7;
+  --text-secondary: #b3c2d8;
+  --text-muted: #8fa0b8;
+
+  --line: #1b2333;
+  --line-strong: #55698a;
+  --grid-line: #1b2333;
+
+  --accent: #ff9b3d;
+  --accent-text: #ffb35c;
+  --accent-contrast: #05070c;
+  --accent-soft: #ff9b3d1f;
+
+  --chip-bg: #ff9b3d14;
+  --focus: #ffb35c;
+  --rep-scrim: #05070c;
+
+  /* The three acts, used as data on the act strip. */
+  --act-cold: #9fc4ff;
+  --act-warm: #ffb35c;
+  --act-fire: #ff7a45;
+}
+
+/* Kaleidoscope report: near-black gallery ground, warm brass accent taken from
+   the copper contact pads and the MDF. Contrast on #0c0a09: text 16.4:1,
+   secondary 8.6:1, muted 5.4:1, accent 8.0:1. */
+[data-report='mirror'] {
+  --bg: #0c0a09;
+  --bg-raised: #17130f;
+  --surface: #17130f;
+  --surface-2: #1e1913;
+  --surface-media: #100d0b;
+
+  --text: #f4efe7;
+  --text-secondary: #cdc0ad;
+  --text-muted: #a8998a;
+
+  --line: #2e261d;
+  --line-strong: #4d4133;
+  --grid-line: #2e261d;
+
+  --accent: #d9a441;
+  --accent-text: #e0b054;
+  --accent-contrast: #0c0a09;
+  --accent-soft: #d9a4411f;
+
+  --chip-bg: #d9a44114;
+  --focus: #e0b054;
+  --rep-scrim: #0c0a09;
+}
+
+/* Laundry Xpress report: the deck's own lavender. Light ground, the app's
+   periwinkle purple as the single accent, everything else grey-violet.
+   Measured on #f7f5ff: text 16.2:1, secondary 8.4:1, muted 6.3:1,
+   accent-text 6.7:1; the accent itself holds 4.6:1 at its worst surface. */
+[data-report='lavender'] {
+  --bg: #f7f5ff;
+  --bg-raised: #efeaff;
+  --surface: #ffffff;
+  --surface-2: #f2eeff;
+  --surface-media: #ece7fb;
+
+  --text: #1b1630;
+  --text-secondary: #4a4270;
+  --text-muted: #5d5580;
+
+  --line: #ddd5f5;
+  --line-strong: #b9abe8;
+  --grid-line: #ddd5f5;
+
+  --accent: #6d4fd8;
+  --accent-text: #5a3fc0;
+  --accent-contrast: #ffffff;
+  --accent-soft: #6d4fd81f;
+
+  --chip-bg: #6d4fd814;
+  --focus: #5a3fc0;
+  /* The scrim washes the header photograph toward the page ground so the
+     header text keeps the contrast the palette above was measured for. This is
+     the first light report theme that carries a header image, so it is the
+     first one where the scrim has to be light rather than near-black. */
+  --rep-scrim: #f7f5ff;
+}
+
+/* Design Qualities report: the paper the essay was written on. Warm cream,
+   ink black, a single red used only for the failing example.
+   Contrast on #f7f3ea: text 16.8:1, secondary 7.3:1, accent 5.6:1. */
+[data-report='paper'] {
+  --bg: #f7f3ea;
+  --bg-raised: #efe9dc;
+  --surface: #fffdf8;
+  --surface-2: #efe9dc;
+  --surface-media: #efe9dc;
+
+  --text: #1b1a17;
+  --text-secondary: #4a463e;
+  --text-muted: #5d584e;
+
+  --line: #ddd5c4;
+  --line-strong: #a89f8b;
+  --grid-line: #ddd5c4;
+
+  --accent: #9a3412;
+  --accent-text: #9a3412;
+  --accent-contrast: #f7f3ea;
+  --accent-soft: #9a341214;
+
+  --chip-bg: #9a34120f;
+  --focus: #9a3412;
+  --rep-scrim: #1b1a17;
+}
+/* The essay is prose, so the report body reads as a book rather than a UI. */
+[data-report='paper'] .rep-body,
+[data-report='paper'] .rep-card__d { font-family: var(--font-serif); font-size: var(--step-1); }
+[data-report='paper'] .rep-h,
+[data-report='paper'] .rep-head__title { font-family: var(--font-serif); }
+
+/* Soundscape report: the UNO deck. Black table, four card colours used as
+   real data encoding rather than decoration. Each of the four is checked
+   against #0a0a0b below. */
+[data-report='uno'] {
+  --bg: #0a0a0b;
+  --bg-raised: #141416;
+  --surface: #141416;
+  --surface-2: #1b1b1e;
+  --surface-media: #0f0f11;
+
+  --text: #f6f6f7;
+  --text-secondary: #b9b9be;
+  --text-muted: #9a9aa1;
+
+  --line: #2a2a2e;
+  --line-strong: #4d4d55;
+  --grid-line: #2a2a2e;
+
+  --accent: #ffd93d;
+  --accent-text: #ffd93d;
+  --accent-contrast: #0a0a0b;
+  --accent-soft: #ffd93d1f;
+
+  --chip-bg: #ffd93d14;
+  --focus: #ffd93d;
+  --rep-scrim: #0a0a0b;
+
+  /* Card colours, lifted from the deck and raised until each clears 4.5:1 on
+     the black ground: red 5.6, green 9.6, blue 6.2, yellow 13.4. */
+  --uno-red: #ff6b6b;
+  --uno-green: #6ee7a5;
+  --uno-blue: #6aa9ff;
+  --uno-yellow: #ffd93d;
+}
+
+/* Smart Shelf report: clinical white with a pharmacy teal. The screens it
+   documents are light, so the report ground matches them.
+   Contrast on #f8fafb: text 15.9:1, secondary 6.4:1, accent 4.6:1. */
+[data-report='clinical'] {
+  --bg: #f8fafb;
+  --bg-raised: #eef3f5;
+  --surface: #ffffff;
+  --surface-2: #eef3f5;
+  --surface-media: #eef3f5;
+
+  --text: #10181c;
+  --text-secondary: #4c5a61;
+  --text-muted: #566a72;
+
+  --line: #dde6ea;
+  --line-strong: #9fb1b9;
+  --grid-line: #dde6ea;
+
+  --accent: #0f7285;
+  --accent-text: #0f7285;
+  --accent-contrast: #ffffff;
+  --accent-soft: #0f728514;
+
+  --chip-bg: #0f72850f;
+  --focus: #0f7285;
+  --rep-scrim: #06343d;
+}
+
+/* Two fixes, both measured against every stop along the gradient rather than
+   against a single flat colour. The end stop was #C026D3, which put the small
+   meta and stat-label text at 3.86:1 over the magenta corner; #A21CAF lifts
+   that to 5.18:1. And the tint itself moved from #EFE4FF to #F5EFFF, because
+   #EFE4FF still measured 4.41:1 against the mid stop. Worst case is now
+   4.79:1 for small text and 5.38:1 for white. */
+[data-report='violet'] .rep-head {
+  background: linear-gradient(115deg, #7c3aed 0%, #9333ea 45%, #a21caf 100%);
+  border: 0;
+}
+[data-report='violet'] .rep-head__title,
+[data-report='violet'] .rep-head__kicker { color: #ffffff; }
+[data-report='violet'] .rep-head__meta { color: #f5efff; }
+[data-report='violet'] .rep-head__bg::after { display: none; }
+[data-report='violet'] .rep-head__bg img { opacity: 0.28; }
+/* The stat panels were a 12% white wash over the gradient, which lifted the
+   local background enough that even pure white text only reached 4.44:1 on the
+   worst stop. Tinting the panel down instead of up takes the label to 6.45:1
+   and the value to 7.25:1, and the light border still separates the panel from
+   the gradient behind it.
+
+   Scoped to .rep-head: the violet body is white, and darkening the stat panels
+   there put the muted grey card text at 3.95:1. */
+[data-report='violet'] .rep-head .rep-stat {
+  background: rgba(0, 0, 0, 0.18);
+  border-color: #ffffff40;
+}
+[data-report='violet'] .rep-head .rep-stat__k { color: #f5efff; }
+[data-report='violet'] .rep-head .rep-stat__v { color: #ffffff; }
+[data-report='violet'] .rep-card,
+[data-report='violet'] .rep-check__item {
+  box-shadow: 0 1px 2px #1a1a1e0d, 0 8px 20px -14px #1a1a1e26;
+}
+
+/* --- The switch --- */
+.mode-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid var(--line-strong);
+  padding: 0.55rem 0.8rem;
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  transition: color var(--dur-snap) var(--ease-spring),
+    border-color var(--dur-snap) var(--ease-spring);
+}
+.mode-switch:hover { color: var(--text); border-color: var(--text-muted); }
+.mode-switch__track {
+  position: relative;
+  width: 34px;
+  height: 18px;
+  flex: none;
+  border: 1px solid var(--line-strong);
+  background: var(--bg-raised);
+  transition: background-color var(--dur-snap) var(--ease-spring),
+    border-color var(--dur-snap) var(--ease-spring);
+}
+.mode-switch__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  background: var(--text-muted);
+  transition: transform var(--dur-snap) var(--ease-spring),
+    background-color var(--dur-snap) var(--ease-spring);
+}
+.mode-switch[aria-checked='true'] { color: var(--accent-text); border-color: var(--accent); }
+.mode-switch[aria-checked='true'] .mode-switch__track { border-color: var(--accent); background: var(--accent-soft); }
+.mode-switch[aria-checked='true'] .mode-switch__thumb { transform: translateX(16px); background: var(--accent); }
+
+/* --- Report document vocabulary --- */
+.rep-head {
+  position: relative;
+  min-height: clamp(320px, 42vw, 520px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.rep-head__bg { position: absolute; inset: 0; z-index: 0; }
+.rep-head__bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.55; }
+/* The scrim exists to hold light text off a photograph, so it hangs on the
+   image element rather than on .rep-head. It used to sit on .rep-head::after,
+   which meant the light report themes with no header image (paper, clinical,
+   uno) painted a dark gradient behind their own dark text for no reason. */
+.rep-head__bg::after {
+  content: '';
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--rep-scrim) 60%, transparent) 0%,
+    color-mix(in srgb, var(--rep-scrim) 90%, transparent) 70%,
+    var(--rep-scrim) 100%
+  );
+}
+.rep-head > *:not(.rep-head__bg) { position: relative; z-index: 2; }
+.rep-head__kicker {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+.rep-head__title {
+  font-family: var(--font-ui);
+  font-size: clamp(2rem, 1.1rem + 3.6vw, 4rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  margin-top: 0.9rem;
+  max-width: 14ch;
+}
+.rep-head__meta {
+  margin-top: 1.1rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+.rep-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+  gap: clamp(0.6rem, 1.5vw, 1rem);
+  margin-top: clamp(1.25rem, 3vw, 2rem);
+}
+.rep-stat {
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, var(--surface-2), var(--surface));
+  padding: 1rem 1.1rem;
+}
+.rep-stat__k {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.08em;
+  color: var(--accent-text);
+}
+.rep-stat__v {
+  margin-top: 0.4rem;
+  font-size: var(--step-2);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.rep-section { padding-block: clamp(2rem, 5vw, 3.25rem); }
+.rep-section__head { display: flex; align-items: baseline; gap: 0.9rem; margin-bottom: 1.5rem; }
+.rep-num {
+  font-size: clamp(1.9rem, 1.2rem + 2.4vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--accent);
+  opacity: 0.42;
+  line-height: 1;
+}
+.rep-h {
+  font-family: var(--font-ui);
+  font-size: clamp(1.15rem, 0.9rem + 1.1vw, 1.75rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--accent);
+}
+.rep-body { color: var(--text-secondary); line-height: 1.72; max-width: 66ch; }
+.rep-body p + p { margin-top: 0.9em; }
+
+.rep-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+  gap: clamp(0.75rem, 2vw, 1.25rem);
+  margin-top: 1.5rem;
+}
+.rep-card {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  padding: 1.1rem 1.25rem;
+}
+.rep-card__t { font-weight: 600; margin-bottom: 0.45rem; }
+.rep-card__d { color: var(--text-muted); font-size: 0.92rem; line-height: 1.6; }
+.rep-card__rows { margin-top: 0.9rem; display: grid; gap: 0.3rem; }
+.rep-card__row {
+  display: flex; justify-content: space-between; gap: 1rem;
+  font-family: var(--font-mono); font-size: var(--step--2);
+  color: var(--text-muted);
+  border-top: 1px solid var(--line);
+  padding-top: 0.3rem;
+}
+.rep-card__row b { color: var(--text-secondary); font-weight: 400; }
+
+.rep-rule {
+  border-left: 3px solid var(--accent);
+  background: var(--surface);
+  padding: 1rem 1.25rem;
+  margin-top: 1.25rem;
+}
+.rep-rule__t { font-weight: 600; margin-bottom: 0.4rem; }
+.rep-rule__d { color: var(--text-muted); font-size: 0.93rem; line-height: 1.65; }
+
+.rep-fig { margin-top: 1.5rem; }
+.rep-fig img { width: 100%; border: 1px solid var(--line); display: block; }
+.rep-fig figcaption {
+  margin-top: 0.6rem;
+  font-size: var(--step--1);
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+.rep-fig figcaption i { color: var(--accent-text); font-style: italic; }
+
+.rep-check { display: grid; gap: 0.75rem; margin-top: 1.25rem; }
+.rep-check__item {
+  display: grid; grid-template-columns: 1.4rem 1fr; gap: 0.75rem;
+  border: 1px solid var(--line); background: var(--surface); padding: 1rem 1.15rem;
+}
+.rep-check__item::before { content: '✓'; color: var(--accent-text); font-weight: 700; }
+
+
+/* Report: status pills and icon tiles (King Run vocabulary) */
+.rep-pill {
+  display: inline-block;
+  margin-left: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.45rem;
+  border-radius: 999px;
+  vertical-align: middle;
+}
+.rep-pill--done { background: #dcfce7; color: #14532d; }
+.rep-pill--planned { background: #fef3c7; color: #78350f; }
+[data-report='navy'] .rep-pill--done { background: #15803d33; color: #86efac; }
+[data-report='navy'] .rep-pill--planned { background: #b4530933; color: #fcd34d; }
+
+.rep-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 36px; height: 36px;
+  flex: none;
+  border-radius: 10px;
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  font-size: 1rem;
+}
+.rep-card--icon { display: grid; grid-template-columns: auto 1fr; gap: 0.9rem; align-items: start; }
+.rep-centre { text-align: center; max-width: 62ch; margin-inline: auto; }
+.rep-centre .rep-h { display: inline-block; border-bottom-width: 3px; }
+
+/* ------------------- 25. PAIRED GOOD / BAD EXAMPLES ---------------------- */
+.pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line-strong);
+  border: 1px solid var(--line-strong);
+  margin-top: 1.25rem;
+}
+@media (max-width: 720px) { .pair { grid-template-columns: 1fr; } }
+.pair__cell { background: var(--surface); padding: clamp(1.15rem, 2.5vw, 1.6rem); }
+.pair__verdict {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.pair__cell--good .pair__verdict { color: var(--accent-text); }
+.pair__cell--bad .pair__verdict { color: var(--text-muted); }
+.pair__verdict::before {
+  content: '';
+  width: 8px; height: 8px;
+  background: currentColor;
+}
+.pair__cell--bad .pair__verdict::before { background: transparent; border: 1px solid currentColor; }
+.pair__obj {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin-block: 0.6rem 0.6rem;
+  line-height: 1.15;
+}
+.pair__body { color: var(--text-secondary); font-size: 0.94rem; line-height: 1.65; }
+
+.quality {
+  border-top: 1px solid var(--line);
+  padding-top: clamp(1.5rem, 3vw, 2.25rem);
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+.quality:first-of-type { border-top: 0; margin-top: 0; padding-top: 0; }
+.quality__n {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+.quality__h {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.022em;
+  margin-block: 0.5rem 0.6rem;
+}
+.quality__def { color: var(--text-muted); font-size: 0.95rem; line-height: 1.65; max-width: 62ch; }
+
+/* ------------------------- 26. SCREENSHOT FRAME -------------------------
+   Figma Make cannot be iframed (embed URL 404s, frame-ancestors 'self'), and
+   the prototypes are not opened to visitors, so screens are shown as plain
+   images in a neutral frame. */
+/* Product screens arrive in wildly different aspect ratios (a 1400x1049
+   forecast next to a 535x1400 sketch sheet), so the frame caps height and
+   centres rather than letting width:100% turn a tall screenshot into a
+   three-metre column. */
+.shot {
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line-strong);
+  background: var(--surface-media);
+  overflow: hidden;
+}
+.shot img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: min(78vh, 860px);
+}
+/* A sheet of wireframes is only worth showing if the sketches can be read, so
+   it opts out of the height cap and runs at its natural size instead. */
+.shot--sheet img { max-height: none; }
+
+/* legacy card, retained for any future external prototype */
+.proto-link {
+  display: block;
+  position: relative;
+  border: 1px solid var(--line-strong);
+  background: var(--surface-media);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+}
+.proto-link img {
+  width: 100%;
+  display: block;
+  transition: transform var(--dur-snap) var(--ease-spring),
+    opacity var(--dur-snap) var(--ease-spring);
+  opacity: 0.9;
+}
+.proto-link:hover { border-color: var(--accent); }
+.proto-link:hover img { transform: scale(1.01); opacity: 1; }
+.proto-link__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  border-top: 1px solid var(--line-strong);
+  background: var(--surface);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.proto-link__go { color: var(--accent-text); white-space: nowrap; }
+
+.pair__media {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--surface-media);
+  margin-bottom: 1rem;
+}
+.pair__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* ==========================================================================
+   27. UNO SOUNDSCAPE REPORT
+   Only active inside [data-report='uno']. The four card colours are the
+   score's own encoding, so they are used as data here rather than decoration.
+   Each is checked against the #0a0a0b ground: red 5.6:1, green 9.6:1,
+   blue 6.2:1, yellow 13.4:1.
+   ========================================================================== */
+[data-report='uno'] .uno-head { text-align: center; }
+[data-report='uno'] .uno-word {
+  display: inline-block;
+  font-size: 1em;
+  letter-spacing: 0.08em;
+}
+[data-report='uno'] .uno-word[data-c='red'] { color: var(--uno-red); }
+[data-report='uno'] .uno-word[data-c='green'] { color: var(--uno-green); }
+[data-report='uno'] .uno-word[data-c='blue'] { color: var(--uno-blue); }
+[data-report='uno'] .uno-word[data-c='yellow'] { color: var(--uno-yellow); }
+
+.uno-families {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--bento-gap);
+}
+@media (min-width: 640px) { .uno-families { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1000px) { .uno-families { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+.uno-fam {
+  border: 1px solid var(--line-strong);
+  border-top-width: 4px;
+  background: var(--surface);
+  padding: clamp(1.1rem, 2.2vw, 1.6rem);
+}
+.uno-fam[data-c='red'] { border-top-color: var(--uno-red); }
+.uno-fam[data-c='green'] { border-top-color: var(--uno-green); }
+.uno-fam[data-c='blue'] { border-top-color: var(--uno-blue); }
+.uno-fam[data-c='yellow'] { border-top-color: var(--uno-yellow); }
+.uno-fam__label {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.16em;
+}
+.uno-fam[data-c='red'] .uno-fam__label { color: var(--uno-red); }
+.uno-fam[data-c='green'] .uno-fam__label { color: var(--uno-green); }
+.uno-fam[data-c='blue'] .uno-fam__label { color: var(--uno-blue); }
+.uno-fam[data-c='yellow'] .uno-fam__label { color: var(--uno-yellow); }
+.uno-fam__role {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  margin-top: 0.15rem;
+  color: var(--text);
+}
+.uno-fam__list {
+  list-style: none;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+  color: var(--text-secondary);
+  font-size: var(--step--1);
+}
+
+.uno-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line-strong);
+}
+.uno-steps li {
+  display: grid;
+  grid-template-columns: 3.2rem 1fr;
+  gap: 0.9rem;
+  align-items: baseline;
+  background: var(--surface);
+  padding: 0.9rem clamp(0.9rem, 2vw, 1.4rem);
+  color: var(--text-secondary);
+}
+.uno-steps li span {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--accent-text);
+}
+
+/* Bar sheet. Scrolls inside its own box on narrow viewports rather than
+   widening the document. */
+.uno-sheet {
+  border: 1px solid var(--line-strong);
+  overflow-x: auto;
+}
+.uno-sheet__head,
+.uno-sheet__row {
+  display: grid;
+  grid-template-columns: 5.5rem 5.5rem minmax(16ch, 1fr);
+  gap: 0.9rem;
+  align-items: center;
+  padding: 0.75rem clamp(0.75rem, 2vw, 1.25rem);
+  min-width: 32rem;
+}
+.uno-sheet__head {
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--line-strong);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.uno-sheet__row + .uno-sheet__row { border-top: 1px solid var(--line); }
+.uno-sheet__bar {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--text-muted);
+}
+.uno-sheet__card {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: var(--step--1);
+  text-align: center;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid currentColor;
+  color: var(--text-secondary);
+}
+.uno-sheet__card[data-c='red'] { color: var(--uno-red); }
+.uno-sheet__card[data-c='green'] { color: var(--uno-green); }
+.uno-sheet__card[data-c='blue'] { color: var(--uno-blue); }
+.uno-sheet__card[data-c='yellow'] { color: var(--uno-yellow); }
+.uno-sheet__card[data-c='wild'] {
+  color: var(--text);
+  border-style: dashed;
+}
+.uno-sheet__act { color: var(--text-secondary); font-size: var(--step--1); }
+
+/* ==========================================================================
+   28. DESIGN QUALITIES REPORT
+   Scoped to [data-report='paper']. Two columns, one object that gets the
+   principle right beside one that gets it wrong, because that pairing is the
+   argument the essay actually makes.
+   ========================================================================== */
+.dq-def {
+  border-left: 3px solid var(--accent);
+  padding-left: 1.1rem;
+  margin-bottom: 2rem;
+  font-style: italic;
+}
+.dq-num {
+  font-family: var(--font-mono);
+  font-style: normal;
+  color: var(--accent-text);
+  margin-right: 0.35rem;
+}
+.dq-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--bento-gap);
+}
+@media (min-width: 860px) { .dq-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+.dq-pair {
+  border: 1px solid var(--line-strong);
+  border-top-width: 4px;
+  background: var(--surface);
+  padding: clamp(1.1rem, 2.4vw, 1.75rem);
+}
+/* Green for the working example, the report's red for the failing one. The
+   verdict is also written out in words, so colour is never the only cue. */
+.dq-pair--good { border-top-color: #1a6b3c; }
+.dq-pair--bad { border-top-color: var(--accent); }
+.dq-pair__verdict {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.dq-pair--good .dq-pair__verdict { color: #14532d; }
+.dq-pair--bad .dq-pair__verdict { color: var(--accent-text); }
+.dq-pair__title {
+  font-family: var(--font-serif, Georgia, serif);
+  font-size: var(--step-2);
+  line-height: 1.2;
+  margin: 0.4rem 0 1.1rem;
+  color: var(--text);
+}
+.dq-pair .figure { margin-block: 0 1.25rem; }
+
+/* Honesty note under the shot-chart miniature.
+
+   The .hero-viz frame stays near-black in both themes, because a WebGL court
+   needs a dark ground. So this note cannot inherit --text-muted: in light mode
+   that resolves to #5E5E63, which is 3.05:1 on #0B0B0C. It takes the dark
+   theme's secondary tone explicitly instead, which measures 7.4:1 there. */
+.hero-viz__note {
+  margin: 0.6rem 0 0;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  line-height: 1.5;
+  color: var(--type-secondary);
+  text-align: left;
+}
+
+/* Light report themes give the header a flat surface and a rule, since there is
+   no photograph underneath to separate the type from. */
+[data-report='paper'] .rep-head,
+[data-report='clinical'] .rep-head,
+[data-report='uno'] .rep-head {
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-top-width: 4px;
+  border-top-color: var(--accent);
+  min-height: 0;
+  padding-block: clamp(2rem, 5vw, 3.5rem);
+}
+
+/* ==========================================================================
+   29. TRINITY REPORT — the three-act strip
+   Scoped to [data-report='trinity']. The three act colours are the piece's own
+   arc (cold, warming, fire), used here as an index rather than as decoration.
+   The act number is written out, so colour is never the only cue.
+   ========================================================================== */
+.act-strip {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--bento-gap);
+  margin-top: 2rem;
+}
+@media (min-width: 780px) { .act-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+.act {
+  border: 1px solid var(--line-strong);
+  border-top-width: 4px;
+  background: var(--surface);
+  padding: clamp(1.1rem, 2.2vw, 1.6rem);
+}
+.act[data-tone='cold'] { border-top-color: var(--act-cold, #9fc4ff); }
+.act[data-tone='warm'] { border-top-color: var(--act-warm, #ffb35c); }
+.act[data-tone='fire'] { border-top-color: var(--act-fire, #ff7a45); }
+.act__n {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  line-height: 1.1;
+  color: var(--text);
+}
+.act[data-tone='cold'] .act__n { color: var(--act-cold, #9fc4ff); }
+.act[data-tone='warm'] .act__n { color: var(--act-warm, #ffb35c); }
+.act[data-tone='fire'] .act__n { color: var(--act-fire, #ff7a45); }
+.act__frames {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 0.3rem;
+}
+.act__d {
+  margin-top: 0.85rem;
+  color: var(--text-secondary);
+  font-size: var(--step--1);
+  line-height: 1.6;
+}
+
+/* A local video hero: same frame as the YouTube embeds, no third-party player. */
+.videoframe {
+  border: 1px solid var(--line-strong);
+  background: #000;
+  overflow: hidden;
+  line-height: 0;
+}
+.videoframe video { width: 100%; height: auto; display: block; }
+
+
+/* ==========================================================================
+   Report: data table and reference list.
+
+   Both are built purely from the theme's role tokens, so they inherit whichever
+   report palette is active rather than needing a per-theme rule. The table
+   scrolls inside its own box: a four-column table of sixteen states will not
+   fit 375px, and the page body must never scroll sideways to accommodate it.
+   ========================================================================== */
+.rep-table {
+  max-width: 860px;
+  margin: 2rem auto 0;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+/* A scroll container is focusable so it can be reached by keyboard alone
+   (WCAG 2.1.1); that focus has to be visible. */
+.rep-table:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.rep-table table {
+  width: 100%;
+  min-width: 30rem;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.rep-table caption {
+  caption-side: bottom;
+  padding: 0.85rem 1rem 1rem;
+  text-align: left;
+  color: var(--text-muted);
+  font-size: 0.83rem;
+  line-height: 1.6;
+}
+.rep-table th,
+.rep-table td {
+  padding: 0.6rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+}
+.rep-table thead th {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: var(--surface-2);
+  white-space: nowrap;
+}
+.rep-table tbody th {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--accent-text);
+  width: 1%;
+  white-space: nowrap;
+}
+.rep-table tbody td { color: var(--text-secondary); }
+.rep-table tbody td:last-child {
+  font-family: var(--font-mono);
+  color: var(--text);
+  white-space: nowrap;
+}
+.rep-table tbody tr:last-child th,
+.rep-table tbody tr:last-child td { border-bottom: 0; }
+
+.rep-refs {
+  max-width: 66ch;
+  margin-inline: auto;
+  padding-left: 0;
+  list-style: none;
+}
+.rep-refs li {
+  position: relative;
+  margin-bottom: 0.9rem;
+  padding-left: 0.4rem;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  /* Hanging indent, the way a reference list is set on paper. */
+  text-indent: -1.5rem;
+  margin-left: 1.5rem;
+}
+
+
+/* Lists inside report prose. The report component only uses these for the
+   source-divergence note, but they should match the paragraphs around them. */
+.rep-body ul {
+  margin-top: 0.9em;
+  padding-left: 1.2rem;
+  list-style: disc;
+}
+.rep-body li { margin-bottom: 0.55em; }
+.rep-body li::marker { color: var(--accent-text); }
+
+
+/* Laundry Xpress: a row of phone screenshots that stays legible on a phone.
+   Each frame caps its own height so a 1600px-tall screen does not push the
+   next section off the fold, and the row wraps rather than shrinking below
+   a readable width. */
+.lx-screens {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+  margin-top: 1.75rem;
+}
+.lx-screen { flex: 0 1 clamp(150px, 30vw, 240px); }
+.lx-screen img {
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+.lx-screen figcaption {
+  margin-top: 0.55rem;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  text-align: center;
+}
+.lx-screen__t {
+  display: block;
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.86rem;
+  margin-bottom: 0.15rem;
+}
+
+/* Survey headline numbers. */
+.lx-figs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
+  gap: clamp(0.6rem, 2vw, 1rem);
+  margin-top: 1.5rem;
+}
+.lx-fig {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+}
+.lx-fig__n {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 700;
+  color: var(--accent-text);
+  line-height: 1.1;
+}
+.lx-fig__l {
+  margin-top: 0.4rem;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}

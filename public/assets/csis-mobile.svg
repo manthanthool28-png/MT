@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1500" width="800" height="1500" role="img" aria-label="Mobile view — placeholder">
+  <defs>
+    <pattern id="p" width="26" height="26" patternUnits="userSpaceOnUse">
+      <path d="M0 26 L13 0 L26 26 Z" fill="none" stroke="#96918A" stroke-width="0.6" opacity="0.14"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="1500" fill="#191817"/>
+  <rect width="800" height="1500" fill="url(#p)"/>
+  <path d="M800 0 L800 510.00000000000006 L289.99999999999994 0 Z" fill="#F0EEEA" opacity="0.05"/>
+  <path d="M0 1500 L330 1500 L0 1170 Z" fill="#F0EEEA" opacity="0.04"/>
+  <g transform="translate(400 724)">
+    <path d="M-17 14 L0 -15 L17 14 Z" fill="none" stroke="#96918A" stroke-width="1.6" stroke-linejoin="round" opacity="0.75"/>
+    <path d="M0 -15 L17 14 L0 14 Z" fill="#C9C5BE" opacity="0.7"/>
+  </g>
+  <text x="400" y="772" text-anchor="middle" font-family="'Space Grotesk',Inter,sans-serif" font-size="24" font-weight="600" fill="#C9C5BE">Mobile view</text>
+  <text x="400" y="803" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="15" fill="#96918A">placeholder · needs 800×1500 screenshot</text>
+</svg>

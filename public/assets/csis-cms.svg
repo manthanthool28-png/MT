@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" role="img" aria-label="Content management — placeholder">
+  <defs>
+    <pattern id="p" width="26" height="26" patternUnits="userSpaceOnUse">
+      <path d="M0 26 L13 0 L26 26 Z" fill="none" stroke="#96918A" stroke-width="0.6" opacity="0.14"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="1000" fill="#191817"/>
+  <rect width="1600" height="1000" fill="url(#p)"/>
+  <path d="M1600 0 L1600 340 L1260 0 Z" fill="#F0EEEA" opacity="0.05"/>
+  <path d="M0 1000 L220 1000 L0 780 Z" fill="#F0EEEA" opacity="0.04"/>
+  <g transform="translate(800 474)">
+    <path d="M-17 14 L0 -15 L17 14 Z" fill="none" stroke="#96918A" stroke-width="1.6" stroke-linejoin="round" opacity="0.75"/>
+    <path d="M0 -15 L17 14 L0 14 Z" fill="#C9C5BE" opacity="0.7"/>
+  </g>
+  <text x="800" y="522" text-anchor="middle" font-family="'Space Grotesk',Inter,sans-serif" font-size="47" font-weight="600" fill="#C9C5BE">Content management</text>
+  <text x="800" y="584" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="31" fill="#96918A">placeholder · needs 1600×1000 screenshot</text>
+</svg>
