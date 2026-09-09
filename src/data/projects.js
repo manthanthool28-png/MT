@@ -31,14 +31,13 @@ export const projects = [
     tags: ['Web platform', 'Redesign', 'Live'],
     tracks: ['product'],
     size: 'md',
-    /* No live URL. The domain resolves to a registrar parking page as of
-       9 September 2026, so nothing on the site links out to it. */
-    thumb: { src: './assets/tolet-thumb.svg', alt: 'To-Let Globe home page with city selector and property type cards.' },
+    live: 'https://www.toletglobe.in/',
+    thumb: { src: './assets/tolet-thumb.jpg', alt: 'To-Let Globe home page: a near-black layout with the heading Welcome to To-Let Globe, a city selector and search bar, and a line illustration of a house held in an open hand.' },
     meta: {
       Role: 'UI/UX designer: redesign, prototyping, dev handoff',
       Tools: 'Figma, responsive web',
       Timeline: '2024',
-      Context: 'To-Let Globe · shipped to production, since taken offline',
+      Context: 'To-Let Globe · shipped to production and live',
     },
   },
   {

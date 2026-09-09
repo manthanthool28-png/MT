@@ -16,12 +16,13 @@ export default function ToLetGlobe() {
         <div className="thumb" style={{ aspectRatio: '16 / 10' }}>
           <img src={hero.src} alt={hero.alt} width={hero.w} height={hero.h} decoding="async" />
         </div>
-        {hero.pending && <span className="ph-note">Asset pending: home page screenshot</span>}
-        {/* The live link is deliberately gone. toletglobe.in now serves a GoDaddy
-            parking page, so sending a visitor there would be worse than sending
-            them nowhere. Checked 9 September 2026. */}
+        {/* The domain was serving a registrar parking page earlier on 9 September
+            2026 and is serving the product again as of the same day, so the live
+            link is back. */}
         <p className="tech" style={{ marginTop: '1rem' }}>
-          toletglobe.in is offline as of September 2026
+          <a href="https://www.toletglobe.in/" target="_blank" rel="noopener noreferrer">
+            toletglobe.in ↗
+          </a>
         </p>
       </CaseHeader>
 
@@ -149,11 +150,16 @@ export default function ToLetGlobe() {
           <div className="callout">
             <h3>A note on the current state of the site</h3>
             <p>
-              As of September 2026 the domain no longer serves the product; it resolves to a
-              registrar parking page. The decisions described here are the redesign as it was
-              handed over, and there is no longer a live build to check them against. That
-              cuts both ways: the work cannot be verified by visiting it, and it also cannot
-              be confused with whatever the site became after handoff.
+              The screenshots on this page were captured from the live site in September
+              2026, so what is shown is the product as it runs now rather than a Figma
+              mock-up. That also means it has moved on since handoff: the build is the
+              development team&rsquo;s, and not every decision described here survived
+              contact with it unchanged.
+            </p>
+            <p>
+              Property owners&rsquo; names appear against every listing on the live site.
+              They are real people, so those names are blurred in the listing screenshot
+              below.
             </p>
           </div>
         </CaseSection>

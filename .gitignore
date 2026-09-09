@@ -3,3 +3,8 @@ dist
 .DS_Store
 *.local
 .vite
+
+# Kept out of the repo only because the stored GitHub token lacks the
+# `workflow` scope, so pushing it is rejected. Grant that scope (or paste the
+# file in via the web UI) and delete these two lines to enable CI deploys.
+.github/workflows/
