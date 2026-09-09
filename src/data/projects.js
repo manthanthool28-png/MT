@@ -101,12 +101,12 @@ export const projects = [
   {
     slug: 'smart-shelf',
     title: 'Smart Shelf Management System',
-    tagline: 'RFID shelving that knows what is on it',
+    tagline: 'Fifteen problem areas, one shelf that counts itself',
     summary:
-      'A pharmacy inventory system combining RFID-tagged medicine, shelf-mounted readers and a forecasting dashboard, so stock levels and expiry dates update themselves instead of being counted by hand, and reordering is proposed against a real budget.',
+      'A design-methods project run end to end \u2014 fifteen problem areas narrowed by mind-mapping and brainstorming, grounded in a pharmacist interview, built as an RFID and Arduino shelf, then tested with a cognitive walkthrough that sent it back for a predictive redesign.',
     description:
-      'RFID and Arduino pharmacy inventory prototype with a forecasting dashboard, budget-aware reordering and predictive stock analytics.',
-    tags: ['Physical computing', 'RFID', 'Service design'],
+      'A full user-centred process from divergent problem-finding to a working RFID prototype, evaluated by cognitive walkthrough and redesigned into a budget-aware forecasting tool.',
+    tags: ['Design research', 'Physical computing', 'RFID'],
     tracks: ['creative-tech'],
     size: 'md',
     thumb: { src: './assets/shelf-overview.jpg', alt: 'The MediStock AI dashboard showing procurement budget, reorder count and stockout risks.' },
@@ -120,6 +120,7 @@ export const projects = [
     },
     meta: {
       Role: 'Group project: research, interaction design, prototype',
+      Methods: 'Mind-mapping, brainstorming, interviews, cognitive walkthrough',
       Tools: 'Arduino, RFID, ESP8266, Figma',
       Timeline: '2025',
       Context: 'CS6431 Foundations of Interaction & Experience Design, University of Limerick',

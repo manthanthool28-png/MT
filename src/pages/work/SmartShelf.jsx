@@ -21,6 +21,21 @@ function Shot({ k, sheet = false }) {
   )
 }
 
+const FLAWS = [
+  ['Reactivity',
+   'Mark Doyle, pharmacist-in-charge',
+   'Time efficiency',
+   'The alert only fires once stock has already hit the reorder point. That turns ordering into an interruption \u2014 stressful, urgent, dropped into the middle of another task, and exactly the condition under which people make mistakes.'],
+  ['Data deficiency',
+   'Dr Priya Sharma, clinical pharmacist',
+   'Anticipation',
+   'The system reasons from current stock alone. It has no view of local disease trends or ward-level protocol shifts, so order quantities get adjusted on instinct rather than evidence, and the adjustments are not reproducible.'],
+  ['Isolation from strategy',
+   "Dr \u00c1ine O'Connell, procurement officer",
+   'Cost optimisation',
+   'The order list is assembled from alerts and carries no financial information at all, so the budget is only reconciled at the very end \u2014 by hand, under time pressure, with non-compliance discovered too late to do anything about it.'],
+]
+
 const SCENARIOS = [
   ['Scenario 1', 'Receiving, tagging and colour-coded organisation of new medicines'],
   ['Scenario 2', 'Monitoring, alerting and restocking'],
@@ -86,22 +101,66 @@ export default function SmartShelf() {
           </div>
         </CaseSection>
 
-        <CaseSection id="process" eyebrow="Process" title="Fifteen problems down to one">
+        <CaseSection id="process" eyebrow="Method" title="Fifteen problems down to one">
           <div className="prose">
             <p>
-              The group began with roughly fifteen problem areas across human, environmental
-              and technological challenges, each drawn from a real difficulty we thought
-              interaction design could improve. We took them to our supervisor for feedback
-              on which were feasible within the project scope, and Smart Shelves came out of
-              that conversation.
-            </p>
-            <p>
-              From there the method was user-centred and deliberately quick: brainstorming
-              and mind-mapping to open the space, the pharmacist interview to ground it, then
-              sketches and wireframes to refine a concept that would fit into a working day
-              rather than interrupt it.
+              This started as a methods exercise rather than a product idea. The brief was to
+              run a full user-centred process and let it decide what to build, so the group
+              opened with <strong>fifteen problem areas</strong> across human, environmental
+              and technological challenges &mdash; every one drawn from a real difficulty
+              somebody had actually hit, from bus commuter anxiety to fall detection for the
+              elderly to a smart power outlet indicator.
             </p>
           </div>
+          <Figure
+            assetKey="shelf-problem-areas"
+            label="Divergence"
+            caption="The fifteen starting points. Nothing here is a product; they are annoyances, which is the correct raw material at this stage."
+          />
+
+          <div className="prose" style={{ marginTop: '2rem' }}>
+            <p>
+              <strong>Mind-mapping and brainstorming</strong> came next, run on the three
+              themes that survived a first pass: shopping efficiency, shared kitchen
+              resources, and food management. The point was not to collect more ideas but to
+              find root causes &mdash; to cluster complaints until the structure underneath
+              them showed. Mapping &ldquo;shopping efficiency&rdquo; is what surfaced
+              <em> inventory confusion</em> as a category distinct from price or layout
+              problems, and that is the thread that eventually led to a pharmacy shelf.
+            </p>
+          </div>
+          <Figure
+            assetKey="shelf-mindmap"
+            label="Mind map"
+            caption="One of the theme maps. Pain points clustered until price confusion, layout and navigation, and operational delay separated out as distinct problems rather than one undifferentiated complaint."
+          />
+
+          <div className="prose" style={{ marginTop: '2rem' }}>
+            <p>
+              Two rounds of supervisor feedback narrowed fifteen to five, then five to four.
+              The deciding criteria were explicit: the concept had to demonstrate a
+              <strong> complete interaction cycle</strong>, involve a tangible and testable
+              prototype, and show social and operational impact. Smart Shelves won because it
+              was the one that put physical hardware and a digital dashboard on the same
+              problem.
+            </p>
+            <p>
+              <strong>The pharmacist interview grounded it.</strong> We spoke to a pharmacist
+              already running semi-automated software (MEDMANTRA) with low-stock and
+              short-expiry alerts by daily email. Stock was checked every morning and updated
+              by end of day, with printouts carried around for distributor returns. The
+              failures they described were not software failures: manual dispensing never
+              made it back into the system, bulk data entry introduced quantity errors, and
+              the daily check was only as good as whoever did it that day.
+            </p>
+            <p>
+              They supported automated shelves, with one caveat that shaped the whole design:{' '}
+              <strong>manual verification still had to be possible</strong>, particularly for
+              half-used or cut medicine strips, which no tag-based count can be trusted to
+              get right.
+            </p>
+          </div>
+
           <div className="rq-list">
             {SCENARIOS.map(([n, s]) => (
               <li key={n}>
@@ -110,10 +169,115 @@ export default function SmartShelf() {
               </li>
             ))}
           </div>
+
+          <div className="prose" style={{ marginTop: '2rem' }}>
+            <p>
+              Those three scenarios were written to cover the complete cycle the supervisor
+              asked for, and everything after them &mdash; sketches, wireframes, the physical
+              build &mdash; was checked against whether it served all three rather than just
+              the easy one.
+            </p>
+          </div>
+          <div className="figure-row">
+            <Figure
+              assetKey="shelf-sketches"
+              label="Sketches"
+              caption="Working out the carcass, the compartment divisions and where the reader and cable run would sit."
+            />
+            <Figure
+              assetKey="shelf-lofi-annot"
+              label="Low-fidelity, annotated"
+              caption="Hand-drawn dashboard, restock table and add-supply form, annotated with what each region has to carry before any of it was styled."
+            />
+          </div>
+        </CaseSection>
+
+        <CaseSection id="build" eyebrow="Build" title="Cardboard, foil and an Arduino">
+          <div className="prose">
+            <p>
+              The prototype is deliberately low-fidelity in material and high-fidelity in
+              behaviour. Three shelf levels are divided into eight labelled compartments,
+              each colour-coded by category &mdash; pain killer, cold, digestive, allergy,
+              sleep, first aid, syrup &mdash; and each with its own RFID reader. Every
+              medicine box carries a tag holding product ID, name, quantity and expiry.
+              An Arduino and an ESP8266 Wi-Fi module live in the base tray and push reads to
+              a cloud database.
+            </p>
+          </div>
+          <div className="figure-row">
+            <Figure
+              assetKey="shelf-build"
+              label="Build sequence"
+              caption="Six steps from flat cardboard to a tested assembly, which is also the instruction set that let three people build in parallel."
+            />
+            <Figure
+              assetKey="shelf-workshop"
+              label="Assembly"
+              caption="Built on a living-room floor over a weekend."
+            />
+          </div>
+          <Figure
+            assetKey="shelf-prototype"
+            label="The prototype"
+            caption="The finished shelf, loaded with real medicine packaging. Compartments are hand-labelled A1 to C2 by category, each box carries a numbered tag, and the Wi-Fi module and Arduino sit in the base."
+          />
+        </CaseSection>
+
+        <CaseSection id="evaluation" eyebrow="Evaluation" title="A cognitive walkthrough, and what it broke">
+          <div className="prose">
+            <p>
+              The first system worked. It tracked stock, flagged expiry and pushed alerts,
+              and against manual counting that was a real improvement. So the second half of
+              this project was about finding out where it still failed, which needed a method
+              rather than an opinion.
+            </p>
+          </div>
+          <Figure
+            assetKey="shelf-ssms-ui"
+            label="The system under test"
+            caption="The original Smart Shelf app: shelf status, restock management, sales reporting, alerts and staff management. This is what the walkthrough was run against."
+          />
+
+          <div className="prose" style={{ marginTop: '2rem' }}>
+            <p>
+              We used a <strong>cognitive walkthrough</strong> (Lewis, Polson, Wharton and
+              Rieman), tracing the actions a strategic user has to take to answer one
+              question: <em>how does a pharmacist respond to a system-generated alert and
+              strategically generate a purchase order?</em> Walking that path against three
+              personas, each with a stated goal, turned a vague sense that the system was
+              &ldquo;a bit reactive&rdquo; into three specific failures.
+            </p>
+          </div>
+
+          <div className="rq-list">
+            {FLAWS.map(([name, persona, goal, detail]) => (
+              <li key={name}>
+                <b>{name}</b>
+                <p style={{ marginBottom: '0.5rem' }}>
+                  <span className="tech">{persona} &middot; goal: {goal}</span>
+                </p>
+                <p>{detail}</p>
+              </li>
+            ))}
+          </div>
+
+          <div className="prose" style={{ marginTop: '2rem' }}>
+            <p>
+              The conclusion was blunt enough to be useful: the system provided{' '}
+              <strong>tracking but not intelligence</strong>. Every one of the three failures
+              came from the same root, which is that a threshold alert can only ever describe
+              the present. Fixing it meant the next version had to forecast, not monitor.
+            </p>
+          </div>
+          <Figure
+            assetKey="shelf-brainstorm"
+            label="Redesign brainstorm"
+            caption="Mapping the second round. The centre is the new capability, and the branches are the problems it has to answer, the data it needs, the users it serves and how success would be measured."
+          />
           <Figure
             assetKey="shelf-flows"
-            label="User flows"
-            caption="Three flows covering the complete interaction cycle, from a delivery arriving to expired stock being removed."
+            label="Redesigned flow"
+            caption="The proactive cycle that replaced it: start from predicted stockout risk, read the forecast, review the suggested order, reconcile against budget, then approve and export. The budget check is a gate inside the flow rather than a reconciliation afterwards."
           />
         </CaseSection>
 
