@@ -23,21 +23,22 @@ export const projects = [
   {
     slug: 'tolet-globe',
     title: 'To-Let Globe',
-    tagline: 'Zero-brokerage rentals, redesigned',
+    tagline: 'Designing a zero-brokerage rental marketplace',
     summary:
-      'A redesign of the To-Let Globe rental platform, a zero-brokerage marketplace connecting property owners and tenants directly across Kota, Lucknow, Ayodhya and Vellore.',
+      'A contract engagement designing the To-Let Globe platform \u2014 a zero-brokerage marketplace connecting owners and tenants directly across Kota, Lucknow, Ayodhya and Vellore \u2014 working from the founder\u2019s business model and leading a 22-person design team.',
     description:
-      'Website redesign for a live zero-brokerage rental platform: hierarchy, navigation and responsive structure.',
-    tags: ['Web platform', 'Redesign', 'Live'],
+      'Product design for a live zero-brokerage rental platform, built from a competitive read of the Indian property portals and shipped to production.',
+    tags: ['Web platform', 'Team lead', 'Live'],
     tracks: ['product'],
     size: 'md',
     live: 'https://www.toletglobe.in/',
     thumb: { src: './assets/tolet-thumb.jpg', alt: 'To-Let Globe home page: a near-black layout with the heading Welcome to To-Let Globe, a city selector and search bar, and a line illustration of a house held in an open hand.' },
     meta: {
-      Role: 'UI/UX designer: redesign, prototyping, dev handoff',
+      Role: 'Design lead: product design, prototyping, dev handoff',
+      Team: 'Led a 22-person design team',
       Tools: 'Figma, responsive web',
-      Timeline: '2024',
-      Context: 'To-Let Globe · shipped to production and live',
+      Timeline: '2024 \u2013 present',
+      Context: 'Contract engagement with the founder \u00b7 shipped and live',
     },
   },
   {

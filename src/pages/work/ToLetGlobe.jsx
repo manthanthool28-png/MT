@@ -1,24 +1,23 @@
 import { CaseHeader, CaseBody, CaseSection, Decision, PrevNext } from '../../components/CaseStudy.jsx'
 import { useReveal } from '../../components/Reveal.jsx'
 import Figure from '../../components/Figure.jsx'
+import Embedder from '../../components/Embedder.jsx'
 import { bySlug } from '../../data/projects.js'
-import { asset } from '../../data/assets.js'
 
 const project = bySlug('tolet-globe')
 
+/* The session token from the share link (&t=…) is stripped: it identifies the
+   share session rather than the file, and the prototype loads without it. */
+const PROTOTYPE =
+  'https://embed.figma.com/proto/AFR1ajWllBGsFrsRQD6c2S/To-Let-homepage' +
+  '?node-id=1145-4388&page-id=0%3A1&starting-point-node-id=1145%3A4388&embed-host=share'
+
 export default function ToLetGlobe() {
   useReveal()
-  const hero = asset('tolet-thumb')
-
   return (
     <>
       <CaseHeader project={project}>
-        <div className="thumb" style={{ aspectRatio: '16 / 10' }}>
-          <img src={hero.src} alt={hero.alt} width={hero.w} height={hero.h} decoding="async" />
-        </div>
-        {/* The domain was serving a registrar parking page earlier on 9 September
-            2026 and is serving the product again as of the same day, so the live
-            link is back. */}
+        <Embedder url={PROTOTYPE} title="To-Let Globe home page prototype" />
         <p className="tech" style={{ marginTop: '1rem' }}>
           <a href="https://www.toletglobe.in/" target="_blank" rel="noopener noreferrer">
             toletglobe.in ↗
@@ -27,7 +26,6 @@ export default function ToLetGlobe() {
       </CaseHeader>
 
       <CaseBody>
-        {/* 2. Problem */}
         <CaseSection id="problem" eyebrow="Problem" title="A marketplace whose whole value is removing the middleman">
           <div className="prose">
             <p>
@@ -39,63 +37,111 @@ export default function ToLetGlobe() {
             <p>
               That premise creates a specific design obligation. If the product looks like
               every other listings portal, the thing that makes it worth using is invisible.
-              A visitor has no reason to believe this one is different. The redesign had
-              to make the promise legible before anything else, and then get out of the way
-              so people could find a property.
+              A visitor has no reason to believe this one is different. The interface had to
+              make the promise legible before anything else, and then get out of the way so
+              people could find a property.
             </p>
             <p>
               The second constraint is coverage. The platform operates in particular cities,
-              not nationally: Kota, Lucknow, Ayodhya and Vellore. An interface that
-              invites an open-ended search will mostly return nothing, and an empty result
-              set on a first visit is very hard to recover from.
+              not nationally: Kota, Lucknow, Ayodhya and Vellore. An interface that invites
+              an open-ended search will mostly return nothing, and an empty result set on a
+              first visit is very hard to recover from.
             </p>
           </div>
         </CaseSection>
 
-        {/* 3. Process */}
-        <CaseSection id="process" eyebrow="Process" title="Redesign, prototype, hand off">
+        <CaseSection id="process" eyebrow="Process" title="A contract engagement, run close to the founder">
           <div className="prose">
             <p>
-              The work ran in Figma: wireframes to establish information hierarchy and
-              navigation, then high-fidelity mockups, then interactive prototypes and
-              micro-interaction concepts for stakeholder review. Designs were iterated from
-              that feedback rather than presented once.
+              This was contract work for the startup rather than an in-house brief handed
+              over finished. The <strong>CEO worked directly with me</strong> on how the
+              business actually operates, where the revenue is meant to come from, and what
+              design could and could not do about it. Some of the most useful input was not
+              design input at all: it was being walked through the business model before
+              being asked to draw anything.
             </p>
             <p>
-              Because the site was live and being built by a separate development team, the
-              output had to be handoff-shaped: reusable interface patterns rather than
-              one-off screens, and interface decisions documented well enough that a
-              developer could implement them without a meeting. Usability and
-              visual-consistency issues were raised during design review, where they are
-              cheap, instead of after build.
+              That framing set the starting point as a competitive read rather than a blank
+              canvas. We went through the established Indian property portals —{' '}
+              <strong>99acres and similar sites</strong> — and looked at how they handle
+              entry, search, category structure and, above all, the point at which they put
+              a broker or an enquiry gate between the two parties. That last pattern is the
+              one To-Let Globe exists to break, so it needed to be understood before it
+              could be designed against.
+            </p>
+            <p>
+              From there the work ran in Figma: information hierarchy and navigation first,
+              then high-fidelity screens, then an interactive prototype with the
+              micro-interactions attached, so review could happen on something clickable
+              instead of a flat board. Because a separate development team built it, the
+              output had to be handoff-shaped — reusable patterns rather than one-off
+              screens, and interface decisions documented well enough to be implemented
+              without a meeting.
+            </p>
+            <p>
+              <strong>I led a design team of 22 on it.</strong> Multiple designers produced
+              multiple versions of the same pages; a large part of my job was reviewing that
+              output, giving critique that was specific enough to act on, and deciding which
+              direction went forward. The mobile About page below is a team member&rsquo;s
+              work rather than mine, included because the team is a real part of what this
+              project was.
             </p>
           </div>
+
+          <Figure
+            assetKey="tolet-overview"
+            label="The flow"
+            caption="Every page of the design in order: the two hero states, services, about, hiring partners, top locations, the statistics band, partnered universities, testimonials and contact."
+          />
         </CaseSection>
 
-        {/* 4. Key decisions */}
         <CaseSection id="decisions" eyebrow="Key decisions" title="Four decisions that shape the entry">
           <Decision n={1} title="Lead with the promise, not the search box">
             <p>
               The first thing on the page states the offer in plain terms: no brokerage,
               across PGs, flats, houses and offices. A search field first would have been
-              the conventional choice, but it asks the visitor to already trust the
-              platform. Stating the differentiator first earns the search.
+              the conventional choice — it is what the portals we looked at do — but it asks
+              the visitor to already trust the platform. Stating the differentiator first
+              earns the search.
             </p>
-            <Figure
-              assetKey="tolet-home"
-              label="Landing"
-              caption="The no-brokerage promise sits above the fold, with city entry immediately beneath it."
-            />
+            <p>
+              The hero animates into place rather than arriving whole, and the search field
+              is the last thing to appear. The sequence is the argument: the claim lands
+              before the tool for acting on it.
+            </p>
+            <div className="figure-row">
+              <Figure
+                assetKey="tolet-hero-before"
+                label="At rest"
+                caption="The headline and strapline land first, with the illustration still in fragments."
+              />
+              <Figure
+                assetKey="tolet-hero-after"
+                label="Settled"
+                caption="The fragments assemble into the house-in-hand, and only then does the search field appear."
+              />
+            </div>
           </Decision>
 
           <Decision n={2} title="City first, because coverage is finite">
             <p>
               Entry is gated through a city selector rather than an open search. It looks
               like friction and is actually the opposite: it keeps a visitor inside the
-              cities the platform actually serves, so the first result set is never empty.
-              A user who searches a city with no inventory concludes the product is broken,
+              cities the platform actually serves, so the first result set is never empty. A
+              user who searches a city with no inventory concludes the product is broken,
               not that the coverage is limited.
             </p>
+            <p>
+              Each city then gets a page of its own, led by a photograph of a landmark
+              people will recognise. National portals treat a city as a filter value; here
+              it is a place, which is the right unit when your inventory is four cities deep
+              rather than four hundred.
+            </p>
+            <Figure
+              assetKey="tolet-cities"
+              label="City pages"
+              caption="Lucknow, Ayodhya, Vellore and Kota, each with its own entry point rather than being options in a dropdown."
+            />
           </Decision>
 
           <Decision n={3} title="Six property types, weighted equally">
@@ -112,83 +158,115 @@ export default function ToLetGlobe() {
             />
           </Decision>
 
-          <Decision n={4} title="Direct contact is the payoff, so it stays visible">
+          <Decision n={4} title="Put the owner on the card">
             <p>
-              The listing view puts owner contact in reach rather than behind an enquiry
-              gate. Every intermediate step between finding a property and reaching its
-              owner reintroduces the friction the platform exists to remove.
+              Every listing card carries the owner directly on it, alongside the
+              photographs, price and room specification. On the portals we looked at, that
+              slot holds an agent or an enquiry form. Here it holds the person you are
+              actually renting from, because every intermediate step between finding a
+              property and reaching its owner reintroduces the friction the platform exists
+              to remove.
             </p>
             <Figure
               assetKey="tolet-listing"
               label="Listing"
-              caption="Owner contact presented directly, delivering the product promise at the point it matters."
+              caption="A three-column grid with the owner shown on each card, and the filter and view-mode controls kept above the results rather than in a sidebar."
             />
           </Decision>
 
-          <Figure
-            assetKey="tolet-mobile"
-            label="Mobile"
-            caption="Responsive structure: the property grid collapses to a single column and city entry stays at the top."
-          />
+          <div className="figure-row" style={{ marginTop: '2rem' }}>
+            <Figure
+              assetKey="tolet-about"
+              label="About and contact"
+              caption="Who we are, vision and mission in alternating rows, then testimonials, then contact."
+            />
+            <Figure
+              assetKey="tolet-mobile"
+              label="Mobile, by the team"
+              caption="A team member's mobile About page. The body copy is still placeholder text, which is what an in-progress page from a 22-person team looks like."
+            />
+          </div>
         </CaseSection>
 
-        {/* 6. Outcomes */}
         <CaseSection id="outcomes" eyebrow="Outcomes" title="What this achieved">
           <div className="prose">
             <p>
-              <strong>It shipped.</strong> The redesign went to a separate development team
-              and went live at toletglobe.in, serving Kota, Lucknow, Ayodhya and Vellore
-              across six property categories. That is the outcome worth claiming: design
-              that survived handoff and ran in production, rather than a concept deck.
+              <strong>It shipped, and it is running.</strong> The design went to a separate
+              development team and is live at toletglobe.in, serving Kota, Lucknow, Ayodhya
+              and Vellore across six property categories. That is the outcome worth
+              claiming: design that survived handoff and runs in production, rather than a
+              concept deck.
             </p>
             <p>
               The structural result is that the platform&rsquo;s differentiator is the first
-              thing a visitor reads. Everything after that (city entry, category cards,
-              direct contact) is arranged to deliver on it rather than to look busy.
+              thing a visitor reads. Everything after that — city entry, category cards,
+              owner on the card — is arranged to deliver on it rather than to look busy.
             </p>
           </div>
+
+          <div className="figure-row" style={{ marginTop: '1.5rem' }}>
+            <Figure
+              assetKey="tolet-live-home"
+              label="Shipped: home"
+              caption="The live site in September 2026. The hero came through the build close to the design."
+            />
+            <Figure
+              assetKey="tolet-live-listing"
+              label="Shipped: listing"
+              caption="The live listing with real inventory. Owner names are blurred here because they belong to real people; on the live site they are shown in full."
+            />
+          </div>
+
           <div className="callout">
-            <h3>A note on the current state of the site</h3>
+            <h3>Design against build</h3>
             <p>
-              The screenshots on this page were captured from the live site in September
-              2026, so what is shown is the product as it runs now rather than a Figma
-              mock-up. That also means it has moved on since handoff: the build is the
-              development team&rsquo;s, and not every decision described here survived
-              contact with it unchanged.
+              The two shots above are the current production site, not the Figma file, so
+              the gap is visible: the shipped listing card drops the photo carousel and the
+              owner avatar, and its filter bar sits above a map rather than beside view-mode
+              controls. Some of that is the development team&rsquo;s call and some of it is
+              inventory the design assumed and the platform does not yet have.
             </p>
             <p>
-              Property owners&rsquo; names appear against every listing on the live site.
-              They are real people, so those names are blurred in the listing screenshot
-              below.
+              One thing worth flagging as an operational rather than design issue: the map
+              on the live listing page currently returns a Google Maps billing error for
+              every visitor.
             </p>
           </div>
         </CaseSection>
 
-        {/* 7. Reflection */}
         <CaseSection id="reflection" eyebrow="Reflection" title="Limitations and next steps" narrow>
           <div className="prose">
             <p>
-              <strong>No measurement.</strong> This is a live commercial product, and the
-              obvious question, whether the redesign changed enquiry rate, bounce or
-              time-to-first-contact, is unanswered here. Without that, the argument for
-              each decision is reasoning, not evidence.
+              <strong>The competitive read was qualitative.</strong> Going through 99acres
+              and its peers with the CEO was the right way to start, but it was a structured
+              look rather than a documented audit with a rubric. The conclusions held up;
+              the working would not survive being asked to show it.
             </p>
             <p>
-              <strong>Trust is under-designed.</strong> A zero-brokerage marketplace lives or
-              dies on whether listings are real. Verification, reporting and dispute handling
-              are exactly where a direct-contact model is most fragile, and they are the
-              least developed part of this work.
+              <strong>No usability testing.</strong> The city-first entry is a reasoned bet
+              that a constrained start beats an empty result set, and it has never been put
+              in front of a first-time visitor to check. It is the decision on this project
+              I would most want evidence for, because it is the one that deliberately adds a
+              step.
             </p>
             <p>
-              <strong>Next.</strong> Instrument the funnel from city selection to owner
-              contact, usability-test the listing view with first-time renters, and design
-              the verification and reporting states that make direct contact safe.
+              <strong>Leading 22 people was the harder skill.</strong> The design problems
+              here were tractable. Keeping a large team producing consistent work, giving
+              critique that people could act on, and choosing between competing versions
+              without stalling — that was the part I was least prepared for and learned the
+              most from.
+            </p>
+            <p>
+              <strong>Next.</strong> Usability testing on the city-first entry, a written
+              audit behind the competitive read, and a component inventory shared with the
+              development team so the gap between the design and the build closes on
+              purpose rather than by inspection.
             </p>
           </div>
         </CaseSection>
       </CaseBody>
 
-      <div className="section wrap">
+      <div className="section section--tight">
         <PrevNext slug="tolet-globe" />
       </div>
     </>
