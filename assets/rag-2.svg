@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750" width="600" height="750" role="img" aria-label="Rag Picker: wireframe 2 — placeholder">
+  <defs>
+    <pattern id="p" width="26" height="26" patternUnits="userSpaceOnUse">
+      <path d="M0 26 L13 0 L26 26 Z" fill="none" stroke="#96918A" stroke-width="0.6" opacity="0.14"/>
+    </pattern>
+  </defs>
+  <rect width="600" height="750" fill="#191817"/>
+  <rect width="600" height="750" fill="url(#p)"/>
+  <path d="M600 0 L600 255.00000000000003 L345 0 Z" fill="#F0EEEA" opacity="0.05"/>
+  <path d="M0 750 L165 750 L0 585 Z" fill="#F0EEEA" opacity="0.04"/>
+  <g transform="translate(300 349)">
+    <path d="M-17 14 L0 -15 L17 14 Z" fill="none" stroke="#96918A" stroke-width="1.6" stroke-linejoin="round" opacity="0.75"/>
+    <path d="M0 -15 L17 14 L0 14 Z" fill="#C9C5BE" opacity="0.7"/>
+  </g>
+  <text x="300" y="397" text-anchor="middle" font-family="'Space Grotesk',Inter,sans-serif" font-size="18" font-weight="600" fill="#C9C5BE">Rag Picker: wireframe 2</text>
+  <text x="300" y="420" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="12" fill="#96918A">placeholder · needs 600×750 wireframe</text>
+</svg>
