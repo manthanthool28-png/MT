@@ -239,6 +239,10 @@
 .bento {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* Dense packing backfills the hole a wrapped span-2 card leaves behind.
+     Without it, a full-width card that cannot fit in the remaining column
+     wraps and strands the single card before it alone on its row. */
+  grid-auto-flow: dense;
   gap: var(--bento-gap);
   width: 100%;
   max-width: var(--wrap);
@@ -246,6 +250,9 @@
   padding-inline: var(--gutter);
 }
 @media (max-width: 760px) { .bento { grid-template-columns: 1fr; } }
+/* Two columns on a 2000px display made every card about 950px wide. */
+@media (min-width: 1180px) { .bento { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1680px) { .bento { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 
 .bento__item {
   position: relative;
@@ -259,7 +266,6 @@
   text-decoration: none;
   color: inherit;
   padding: clamp(1rem, 2vw, 1.5rem);
-  min-height: 300px;
   overflow: hidden;
   transform: translateZ(0);
   transition:
@@ -273,10 +279,23 @@
   transform: scale(1.02);
   z-index: 2;
 }
-/* Asymmetry inside a two-column grid comes from span + height, not columns. */
-.bento__item--xl { grid-column: span 2; min-height: clamp(340px, 42vw, 560px); }
-.bento__item--wide { grid-column: span 2; min-height: clamp(300px, 30vw, 420px); }
-.bento__item--md { grid-column: span 1; min-height: 340px; }
+/* Asymmetry comes from span + height, not from extra columns. Heights are
+   clamped against vw so cards do not balloon on a wide display; the old xl
+   resolved to 560px tall next to a 950px-wide card. */
+.bento__item--xl { grid-column: span 2; }
+.bento__item--wide { grid-column: span 2; }
+.bento__item--md { grid-column: span 1; }
+/* A card spanning two columns gets a wider frame, so a wider crop. */
+.bento__item--xl .bento__media,
+.bento__item--wide .bento__media { aspect-ratio: 16 / 9; }
+/* Below three columns every card is a single unit. Twelve cards of which three
+   span two leaves fifteen column-units, and fifteen over two columns strands
+   the last card alone; twelve single units tile as six clean rows. The
+   asymmetry comes back at three and four columns, where there is room for it. */
+@media (max-width: 1179px) {
+  .bento__item--xl,
+  .bento__item--wide { grid-column: span 1; }
+}
 .bento__item--sm { grid-column: span 1; min-height: 280px; }
 @media (max-width: 760px) {
   .bento__item,
@@ -290,7 +309,11 @@
 
 .bento__media {
   position: relative;
-  flex: 1;
+  /* Was flex: 1, which let the longest description in a row set every card's
+     height. A fixed ratio makes the image band constant and the card as tall
+     as its content needs and no taller. */
+  aspect-ratio: 4 / 3;
+  flex: none;
   min-height: 0;
   margin-bottom: 1rem;
   background: var(--surface-media);
@@ -2692,3 +2715,15 @@
 }
 .strip__frame:hover { border-color: var(--accent); transform: translateY(-2px); }
 .strip__frame:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+
+
+/* Three lines is enough to say what a project is; past that the card is
+   competing with the case study it links to, and one long summary was setting
+   the height of every card beside it. */
+.bento__desc {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+}
