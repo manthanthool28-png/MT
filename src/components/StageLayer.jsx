@@ -32,13 +32,17 @@ const CARDS = [
   },
 ]
 
+/* Four distinct subjects on a four-column grid: the big cell takes the left half
+   over two rows, the wide cell the top right, and two squares fill beneath it.
+   That tiles exactly, which the previous six-cell arrangement did not — it left
+   holes and the rows never lined up. */
 const MOSAIC = [
   { key: 'life-1', cls: 'mosaic__cell--big' },
-  { key: 'life-2', cls: 'mosaic__cell--tall' },
+  /* The B&W frame is panoramic in content — sign at one end, dancer at the
+     other — so it is the one that survives the double-width cell. */
+  { key: 'life-5', cls: 'mosaic__cell--wide' },
   { key: 'life-3', cls: '' },
-  { key: 'life-4', cls: '' },
-  { key: 'life-5', cls: 'mosaic__cell--tall' },
-  { key: 'life-6', cls: 'mosaic__cell--wide' },
+  { key: 'life-6', cls: '' },
 ]
 
 export default function StageLayer() {

@@ -1200,15 +1200,22 @@
 /* Photo mosaic: staggered heights, one hairline grid. */
 .mosaic {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  grid-auto-rows: clamp(70px, 8vw, 118px);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  /* Rows were clamped at 118px against a six-column grid, so a cell came out
+     between 2:1 and 4:1 while the photographs are square or portrait. cover
+     then ate the subject. Taller rows bring the cells near the pictures. */
+  /* A row has to track the column width or the cells stop matching the
+     pictures. At four columns a column is about 23.7vw, so 15.8vw gives a
+     3:2 cell; at two columns a column doubles and so does the row. */
+  grid-auto-rows: clamp(130px, 15.8vw, 260px);
   gap: 1px;
   background: var(--line-strong);
   border: 1px solid var(--line-strong);
   margin-top: clamp(1.75rem, 4vw, 2.75rem);
 }
-@media (max-width: 900px) { .mosaic { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-@media (max-width: 560px) { .mosaic { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 900px) {
+  .mosaic { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: clamp(120px, 30vw, 300px); }
+}
 .mosaic__cell {
   background: var(--surface-media);
   overflow: hidden;
