@@ -22,21 +22,26 @@ export default function Photography() {
     () => (cat === 'all' ? photos : photos.filter((p) => p.cat === cat)),
     [cat],
   )
-  const cells = useMemo(() => {
-    const out = []
-    const seen = new Set()
-    shown.forEach((p, i) => {
-      if (!p.story) { out.push({ kind: 'photo', p, i }); return }
-      if (seen.has(p.story)) return
-      seen.add(p.story)
-      out.push({
-        kind: 'story',
+  /* Split the two kinds apart. The wall holds single frames in its fixed row
+     track; sequences get their own full-width block below it, where their
+     height is free. Every frame keeps its index into `shown` so the viewer
+     still walks the whole set. */
+  const loose = useMemo(
+    () => shown.map((p, i) => ({ p, i })).filter(({ p }) => !p.story),
+    [shown],
+  )
+  const stories = useMemo(() => {
+    const seen = []
+    for (const [i, p] of shown.entries()) {
+      if (!p.story || seen.some((s) => s.key === p.story)) continue
+      seen.push({
         key: p.story,
         story: STORIES[p.story],
         frames: shown.map((q, j) => ({ ...q, i: j })).filter((q) => q.story === p.story),
       })
-    })
-    return out
+      void i
+    }
+    return seen
   }, [shown])
 
   const counts = useMemo(() => {
@@ -90,43 +95,44 @@ export default function Photography() {
 
       <section className="wrap" aria-label="Photographs">
         <div className="wall">
-          {cells.map((c) =>
-            c.kind === 'story' ? (
-              <figure className="wall__story" key={c.key}>
-                <figcaption className="wall__story-head">
-                  <span className="wall__story-title">{c.story.title}</span>
-                  <span className="wall__story-cap">{c.story.caption}</span>
-                </figcaption>
-                <ol className="wall__strip">
-                  {c.frames.map((f) => (
-                    <li key={f.src}>
-                      <button
-                        type="button"
-                        className="wall__frame"
-                        onClick={() => setOpen(f.i)}
-                        aria-label={`Open ${f.title}, image ${f.i + 1} of ${shown.length}`}
-                      >
-                        <img src={f.src} alt={f.alt} width={f.w} height={f.h} loading="lazy" decoding="async" />
-                      </button>
-                    </li>
-                  ))}
-                </ol>
-              </figure>
-            ) : (
-              <button
-                type="button"
-                key={c.p.src}
-                className={`wall__cell${c.p.span === 'tall' ? ' wall__cell--tall' : ''}`}
-                onClick={() => setOpen(c.i)}
-                aria-label={`Open ${c.p.title}, image ${c.i + 1} of ${shown.length}`}
-              >
-                <img src={c.p.src} alt={c.p.alt} width={c.p.w} height={c.p.h} loading="lazy" decoding="async" />
-                <span className="wall__cap" aria-hidden="true">{c.p.title}</span>
-              </button>
-            ),
-          )}
+          {loose.map(({ p, i }) => (
+            <button
+              type="button"
+              key={p.src}
+              className={`wall__cell${p.span === 'tall' ? ' wall__cell--tall' : ''}`}
+              onClick={() => setOpen(i)}
+              aria-label={`Open ${p.title}, image ${i + 1} of ${shown.length}`}
+            >
+              <img src={p.src} alt={p.alt} width={p.w} height={p.h} loading="lazy" decoding="async" />
+              <span className="wall__cap" aria-hidden="true">{p.title}</span>
+            </button>
+          ))}
         </div>
       </section>
+
+      {stories.map((c) => (
+        <section className="section wrap" key={c.key} aria-labelledby={`story-${c.key}`}>
+          <p className="tech tech--accent">[ Sequence ]</p>
+          <h2 id={`story-${c.key}`} className="matrix-title" style={{ marginTop: '0.7rem' }}>
+            {c.story.title}
+          </h2>
+          <p className="prose" style={{ marginTop: '0.9rem' }}>{c.story.caption}</p>
+          <ol className="strip">
+            {c.frames.map((f) => (
+              <li key={f.src}>
+                <button
+                  type="button"
+                  className="strip__frame"
+                  onClick={() => setOpen(f.i)}
+                  aria-label={`Open ${f.title}, image ${f.i + 1} of ${shown.length}`}
+                >
+                  <img src={f.src} alt={f.alt} width={f.w} height={f.h} loading="lazy" decoding="async" />
+                </button>
+              </li>
+            ))}
+          </ol>
+        </section>
+      ))}
 
       <section className="section wrap" aria-labelledby="posters-h">
         <p className="tech tech--accent">[ Not photographs ]</p>

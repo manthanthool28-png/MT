@@ -3,6 +3,7 @@ import { Outlet, NavLink, Link, useLocation } from 'react-router-dom'
 import { Triangle } from './Triangle.jsx'
 import ContactTerminal from './ContactTerminal.jsx'
 import BackLink from './BackLink.jsx'
+import BackToTop from './BackToTop.jsx'
 import { CursorRing } from './Reveal.jsx'
 import ThemeToggle from './ThemeToggle.jsx'
 import { site } from '../data/site.js'
@@ -90,6 +91,7 @@ export default function Layout() {
       </main>
 
       <ContactTerminal compact={pathname === '/contact'} />
+      <BackToTop />
     </>
   )
 }
