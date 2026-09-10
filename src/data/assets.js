@@ -177,13 +177,6 @@ export const assets = [
     title: 'What we learned',
     alt: 'The deck\u2019s closing slide listing three lessons: the power of collaboration, working under pressure, and the importance of user-centred design.' },
 
-  // --- Explorations: Rag Picker ----------------------------------------
-  { key: 'rag-1', src: './assets/rag-1.svg', w: 600, h: 750, kind: 'wireframe', pending: true,
-    title: 'Rag Picker: wireframe 1',
-    alt: 'Low-fidelity wireframe of the Rag Picker collection request screen.' },
-  { key: 'rag-2', src: './assets/rag-2.svg', w: 600, h: 750, kind: 'wireframe', pending: true,
-    title: 'Rag Picker: wireframe 2',
-    alt: 'Low-fidelity wireframe of the Rag Picker pickup map screen.' },
 
   // --- About ------------------------------------------------------------
   { key: 'profile', src: './assets/profile.jpg', w: 750, h: 1000, kind: 'photo', pending: false,

@@ -2420,14 +2420,6 @@
 }
 .bento__item--more:hover .bento__more { text-decoration: underline; }
 
-/* A grid item with no destination. Flattened so it reads as a note in the grid
-   rather than a card you can open. */
-.bento__item--static {
-  background: transparent;
-  border-style: dashed;
-  cursor: default;
-}
-.bento__item--static .bento__title { color: var(--text-secondary); }
 
 
 /* ==========================================================================
