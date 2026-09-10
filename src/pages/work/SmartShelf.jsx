@@ -161,14 +161,14 @@ export default function SmartShelf() {
             </p>
           </div>
 
-          <div className="rq-list">
+          <ul className="rq-list">
             {SCENARIOS.map(([n, s]) => (
               <li key={n}>
                 <b>{n}</b>
                 <p>{s}</p>
               </li>
             ))}
-          </div>
+          </ul>
 
           <div className="prose" style={{ marginTop: '2rem' }}>
             <p>
@@ -249,7 +249,7 @@ export default function SmartShelf() {
             </p>
           </div>
 
-          <div className="rq-list">
+          <ul className="rq-list">
             {FLAWS.map(([name, persona, goal, detail]) => (
               <li key={name}>
                 <b>{name}</b>
@@ -259,7 +259,7 @@ export default function SmartShelf() {
                 <p>{detail}</p>
               </li>
             ))}
-          </div>
+          </ul>
 
           <div className="prose" style={{ marginTop: '2rem' }}>
             <p>

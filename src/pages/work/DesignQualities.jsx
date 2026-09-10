@@ -105,14 +105,14 @@ export default function DesignQualities() {
       ) : (
       <>
       <CaseHeader project={project}>
-        <div className="rq-list" style={{ marginTop: 0 }}>
+        <ul className="rq-list" style={{ marginTop: 0 }}>
           {QUALITIES.map((q) => (
             <li key={q.name} style={{ listStyle: 'none' }}>
               <b>{q.n}</b>
               <p style={{ fontWeight: 600, color: 'var(--text)' }}>{q.name}</p>
             </li>
           ))}
-        </div>
+        </ul>
       </CaseHeader>
 
       <CaseBody>

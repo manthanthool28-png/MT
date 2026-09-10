@@ -904,7 +904,13 @@
 }
 
 /* ------------------------------ 18. BACK BAR ---------------------------- */
+/* Sticks directly under the fixed nav. Case studies run long, and having to
+   scroll to the very top to find Back made leaving a page cost more than
+   entering it. Below the nav's z-index so it slides under, not over. */
 .backbar {
+  position: sticky;
+  top: var(--nav-h);
+  z-index: 40;
   border-bottom: 1px solid var(--line);
   background: var(--bg);
 }
@@ -912,7 +918,9 @@
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  padding: 0.9rem 0;
+  /* Tightened from 0.9rem: the bar is now permanently on screen, so its height
+     is a standing cost on every scroll rather than a one-off at the top. */
+  padding: 0.7rem 0;
   background: none;
   border: 0;
   font-family: var(--font-mono);

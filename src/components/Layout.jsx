@@ -8,6 +8,10 @@ import ThemeToggle from './ThemeToggle.jsx'
 import { site } from '../data/site.js'
 
 const links = [
+  /* Home is listed explicitly. The wordmark also goes home, but that is a
+     convention people have to already know; a visitor deep in a case study was
+     hunting for a way back to the front page and not finding one. */
+  { to: '/', label: 'Home', end: true },
   { to: '/work', label: 'Work' },
   { to: '/vault', label: 'Vault' },
   { to: '/about', label: 'About' },
@@ -49,7 +53,7 @@ export default function Layout() {
             <ul className="nav__links" id="primary-menu" data-open={open || undefined}>
               {links.map((l) => (
                 <li key={l.to}>
-                  <NavLink to={l.to} className="nav__link">
+                  <NavLink to={l.to} end={l.end} className="nav__link">
                     {l.label}
                   </NavLink>
                 </li>

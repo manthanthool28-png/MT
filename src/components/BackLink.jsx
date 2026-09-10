@@ -10,7 +10,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
  */
 function fallbackFor(pathname) {
   if (pathname.startsWith('/work/')) return { to: '/work', label: 'Work' }
-  return { to: '/', label: 'Index' }
+  return { to: '/', label: 'Home' }
 }
 
 export default function BackLink() {
