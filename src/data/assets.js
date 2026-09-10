@@ -179,9 +179,9 @@ export const assets = [
 
 
   // --- About ------------------------------------------------------------
-  { key: 'profile', src: './assets/profile.jpg', w: 750, h: 1000, kind: 'photo', pending: false,
+  { key: 'profile', src: './assets/profile.jpg', w: 800, h: 1000, kind: 'photo', pending: false,
     title: 'Profile photo',
-    alt: 'Portrait of Manthan Thool.' },
+    alt: 'Manthan Thool standing alone in the middle of an open green field under a wide blue sky, hands on hips, looking up.' },
 
   // --- About: personal mosaic (theatre / dance / sport / studio) ---
   { key: 'life-1', src: './assets/life-1.jpg', w: 1500, h: 998, kind: 'photo', pending: false,
