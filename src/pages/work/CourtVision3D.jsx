@@ -7,6 +7,17 @@ import { site } from '../../data/site.js'
 
 const project = bySlug('court-vision-3d')
 
+/* Table 5.6 from the thesis, Phase 2. Every per-participant value and the grand
+   mean were re-derived from the six subscales and match the table exactly. */
+const TLX = [
+  ['Mental demand', 15.5],
+  ['Physical demand', 14.3],
+  ['Temporal demand', 18.0],
+  ['Performance', 88.8],
+  ['Effort', 12.5],
+  ['Frustration', 1.8],
+]
+
 export default function CourtVision3D() {
   useReveal()
   return (
@@ -241,45 +252,82 @@ export default function CourtVision3D() {
         <CaseSection id="outcomes" eyebrow="Outcomes" title="What the evaluation measured">
           <div className="prose">
             <p>
-              Phase 2 compared the 3D prototype against the 2D baseline across four
-              measures. The instruments and the comparison design are fixed; the figures
-              below are being transferred from the final thesis results.
+              Phase 2 put the 3D prototype in front of four participants and measured
+              perceived workload with NASA-TLX. Those scores are in. The accuracy, timing
+              and engagement measures are not, so they are marked as such rather than
+              filled with anything.
             </p>
           </div>
 
           <div className="stats">
             <div className="stat">
-              <p className="stat__value">—</p>
-              <p className="stat__label">NASA-TLX overall workload, 3D vs 2D (RQ1)</p>
+              <p className="stat__value">25.1</p>
+              <p className="stat__label">Raw NASA-TLX, mean across four participants</p>
             </div>
             <div className="stat">
-              <p className="stat__value">—</p>
-              <p className="stat__label">Task accuracy on matched interpretation tasks</p>
+              <p className="stat__value">1.8</p>
+              <p className="stat__label">Frustration, the lowest subscale of the six</p>
             </div>
             <div className="stat">
-              <p className="stat__value">—</p>
-              <p className="stat__label">Mean time to answer per task</p>
+              <p className="stat__value">88.8</p>
+              <p className="stat__label">Performance, the self-rated success item</p>
             </div>
             <div className="stat">
-              <p className="stat__value">—</p>
-              <p className="stat__label">Self-reported engagement, 3D vs 2D (RQ3)</p>
+              <p className="stat__value">n = 4</p>
+              <p className="stat__label">Participants, Phase 2</p>
             </div>
           </div>
 
+          <div className="rep-table" role="region" aria-label="NASA-TLX subscale means" tabIndex={0}>
+            <table>
+              <caption>
+                Table 5.6, raw TLX. Individual scores ran 19.0, 19.5, 30.0 and 32.0.
+              </caption>
+              <thead>
+                <tr><th scope="col">Subscale</th><th scope="col">Mean</th></tr>
+              </thead>
+              <tbody>
+                {TLX.map(([name, v]) => (
+                  <tr key={name}>
+                    <th scope="row">{name}</th>
+                    <td>{v.toFixed(1)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="prose" style={{ marginTop: '2rem' }}>
+            <p>
+              The shape of that is more useful than the single number. Effort at 12.5 and
+              frustration at 1.8 are close to the floor, and mental, physical and temporal
+              demand all sit in the teens: nobody found the thing hard to operate. What
+              carries the overall score up to 25.1 is the performance item at 88.8, which
+              asks participants how successful they felt rather than how hard they worked.
+            </p>
+            <p>
+              <strong>Four participants is a pilot, not a result.</strong> With an n of
+              four and a spread from 19.0 to 32.0, this says the prototype did not impose a
+              heavy load on the people who tried it. It does not establish that it is
+              lighter than the 2D baseline, and nothing here should be read that way.
+            </p>
+          </div>
+
           <span className="ph-note">
-            Content pending: insert the final NASA-TLX, accuracy, timing and engagement
-            figures from the thesis results chapter
+            Still to come: task accuracy, mean time to answer, and the engagement measure,
+            each against the 2D baseline
           </span>
 
           <div className="callout">
-            <h3>What already holds without the numbers</h3>
+            <h3>What already holds without the rest of the numbers</h3>
             <p>
               The qualitative pattern from think-aloud was consistent and is worth stating
               on its own terms: participants using the 3D chart reached for spatial
-              language (“this whole area is dead”, “the corners are his best spot”),
-              while the same participants reading the 2D chart tended to read values back
-              cell by cell. Separating volume from efficiency changed the kind of question
-              people asked of the data, not only how quickly they answered it.
+              language (&ldquo;this whole area is dead&rdquo;, &ldquo;the corners are his
+              best spot&rdquo;), while the same participants reading the 2D chart tended to
+              read values back cell by cell. Separating volume from efficiency changed the
+              kind of question people asked of the data, not only how quickly they answered
+              it.
             </p>
           </div>
         </CaseSection>
