@@ -61,7 +61,7 @@ export default function Home() {
      /work for the rest; picking a track still shows everything in that track,
      because a filter that hid matches would be lying about its count. */
   const visible = (p) => (filter === 'all' ? !!p.featured : p.tracks.includes(filter))
-  const hiddenCount = projects.length - projects.filter((p) => p.featured).length
+  const rest = useMemo(() => projects.filter((p) => !p.featured), [])
 
   return (
     <>
@@ -194,7 +194,7 @@ export default function Home() {
           </ul>
         </div>
 
-        <div className="bento">
+        <div className="bento bento--curated">
           {projects.map((p, i) => (
             <Link
               key={p.slug}
@@ -227,12 +227,26 @@ export default function Home() {
             hidden={filter !== 'all' || undefined}
           >
             <span className="bento__index">Everything else</span>
-            <h3 className="bento__title">
-              {hiddenCount} more {hiddenCount === 1 ? 'project' : 'projects'}
-            </h3>
+            {/* Without a media band this card was a hole in a wall of images.
+                It now previews the projects behind it, which is also a more
+                honest label than a number. */}
+            <div className="bento__media bento__media--mosaic">
+              {rest.map((p) => {
+                const a = thumbFor(p)
+                return (
+                  <img
+                    key={p.slug}
+                    src={a.src}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )
+              })}
+            </div>
+            <h3 className="bento__title">More projects</h3>
             <p className="bento__desc">
-              Laundry Xpress, King Run, the Corvette animation, Design Qualities,
-              Algorithmic Soundscape and the videography reel — plus early explorations.
+              {rest.map((p) => p.title).join(' · ')}
             </p>
             <span className="bento__more" aria-hidden="true">Open the full index →</span>
           </Link>
