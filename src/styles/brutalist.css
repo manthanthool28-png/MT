@@ -2577,3 +2577,18 @@
   line-height: 1.55;
   color: var(--text-secondary);
 }
+
+
+/* Pointer-reactive field behind the hero. Sits above the static parallax grid
+   but below the type; pointer-events off so it never eats a click. */
+.field {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.9;
+}
+.billboard > .parallax { z-index: 0; }
+.billboard > *:not(.parallax):not(.field) { position: relative; z-index: 2; }

@@ -1,4 +1,5 @@
 import { useMemo, useRef, useState } from 'react'
+import ReactiveField from '../components/ReactiveField.jsx'
 import { Link } from 'react-router-dom'
 import ShotChartHero from '../components/ShotChartLazy.jsx'
 import CourtVisionArt from '../components/CourtVisionArt.jsx'
@@ -67,6 +68,7 @@ export default function Home() {
       {/* ---------------- 1. Hero billboard ---------------- */}
       <section className="billboard">
         {/* Depth layer behind the typography. Scroll factor 0.55 */}
+        <ReactiveField />
         <div className="parallax" ref={parallaxRef} aria-hidden="true">
           <svg width="100%" height="100%" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1200 900">
             <defs>
