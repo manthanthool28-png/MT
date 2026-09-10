@@ -6,6 +6,15 @@ import { asset } from '../../data/assets.js'
 
 const project = bySlug('csis-portal')
 
+/* Sampled from the swatches on the brand sheet rather than typed from its
+   specification rows, because two of those rows disagree with their own
+   swatch. See the note in the Brand section. */
+const UL_GREENS = [
+  ['UL Green', '#005335', 'PANTONE 7729 CP', 'Ground for the signed-in application'],
+  ['UL Modern Green', '#00B140', 'PANTONE 354 CP', 'The crest, and the one accent that is allowed to shout'],
+  ['UL Heritage Green', '#003726', 'PANTONE 3308 CP', 'Splash and sign-in, where the brand should feel institutional'],
+]
+
 export default function CsisPortal() {
   useReveal()
   const hero = asset('csis-dashboard')
@@ -63,6 +72,86 @@ export default function CsisPortal() {
         </CaseSection>
 
         {/* 4. Key decisions / flow walkthrough */}
+        <CaseSection id="brand" eyebrow="Brand" title="Borrowed identity, and the rules that came with it">
+          <div className="prose">
+            <p>
+              CSIS is a department inside the University of Limerick, so the portal never had
+              an identity question to answer &mdash; it had an identity to <em>obey</em>. The
+              work was reading UL&rsquo;s brand system and deciding which parts a dense,
+              role-based web application could actually use.
+            </p>
+          </div>
+          <Figure
+            assetKey="csis-ul-lockup"
+            label="The lockup"
+            caption="The crest carries a castle tower, a stag and the Shannon. At interface sizes almost none of that survives, which is why the portal uses the crest alone in the splash and drops to a wordmark everywhere else."
+          />
+
+          <div className="prose" style={{ marginTop: '2rem' }}>
+            <p>
+              <strong>Three greens, three jobs.</strong> The brand gives a primary, a modern
+              and a heritage green. Rather than pick one and tint it, I gave each an
+              assignment, so the colour tells you where you are in the product.
+            </p>
+          </div>
+          <div className="swatches">
+            {UL_GREENS.map(([name, hex, pantone, use]) => (
+              <div className="swatch" key={hex}>
+                <span className="swatch__chip" style={{ background: hex }} aria-hidden="true" />
+                <p className="swatch__name">{name}</p>
+                <p className="swatch__hex">{hex} &middot; {pantone}</p>
+                <p className="swatch__use">{use}</p>
+              </div>
+            ))}
+          </div>
+
+          <Figure
+            assetKey="csis-ul-palette"
+            label="The source"
+            caption="The brand sheet's own colour page, reproduced as supplied."
+          />
+
+          <div className="callout">
+            <h3>The sheet contradicts itself, so I sampled it</h3>
+            <p>
+              Two of the three colours print an RGB row that does not match the swatch beside
+              it. UL Green is specified <code>RGB 0.88.68</code>, which is{' '}
+              <code>#005844</code>, but the swatch is <code>#005335</code>. Heritage Green is
+              specified <code>RGB 3.70.56</code>, or <code>#034638</code>, and the swatch is{' '}
+              <code>#003726</code>. In both cases the printed <em>hex</em> matches the swatch
+              and the printed <em>RGB</em> does not.
+            </p>
+            <p>
+              I took the values off the swatches, since that is what anyone comparing the
+              screen to the brand sheet will look at. Worth flagging to whoever maintains the
+              document rather than quietly diverging from it.
+            </p>
+          </div>
+
+          <div className="prose" style={{ marginTop: '2rem' }}>
+            <p>
+              <strong>Type.</strong> The system specifies Saol Display for expressive
+              headlines, Inter for interface and body, and Formula Condensed for functional
+              labels. A portal that is almost entirely tables, forms and permission states has
+              very little use for an expressive display serif, so the portal is Inter nearly
+              throughout, with Formula Condensed reserved for column headers and status chips.
+              The brand sheet names Helvetica and Roboto Condensed as licence-free
+              substitutes, which is what made this deployable at all.
+            </p>
+          </div>
+          <Figure
+            assetKey="csis-ul-type"
+            label="The three faces"
+            caption="Saol Display, Inter and Formula Condensed, shown on Heritage Green."
+          />
+
+          <Figure
+            assetKey="csis-splash"
+            label="Where it lands"
+            caption="The splash screen is the one place the identity is allowed to take the whole frame: Heritage Green ground, the crest in Modern Green, wordmark in white. Every screen after this one gives the space back to the data."
+          />
+        </CaseSection>
+
         <CaseSection id="flow" eyebrow="Walkthrough" title="From sign-in to system administration">
           <Decision n={1} title="One entry point, regardless of role">
             <p>

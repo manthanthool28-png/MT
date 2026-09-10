@@ -13,6 +13,7 @@ const links = [
      hunting for a way back to the front page and not finding one. */
   { to: '/', label: 'Home', end: true },
   { to: '/work', label: 'Work' },
+  { to: '/photography', label: 'Photos' },
   { to: '/vault', label: 'Vault' },
   { to: '/about', label: 'About' },
   { to: '/contact', label: 'Contact' },

@@ -431,6 +431,20 @@ export const assets = [
     title: 'Fade',
     alt: 'The final seconds: everything dimmed to a faint smear of light on black as the master fade closes the piece.' },
 
+  // --- CSIS: the University of Limerick brand the portal had to sit inside ---
+  { key: 'csis-ul-lockup', src: './assets/csis-ul-lockup.jpg', w: 1400, h: 639, kind: 'reference', pending: false,
+    title: 'UL lockup',
+    alt: 'The University of Limerick horizontal lockup: the line-drawn crest of a castle tower, stag and river beside the words University of Limerick, Ollscoil Luimnigh, set in heavy condensed capitals.' },
+  { key: 'csis-ul-palette', src: './assets/csis-ul-palette.jpg', w: 1500, h: 1104, kind: 'reference', pending: false,
+    title: 'UL palette',
+    alt: 'The brand sheet\u2019s colour page: three green swatches labelled UL Green, UL Modern Green and UL Heritage Green, each with its Pantone, CMYK, RGB and hex specification.' },
+  { key: 'csis-ul-type', src: './assets/csis-ul-type.jpg', w: 1400, h: 238, kind: 'reference', pending: false,
+    title: 'UL typefaces',
+    alt: 'The three brand typefaces shown as specimen letters on a dark green ground: Saol Display, Inter, and Formula Condensed.' },
+  { key: 'csis-splash', src: './assets/csis-splash.jpg', w: 700, h: 1267, kind: 'screenshot', pending: false,
+    title: 'CSIS splash',
+    alt: 'The CSIS mobile splash screen: the UL crest in bright green above the wordmark in white, on a deep heritage-green ground, with Welcome to CSIS and the department name below and a need-help link at the foot.' },
+
   // --- Detachable Kaleidoscope: build photographs and the report's own figures ---
   { key: 'kal-block-open', src: './assets/kal-block-open.jpg', w: 1050, h: 1400, kind: 'photo', pending: false,
     title: 'Audio block, open',

@@ -2428,3 +2428,152 @@
   cursor: default;
 }
 .bento__item--static .bento__title { color: var(--text-secondary); }
+
+
+/* ==========================================================================
+   Photography wall + lightbox.
+   ========================================================================== */
+
+/* Masonry via dense auto-rows rather than columns, so reading order matches
+   DOM order — a CSS-columns masonry reads top-to-bottom per column, which is
+   wrong for keyboard and screen-reader users. */
+.wall {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(210px, 100%), 1fr));
+  grid-auto-rows: 150px;
+  grid-auto-flow: dense;
+  gap: clamp(0.4rem, 1.2vw, 0.8rem);
+}
+.wall__cell {
+  grid-row: span 2;
+  position: relative;
+  display: block;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--surface-2);
+  cursor: zoom-in;
+  transition: border-color var(--dur-snap) var(--ease), transform var(--dur-snap) var(--ease);
+}
+.wall__cell--tall { grid-row: span 3; }
+.wall__cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.wall__cell:hover { border-color: var(--accent); transform: translateY(-2px); }
+.wall__cell:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+
+.wall__cap {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 1.6rem 0.7rem 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  text-align: left;
+  /* Its own gradient, because the photograph underneath is any colour at all
+     and theme tokens cannot help here. */
+  background: linear-gradient(to top, rgba(0,0,0,0.78), rgba(0,0,0,0));
+  opacity: 0;
+  transition: opacity var(--dur-snap) var(--ease);
+}
+.wall__cell:hover .wall__cap,
+.wall__cell:focus-visible .wall__cap { opacity: 1; }
+@media (hover: none) { .wall__cap { opacity: 1; } }
+
+.posters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr));
+  gap: clamp(0.8rem, 2vw, 1.5rem);
+  margin-top: 1.75rem;
+}
+.poster img {
+  width: 100%; height: auto; display: block;
+  border: 1px solid var(--line); border-radius: 10px;
+}
+.poster figcaption {
+  margin-top: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+/* Lightbox. Fixed, above the nav, its own near-black ground in both themes
+   because a photograph needs a neutral surround rather than a themed one. */
+.lb {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 0.5rem;
+  padding: clamp(0.6rem, 2vw, 1.2rem);
+  background: rgba(8, 8, 10, 0.96);
+  backdrop-filter: blur(6px);
+}
+.lb:focus { outline: none; }
+.lb__bar, .lb__nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.lb__nav { justify-content: center; gap: 0.75rem; }
+.lb__count {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  /* 8.9:1 on the lightbox ground. */
+  color: #d6d6db;
+}
+.lb__title { color: #9a9aa4; }
+.lb__stage { display: grid; place-items: center; min-height: 0; margin: 0; }
+.lb__stage img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+.lb__btn {
+  display: inline-grid;
+  place-items: center;
+  min-width: 44px; min-height: 44px;
+  border: 1px solid #4a4a52;
+  border-radius: 10px;
+  background: transparent;
+  color: #f2f2f5;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background var(--dur-snap) var(--ease), border-color var(--dur-snap) var(--ease);
+}
+.lb__btn:hover { background: #1e1e24; border-color: #6f6f7a; }
+.lb__btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+
+/* Brand swatches. The chip carries the actual colour, so it needs a border of
+   its own — a dark green chip on a dark ground otherwise has no edge. */
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  gap: clamp(0.6rem, 2vw, 1rem);
+  margin-top: 1.5rem;
+}
+.swatch {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.9rem;
+  background: var(--surface);
+}
+.swatch__chip {
+  display: block;
+  height: 72px;
+  border-radius: 8px;
+  border: 1px solid var(--line-strong);
+  margin-bottom: 0.75rem;
+}
+.swatch__name { font-weight: 600; }
+.swatch__hex {
+  margin-top: 0.2rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+.swatch__use {
+  margin-top: 0.5rem;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}

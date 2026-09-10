@@ -18,6 +18,7 @@ import NowIAmBecomeDeath from './pages/work/NowIAmBecomeDeath.jsx'
 import DetachableKaleidoscope from './pages/work/DetachableKaleidoscope.jsx'
 import AlgorithmicSoundscape from './pages/work/AlgorithmicSoundscape.jsx'
 import Videography from './pages/work/Videography.jsx'
+import Photography from './pages/Photography.jsx'
 import Vault from './pages/Vault.jsx'
 
 export default function App() {
@@ -40,6 +41,7 @@ export default function App() {
           <Route path="work/detachable-kaleidoscope" element={<DetachableKaleidoscope />} />
           <Route path="work/algorithmic-soundscape" element={<AlgorithmicSoundscape />} />
           <Route path="work/videography" element={<Videography />} />
+          <Route path="photography" element={<Photography />} />
           <Route path="vault" element={<Vault />} />
           <Route path="about" element={<About />} />
           <Route path="contact" element={<Contact />} />
