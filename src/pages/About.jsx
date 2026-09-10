@@ -39,6 +39,27 @@ export default function About() {
 
           <div>
             <Reveal>
+              <p className="bio">
+                I&rsquo;m Manthan Thool, a UX/UI designer and design lead who moves between
+                research, design and code rather than picking one of them.
+              </p>
+              <p className="bio">
+                I&rsquo;ve just finished an MSc in Interaction &amp; Experience Design at the
+                University of Limerick, where my thesis &mdash;{' '}
+                <Link to="/work/court-vision-3d">Court Vision 3D</Link> &mdash; rebuilt NBA
+                shot charts as something you can move around inside, then tested whether the
+                third dimension actually helped anyone or just looked impressive. Alongside
+                it I lead a <Link to="/work/tolet-globe">22-person design team</Link> at
+                To-Let Globe, on top of a B.E. in Computer Engineering and hands-on work in
+                Three.js, Python, Arduino and Processing.
+              </p>
+              <p className="bio">
+                What I&rsquo;m after is work that holds up technically and still makes sense
+                to someone seeing it for the first time.
+              </p>
+            </Reveal>
+
+            <Reveal>
               <p className="philosophy">
                 I design interfaces for information that resists being flattened: spatial
                 data, multi-role systems, service flows with too many moving parts. The work
