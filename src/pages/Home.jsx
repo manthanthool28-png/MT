@@ -227,26 +227,9 @@ export default function Home() {
             hidden={filter !== 'all' || undefined}
           >
             <span className="bento__index">Everything else</span>
-            {/* Without a media band this card was a hole in a wall of images.
-                It now previews the projects behind it, which is also a more
-                honest label than a number. */}
-            <div className="bento__media bento__media--mosaic">
-              {rest.map((p) => {
-                const a = thumbFor(p)
-                return (
-                  <img
-                    key={p.slug}
-                    src={a.src}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                  />
-                )
-              })}
-            </div>
             <h3 className="bento__title">More projects</h3>
             <p className="bento__desc">
-              {rest.map((p) => p.title).join(' · ')}
+              {rest.map((p) => p.title).join(' \u00b7 ')}
             </p>
             <span className="bento__more" aria-hidden="true">Open the full index →</span>
           </Link>

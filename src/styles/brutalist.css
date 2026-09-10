@@ -2426,50 +2426,17 @@
 
 /* The "everything else" card: a route into the full index, styled as a
    destination rather than a project so it does not read as a thirteenth piece. */
-/* Full width, always. Six featured cards plus this one is nine column-units
-   once the spans are counted, which tiles at three columns and strands this
-   card at four and at two. Spanning the whole row removes the arithmetic:
-   it fills whatever is left, at every column count. */
 .bento__item--more {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
-  align-items: center;
-  gap: clamp(1rem, 3vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
   background: var(--surface-2);
   border-style: dashed;
 }
-@media (max-width: 860px) { .bento__item--more { grid-template-columns: 1fr; } }
-/* A contact sheet of the projects behind the link, so the card carries an
-   image band like every other card in the wall instead of reading as a gap. */
-.bento__media--mosaic {
-  display: grid;
-  /* A strip beside the text on a wide card, two rows when it stacks. */
-  grid-template-columns: repeat(6, 1fr);
-  aspect-ratio: 6 / 1.6;
-  gap: 2px;
-  margin-bottom: 0;
-  opacity: 0.62;
-  background: var(--surface-media);
-}
-@media (max-width: 860px) {
-  .bento__media--mosaic { grid-template-columns: repeat(3, 1fr); aspect-ratio: 3 / 1.6; }
-}
-/* The text half sits in its own column, so it should not be centred by the
-   card's own flex rules. */
-.bento__item--more > :not(.bento__media) { grid-column: 1; }
-.bento__item--more .bento__media--mosaic { grid-column: 2; grid-row: 1 / -1; }
-@media (max-width: 860px) {
-  .bento__item--more > :not(.bento__media) { grid-column: 1; }
-  .bento__item--more .bento__media--mosaic { grid-column: 1; grid-row: auto; }
-}
-.bento__media--mosaic img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.bento__item--more:hover .bento__media--mosaic { opacity: 0.9; }
-/* The list of names is a label, not prose; one line keeps the card even with
-   its neighbours. */
 .bento__item--more .bento__desc {
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
   color: var(--text-muted);
   font-size: 0.86rem;
 }
