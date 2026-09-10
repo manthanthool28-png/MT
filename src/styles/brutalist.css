@@ -83,7 +83,7 @@
   pointer-events: none;
   will-change: transform;
 }
-.billboard > *:not(.parallax) { position: relative; z-index: 1; }
+.billboard > *:not(.parallax):not(.field) { position: relative; z-index: 1; }
 @media (prefers-reduced-motion: reduce) { .parallax { display: none; } }
 .scroll-cue {
   font-family: var(--font-mono);
@@ -2524,8 +2524,50 @@
   color: #d6d6db;
 }
 .lb__title { color: #9a9aa4; }
-.lb__stage { display: grid; place-items: center; min-height: 0; margin: 0; }
-.lb__stage img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+/* Positioned box + filled image. `max-height: 100%` on a child of a 1fr grid
+   row does not resolve, so the old rule computed to none and a 1600px-tall
+   photograph rendered at full size in a 671px stage, clipping two thirds of it.
+   object-fit inside an absolutely filled image cannot overflow the row. */
+.lb__stage {
+  position: relative;
+  min-height: 0;
+  margin: 0;
+  overflow: hidden;
+  touch-action: none;
+}
+.lb__stage img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform-origin: center center;
+  user-select: none;
+  transition: transform 140ms var(--ease);
+}
+.lb__stage--zoomed { cursor: grab; }
+.lb__stage--zoomed:active { cursor: grabbing; }
+/* While panning, the transform is following the finger; easing it would lag. */
+.lb__stage--zoomed img { transition: none; }
+
+.lb__zoom { display: inline-flex; align-items: center; gap: 0.4rem; }
+.lb__level {
+  min-width: 3.2rem;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: #d6d6db;
+}
+.lb__btn[disabled] { opacity: 0.35; cursor: not-allowed; }
+.lb__hint {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.07em;
+  /* 5.4:1 on the lightbox ground. */
+  color: #9a9aa4;
+}
 .lb__btn {
   display: inline-grid;
   place-items: center;
@@ -2591,4 +2633,65 @@
   opacity: 0.9;
 }
 .billboard > .parallax { z-index: 0; }
-.billboard > *:not(.parallax):not(.field) { position: relative; z-index: 2; }
+
+
+/* A photo story: one subject across several frames, presented as a sequence so
+   it does not read as the same picture uploaded four times. */
+.wall__story {
+  grid-column: 1 / -1;
+  grid-row: span 2;
+  margin: 0;
+  padding: 0.9rem 1rem 1rem;
+  border: 1px dashed var(--line-strong);
+  border-radius: 12px;
+  background: var(--surface-2);
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.wall__story-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.6rem; }
+.wall__story-title {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+.wall__story-cap { color: var(--text-secondary); font-size: 0.85rem; }
+.wall__strip {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(140px, 45%), 1fr));
+  gap: 0.5rem;
+  min-height: 0;
+}
+.wall__frame {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--surface);
+  cursor: zoom-in;
+  /* Counted position in the sequence, so the frames read left to right. */
+  counter-increment: frame;
+  position: relative;
+  transition: border-color var(--dur-snap) var(--ease);
+}
+.wall__frame::after {
+  content: counter(frame);
+  position: absolute;
+  left: 0.4rem;
+  top: 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+}
+.wall__strip { counter-reset: frame; }
+.wall__frame img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; display: block; }
+.wall__frame:hover { border-color: var(--accent); }
+.wall__frame:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }

@@ -73,16 +73,16 @@ export const photos = [
     alt: 'A figure standing on a lit footbridge at night, the handrail lights running away in both directions under a deep red sky.' },
 
   // --- Nature -------------------------------------------------------------
-  { src: './assets/photo-11.jpg', w: 1200, h: 1600, cat: 'nature',
+  { src: './assets/photo-11.jpg', w: 1200, h: 1600, cat: 'nature', story: 'wingspan',
     title: 'Wingspan I',
     alt: 'A white goose on a stone path beside a pond, wings fully extended, neck stretched upward, other geese resting behind it.' },
-  { src: './assets/photo-12.jpg', w: 1200, h: 1600, cat: 'nature', span: 'tall',
+  { src: './assets/photo-12.jpg', w: 1200, h: 1600, cat: 'nature', story: 'wingspan',
     title: 'Wingspan II',
     alt: 'The same goose from behind, wings raised into a broad V, feathers translucent against an overcast sky.' },
-  { src: './assets/photo-13.jpg', w: 1200, h: 1600, cat: 'nature',
+  { src: './assets/photo-13.jpg', w: 1200, h: 1600, cat: 'nature', story: 'wingspan',
     title: 'Wingspan III',
     alt: 'The goose caught side-on with both wings at full stretch across the frame, head turned away from the camera.' },
-  { src: './assets/photo-14.jpg', w: 1200, h: 1600, cat: 'nature',
+  { src: './assets/photo-14.jpg', w: 1200, h: 1600, cat: 'nature', story: 'wingspan',
     title: 'Wingspan IV',
     alt: 'The wings half-folded now, the bird settling, park benches and visitors soft in the background.' },
   { src: './assets/photo-10.jpg', w: 1200, h: 1600, cat: 'nature', span: 'tall',
@@ -121,3 +121,12 @@ export const posters = [
     title: 'Housefull · Ahilyanagar',
     alt: 'A dark gold announcement poster reading Housefull in Marathi, with two show times and a photograph of the ensemble beneath.' },
 ]
+
+/* One bird, one wing-stretch, four frames. Presented as a sequence rather than
+   four tiles, because as separate cells they read as an upload mistake. */
+export const STORIES = {
+  wingspan: {
+    title: 'Wingspan',
+    caption: 'One goose, a few seconds. Four frames in the order they were taken.',
+  },
+}
