@@ -16,7 +16,7 @@ import { TemplateFlag } from '../components/TemplateFlag.jsx'
    Court Vision sat in both Thesis and Creative technology, so the same card
    appeared under filters that promised different things. */
 const FILTERS = [
-  { id: 'all', label: '[ All work ]' },
+  { id: 'all', label: '[ Featured ]' },
   { id: 'product', label: '[ UX/UI & Figma systems ]' },
   { id: 'thesis', label: '[ Thesis core tech ]' },
   { id: 'creative-tech', label: '[ Creative technology ]' },
@@ -45,7 +45,9 @@ export default function Home() {
   const [filter, setFilter] = useState('all')
 
   const counts = useMemo(() => {
-    const c = { all: projects.length }
+    /* The default view shows the featured set, so its count has to be that
+       set's size — a chip reading 12 above six cards is just wrong. */
+    const c = { all: projects.filter((p) => p.featured).length }
     for (const f of FILTERS) {
       if (f.id === 'all') continue
       c[f.id] = projects.filter((p) => p.tracks.includes(f.id)).length
@@ -53,7 +55,12 @@ export default function Home() {
     return c
   }, [])
 
-  const visible = (p) => filter === 'all' || p.tracks.includes(filter)
+  /* The front page used to render all twelve at once, which is a shelf rather
+     than an argument. Unfiltered it now shows the featured six and routes to
+     /work for the rest; picking a track still shows everything in that track,
+     because a filter that hid matches would be lying about its count. */
+  const visible = (p) => (filter === 'all' ? !!p.featured : p.tracks.includes(filter))
+  const hiddenCount = projects.length - projects.filter((p) => p.featured).length
 
   return (
     <>
@@ -210,30 +217,23 @@ export default function Home() {
             </Link>
           ))}
 
-          {/* Explorations: real, but deliberately lower weight. */}
-          <div className="bento__item bento__item--md" hidden={filter !== 'all' || undefined}>
-            <span className="bento__index">Explorations</span>
-            <div className="bento__media" style={{ display: 'flex', gap: '1px' }}>
-              {['rag-1', 'rag-2'].map((k) => {
-                const a = asset(k)
-                return (
-                  <img
-                    key={k}
-                    src={a.src}
-                    alt={a.alt}
-                    loading="lazy"
-                    decoding="async"
-                    style={{ width: '50%', opacity: 0.5 }}
-                  />
-                )
-              })}
-            </div>
-            <h3 className="bento__title">Rag Picker</h3>
+          {/* A card that goes somewhere, in place of the Explorations panel that
+              looked like a project card but had no destination to offer. */}
+          <Link
+            to="/work"
+            className="bento__item bento__item--md bento__item--more snap"
+            hidden={filter !== 'all' || undefined}
+          >
+            <span className="bento__index">Everything else</span>
+            <h3 className="bento__title">
+              {hiddenCount} more {hiddenCount === 1 ? 'project' : 'projects'}
+            </h3>
             <p className="bento__desc">
-              A mobile interface for an impact-driven service concept. Early wireframes,
-              concept stage, not a case study.
+              Laundry Xpress, King Run, the Corvette animation, Design Qualities,
+              Algorithmic Soundscape and the videography reel — plus early explorations.
             </p>
-          </div>
+            <span className="bento__more" aria-hidden="true">Open the full index →</span>
+          </Link>
 
         </div>
       </section>

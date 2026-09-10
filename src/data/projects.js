@@ -2,6 +2,7 @@
 export const projects = [
   {
     slug: 'court-vision-3d',
+    featured: true,
     title: 'Court Vision 3D',
     tagline: 'A 3D basketball shot chart novices can actually read',
     summary:
@@ -18,10 +19,10 @@ export const projects = [
       Timeline: 'MSc thesis project, 2025–26',
       Context: 'CS6572, University of Limerick',
     },
-    featured: true,
   },
   {
     slug: 'tolet-globe',
+    featured: true,
     title: 'To-Let Globe',
     tagline: 'Designing a zero-brokerage rental marketplace',
     summary:
@@ -43,6 +44,7 @@ export const projects = [
   },
   {
     slug: 'csis-portal',
+    featured: true,
     title: 'CSIS Portal',
     tagline: 'One system, three very different users',
     summary:
@@ -100,6 +102,7 @@ export const projects = [
   },
   {
     slug: 'smart-shelf',
+    featured: true,
     title: 'Smart Shelf Management System',
     tagline: 'Fifteen problem areas, one shelf that counts itself',
     summary:
@@ -168,6 +171,7 @@ export const projects = [
   },
   {
     slug: 'now-i-am-become-death',
+    featured: true,
     title: 'Now I Am Become Death',
     tagline: 'Whitney\u2019s harmony, pointed at Trinity',
     summary:
@@ -190,6 +194,7 @@ export const projects = [
   },
   {
     slug: 'detachable-kaleidoscope',
+    featured: true,
     title: 'Detachable Kaleidoscope',
     tagline: 'An interactive sculpture that had to work on the night',
     summary:
@@ -200,7 +205,7 @@ export const projects = [
     tracks: ['creative-tech'],
     size: 'md',
     video: 'https://www.youtube.com/embed/QLhWnRbSY3s',
-    thumb: { src: './assets/interactive-hero.jpg', alt: 'The Detachable Kaleidoscope interactive sculpture.' },
+    thumb: { src: './assets/kal-tower.jpg', alt: 'The finished sculpture: five engraved octagonal modules stacked into a column with copper contact rings at every joint.' },
     meta: {
       Role: 'Technical lead on a group project: concept, electronics, interaction logic',
       Tools: 'Arduino, Pure Data, physical prototyping',
@@ -220,7 +225,7 @@ export const projects = [
     tracks: ['creative-tech'],
     size: 'md',
     video: 'https://www.youtube.com/embed/vi7EpUg3cZo',
-    thumb: { src: './assets/film-vfx.jpg', alt: 'Still from the algorithmic soundscape performance.' },
+    thumb: { src: './assets/interactive-hero.jpg', alt: 'A digital audio workstation with a dozen coloured, labelled audio tracks laid out across a timeline.' },
     meta: {
       Role: 'Concept, rule system and performance',
       Tools: 'Generative audio, live performance',

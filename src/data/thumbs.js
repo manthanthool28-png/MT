@@ -20,9 +20,13 @@ const OVERRIDE = {
   'cinematic-automotive': 'corvette-hero',
   'king-run': 'kingrun-hero',
   'now-i-am-become-death': 'vc-mandala',
-  'detachable-kaleidoscope': 'interactive-hero',
-  'algorithmic-soundscape': 'film-vfx',
-  videography: 'film-showreel',
+  /* These three were crossed over: the kaleidoscope showed a DAW screenshot,
+     and the soundscape showed a photograph of video editing. The DAW shot is
+     the soundscape's own work, so it moves there; the sculpture gets its own
+     photograph. */
+  'detachable-kaleidoscope': 'kal-tower',
+  'algorithmic-soundscape': 'interactive-hero',
+  videography: 'film-diwali',
 }
 
 /** Returns {src, alt, w, h} for a project's grid thumbnail. Never throws. */

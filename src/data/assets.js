@@ -385,9 +385,9 @@ export const assets = [
   // --- Videography (real files, from the previous portfolio repo) ---
   { key: 'film-showreel', src: './assets/film-showreel.jpg', w: 1400, h: 906, kind: 'still', pending: false,
     title: 'Showreel frame', alt: 'Frame from the videography showreel.' },
-  { key: 'film-tape', src: './assets/film-tape.jpg', w: 1400, h: 1050, kind: 'still', pending: false,
+  { key: 'film-tape', src: './assets/film-tape.jpg', w: 1050, h: 1400, kind: 'still', pending: false,
     title: 'Stik-ie tape advert', alt: 'Still from the Stik-ie tape advert.' },
-  { key: 'film-diwali', src: './assets/film-diwali.jpg', w: 1400, h: 1050, kind: 'still', pending: false,
+  { key: 'film-diwali', src: './assets/film-diwali.jpg', w: 1050, h: 1400, kind: 'still', pending: false,
     title: 'UL Diwali Festival 2025', alt: 'Still from UL Diwali Festival 2025 coverage.' },
   { key: 'film-vfx', src: './assets/film-vfx.jpg', w: 900, h: 1200, kind: 'still', pending: false,
     title: 'Performance still', alt: 'Still from the algorithmic soundscape performance.' },

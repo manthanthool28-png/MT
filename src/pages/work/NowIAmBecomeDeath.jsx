@@ -45,15 +45,17 @@ export default function NowIAmBecomeDeath() {
         <>
           <CaseHeader project={project}>
             {/* Local file rather than a YouTube embed: 51 seconds at 1280x828
-                is 7 MB, which is cheaper than loading a third-party player,
-                and it keeps the piece playable with no network beyond this
-                site. Muted and loop-free; the audio score is not included. */}
+                is 9 MB with sound, which is cheaper than loading a third-party
+                player, and it keeps the piece playable with no network beyond
+                this site. The first transcode of this file silently dropped the
+                audio track; the score is part of the work, so it is muxed back
+                in and the element is no longer muted. preload="none" keeps the
+                9 MB off anyone who does not press play. */}
             <div className="videoframe">
               <video
                 src={project.video}
                 poster={poster.src}
                 controls
-                muted
                 playsInline
                 preload="none"
                 width="1280"

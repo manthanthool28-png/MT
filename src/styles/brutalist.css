@@ -2398,3 +2398,33 @@
   font-size: 0.85rem;
   line-height: 1.5;
 }
+
+
+/* The "everything else" card: a route into the full index, styled as a
+   destination rather than a project so it does not read as a thirteenth piece. */
+.bento__item--more {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--surface-2);
+  border-style: dashed;
+}
+.bento__more {
+  margin-top: 0.9rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+.bento__item--more:hover .bento__more { text-decoration: underline; }
+
+/* A grid item with no destination. Flattened so it reads as a note in the grid
+   rather than a card you can open. */
+.bento__item--static {
+  background: transparent;
+  border-style: dashed;
+  cursor: default;
+}
+.bento__item--static .bento__title { color: var(--text-secondary); }
