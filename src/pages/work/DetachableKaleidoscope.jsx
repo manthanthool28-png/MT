@@ -104,6 +104,18 @@ export default function DetachableKaleidoscope() {
                   label="Inside a block"
                   caption="Copper pads on the inner faces, with one resistor bridging an opposite pair and its leg soldered to the back of the pad."
                 />
+                <div className="figure-row">
+                  <Figure
+                    assetKey="kal-block-open"
+                    label="A module, opened"
+                    caption="An assembled module with one side panel lifted away: the resistor bridging a pair of faces, its wiring, and a copper pad on the lid above."
+                  />
+                  <Figure
+                    assetKey="kal-resistors"
+                    label="The four values"
+                    caption="The four resistors laid out before soldering. The sketch declares 1k, 2.2k, 4.7k and 10k, and calls for 1% metal film — with 5% parts the three-block combinations blur into each other."
+                  />
+                </div>
               </Decision>
 
               <Decision n={2} title="Octagonal, so handling does not have to be careful">

@@ -242,6 +242,12 @@ export default function CsisPortal() {
               label="Mobile view"
               caption="Single-column layout with the sidebar behind a menu. Nothing is removed: the same content in the same order, reflowed."
             />
+
+              <Figure
+                assetKey="csis-settings"
+                label="Settings"
+                caption="Profile fields and notification preferences. Dull, and the one screen every role reaches, which is why it gets the same care as the dashboards."
+              />
           </Decision>
 
           <div className="callout">

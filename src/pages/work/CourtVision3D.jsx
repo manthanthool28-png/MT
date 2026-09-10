@@ -209,6 +209,12 @@ export default function CourtVision3D() {
 
         {/* 5. Live demo */}
         <CaseSection id="demo" eyebrow="Live prototype" title="Try the full build">
+          <Figure
+            assetKey="cv-aboverim"
+            label="The tool"
+            caption="A full season loaded: 1,025 shots as spikes, filters and season stats on the left, camera presets on the right. This is the view the study put in front of participants."
+          />
+
           <div className="prose">
             <p>
               The complete prototype runs in the browser with the full 1,025-shot season.

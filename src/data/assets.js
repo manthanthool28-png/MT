@@ -27,8 +27,8 @@ export const assets = [
     title: 'Zone filter pills',
     alt: 'The 3PT zone filter active, showing only three-point shots while paint and mid-range are hidden.' },
   { key: 'cv-aboverim', src: './assets/cv-aboverim.jpg', w: 1600, h: 1000, kind: 'screenshot', pending: false,
-    title: 'Above the rim',
-    alt: 'The above-rim camera preset, looking down the court from behind the basket.' },
+    title: 'Court Vision 3D, running',
+    alt: 'The Court Vision 3D interface with Luka Don\u010di\u0107\u2019s 2024-25 season loaded: 1,025 shots plotted as spikes rising from the floor, green for made and red for missed, a shot-filter and stats panel on the left and a camera-view panel on the right with Above Rim selected.' },
   { key: 'cv-2d-baseline', src: './assets/cv-2d-charts.jpg', w: 1600, h: 1000, kind: 'screenshot', pending: false,
     title: '2D stat charts',
     alt: 'The flat 2D chart panel: a dot chart, a shot-density heat map, eFG% by zone, made versus missed by zone, and volume against efficiency.' },
@@ -390,9 +390,9 @@ export const assets = [
   { key: 'bts-1', src: './assets/bts-1.jpg', w: 900, h: 1200, kind: 'photo', pending: false,
     title: 'Behind the scenes', alt: 'Behind the scenes on a shoot.' },
   { key: 'bts-2', src: './assets/bts-2.jpg', w: 1200, h: 675, kind: 'photo', pending: false,
-    title: 'On set', alt: 'On set during a video shoot.' },
+    title: 'On location', alt: 'Behind the scenes on a shoot: a phone mounted on a tripod films two people walking across a green field beside a wooden fence.' },
   { key: 'bts-3', src: './assets/bts-3.jpg', w: 1200, h: 675, kind: 'photo', pending: false,
-    title: 'Production still', alt: 'Production still from a shoot.' },
+    title: 'Setting up a shot', alt: 'Behind the scenes in a small room: one person stands watching while another sits at a desk, a phone on a tripod set up in front of them to film.' },
   // --- Now I Am Become Death ------------------------------------------------
   // Frames pulled from the submitted 51-second capture at exact timestamps
   // (AVFoundation, no keyframe snapping), so each one is the frame it claims.
@@ -493,12 +493,9 @@ export const assets = [
   { key: 'kal-wavfiles', src: './assets/kal-wavfiles.jpg', w: 1600, h: 589, kind: 'photo', pending: false,
     title: 'The audio folder',
     alt: 'A file browser showing seven WAV files: audio a, b, c and d, plus dogbark, alien, and a version of audio d with effects.' },
-  { key: 'kal-lasercut', src: './assets/kal-lasercut.svg', w: 225, h: 228, kind: 'diagram', pending: false,
-    title: 'Laser-cut template',
-    alt: 'The finger-joint laser-cut template for one octagonal block: eight side panels, a base and a lid.' },
 
   { key: 'desk', src: './assets/desk.jpg', w: 812, h: 1200, kind: 'photo', pending: false,
-    title: 'Desk', alt: 'Workspace with tools and screens.' },
+    title: 'Filming at the desk', alt: 'A night shoot at a desk: one person leans in holding a camera to the screen of a laptop while another works at it, the room lit only by a desk lamp.' },
 ]
 
 

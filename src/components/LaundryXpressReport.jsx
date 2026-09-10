@@ -213,6 +213,12 @@ export default function LaundryXpressReport() {
           caption="The open-ended answers: affordable and quick service for clothes and home items, pricing that does not exceed local outlets, good customer support, and discounts."
         />
 
+        <Figure
+          assetKey="lx-analysis"
+          label="Survey analysis"
+          caption="The analysis slide as submitted; the points below are its own wording."
+        />
+
         <div className="rep-body" style={{ marginTop: '2rem', marginInline: 'auto' }}>
           <p><strong>Survey analysis.</strong></p>
           <ul>
@@ -352,6 +358,11 @@ export default function LaundryXpressReport() {
           </ul>
         </div>
         <Figure
+          assetKey="lx-home"
+          label="The whole screen"
+          caption="The home screen end to end, at the length a visitor actually scrolls: services, offer, subscription, the guarantee row, how-we-work, upholstery, a review, and the navigation bar."
+        />
+        <Figure
           assetKey="lx-anno-home"
           label="Home, annotated"
           caption="The deck’s own annotations: featured services, a clear call to action, subscription plans, the guarantee row building customer trust, home-item cleaning, featured reviews to set realistic expectations, and a navigation bar with a plus button for easy access."
@@ -459,6 +470,12 @@ export default function LaundryXpressReport() {
       </Section>
 
       <Section title="10 · What we learned" centre={false}>
+        <Figure
+          assetKey="lx-learned"
+          label="As submitted"
+          caption="The closing slide, reproduced; the three lessons below are transcribed from it."
+        />
+
         <div className="rep-card__rows">
           {LEARNED.map((l, i) => (
             <div className="rep-card__row" key={l}>

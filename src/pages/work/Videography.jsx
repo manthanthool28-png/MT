@@ -1,6 +1,7 @@
 import { CaseHeader, CaseBody, CaseSection, PrevNext } from '../../components/CaseStudy.jsx'
 import { useReveal } from '../../components/Reveal.jsx'
 import { bySlug } from '../../data/projects.js'
+import Figure from '../../components/Figure.jsx'
 import { asset } from '../../data/assets.js'
 
 const project = bySlug('videography')
@@ -67,6 +68,34 @@ export default function Videography() {
               )
             })}
           </div>
+        </CaseSection>
+
+        <CaseSection id="bts" eyebrow="On the day" title="Two people, a phone and a tripod">
+          <div className="prose">
+            <p>
+              None of this was shot with a crew or a rig. The kit is a phone on a tripod and
+              whoever is free to hold the other end of the conversation, which is worth saying
+              plainly: the look in the pieces above comes from where the camera was put and
+              what was cut, not from what it was shot on.
+            </p>
+          </div>
+          <div className="figure-row">
+            <Figure
+              assetKey="bts-2"
+              label="On location"
+              caption="A field, a fence and a phone on a tripod. The whole production."
+            />
+            <Figure
+              assetKey="bts-3"
+              label="Blocking it out"
+              caption="Working out the frame before rolling, which is most of the time on any shoot this size."
+            />
+          </div>
+          <Figure
+            assetKey="desk"
+            label="Filming a screen"
+            caption="A desk-lamp-lit night shoot getting screen footage. Cheap to stage, and the only way to show software doing something."
+          />
         </CaseSection>
 
         <CaseSection id="reflection" eyebrow="Reflection" title="Where this sits" narrow>
