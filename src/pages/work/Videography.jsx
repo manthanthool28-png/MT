@@ -1,5 +1,6 @@
 import { CaseHeader, CaseBody, CaseSection, PrevNext } from '../../components/CaseStudy.jsx'
 import { useReveal } from '../../components/Reveal.jsx'
+import { Counter, Motes, ScrollFilm, SplitHeading } from '../../components/Cinema.jsx'
 import { bySlug } from '../../data/projects.js'
 import Figure from '../../components/Figure.jsx'
 import { asset } from '../../data/assets.js'
@@ -21,6 +22,31 @@ const REEL = [
   },
 ]
 
+/* The act, in the project's own words: every line below is a sentence from
+   the study cut to length, and every number is one the study already states. */
+const BEATS = [
+  {
+    key: 'film-tape',
+    kicker: 'Stik-ie Tape',
+    line: 'Product advert, shot and cut end to end.',
+  },
+  {
+    key: 'film-diwali',
+    kicker: 'UL Diwali 2025',
+    line: 'Event coverage, edited as a short-form vertical piece.',
+  },
+  {
+    key: 'bts-2',
+    kicker: 'On the day',
+    line: 'Two people, a phone and a tripod.',
+  },
+  {
+    key: 'desk',
+    kicker: 'The edit',
+    line: 'The ordering has to do the explaining the first time.',
+  },
+]
+
 export default function Videography() {
   useReveal()
   const hero = asset('film-showreel')
@@ -32,6 +58,23 @@ export default function Videography() {
           <img src={hero.src} alt={hero.alt} width={hero.w} height={hero.h} decoding="async" />
         </div>
       </CaseHeader>
+
+      <section className="cine" aria-labelledby="cine-h">
+        <div className="wrap cine__intro">
+          <Motes glyph="frame" />
+          <div className="cine__say">
+            <p className="eyebrow">The work in four frames</p>
+            <SplitHeading id="cine-h" text="A viewer cannot rewind a live event and a user will not re-read a screen." />
+            <p className="cine__lede">
+              Short films, adverts and event coverage, shot and cut end to end. The through-line
+              is pacing: what a cut lands on, how long a shot is allowed to breathe, and when to
+              move the camera rather than change the frame.
+            </p>
+          </div>
+        </div>
+
+        <ScrollFilm beats={BEATS} label="Videography, four frames from the work" />
+      </section>
 
       <CaseBody>
         <CaseSection id="approach" eyebrow="Approach" title="The edit is where it gets made">
