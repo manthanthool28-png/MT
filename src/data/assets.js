@@ -347,8 +347,8 @@ export const assets = [
     title: 'Low-fidelity design and sketches',
     alt: 'Low-fidelity wireframes and hand-drawn sketches for the dashboard, budget card, alert card and mobile layout.' },
 
-  // --- Cinematic Automotive Animation (CS4151 Digital Modelling & Animation) ---
-  { key: 'corvette-hero', src: './assets/corvette-hero.jpg', w: 1280, h: 720, kind: 'render', pending: false,
+  // --- Cinematic Automotive Animation ---
+  { key: 'corvette-hero', src: './assets/corvette-hero.jpg', w: 1600, h: 900, kind: 'render', pending: false,
     title: 'Final render frame',
     alt: 'Rendered frame of a dark sports car in a studio with strip lighting reflecting along its panels.' },
   { key: 'corvette-set', src: './assets/corvette-set.jpg', w: 1600, h: 1035, kind: 'screenshot', pending: false,
@@ -361,7 +361,7 @@ export const assets = [
     title: 'Render in progress',
     alt: 'Blender render window mid-frame, showing sample count, memory use and remaining time.' },
 
-  // --- King Run (Unity 6 endless runner, CS4071 VR/AR Design) ---
+  // --- King Run (Unity 6 endless runner) ---
   { key: 'kingrun-hero', src: './assets/kingrun-hero.jpg', w: 1600, h: 1035, kind: 'screenshot', pending: false,
     title: 'King Run: castle pathway',
     alt: 'The castle wall pathway in King Run, with coins and obstacles laid out across three lanes.' },
@@ -494,7 +494,7 @@ export const assets = [
     title: 'The audio folder',
     alt: 'A file browser showing seven WAV files: audio a, b, c and d, plus dogbark, alien, and a version of audio d with effects.' },
 
-  { key: 'desk', src: './assets/desk.jpg', w: 812, h: 1200, kind: 'photo', pending: false,
+  { key: 'desk', src: './assets/desk.jpg', w: 1200, h: 812, kind: 'photo', pending: false,
     title: 'Filming at the desk', alt: 'A night shoot at a desk: one person leans in holding a camera to the screen of a laptop while another works at it, the room lit only by a desk lamp.' },
 ]
 
