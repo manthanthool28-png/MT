@@ -1,12 +1,38 @@
 import { useEffect, useState } from 'react'
 import { CaseHeader, CaseBody, CaseSection, Decision, PrevNext } from '../../components/CaseStudy.jsx'
 import { useReveal } from '../../components/Reveal.jsx'
+import { Counter, Motes, ScrollFilm, SplitHeading } from '../../components/Cinema.jsx'
 import ModeSwitch from '../../components/ModeSwitch.jsx'
 import CorvetteReport from '../../components/CorvetteReport.jsx'
 import Figure from '../../components/Figure.jsx'
 import { bySlug } from '../../data/projects.js'
 
 const project = bySlug('cinematic-automotive')
+
+/* The act, in the project's own words: every line below is a sentence from
+   the study cut to length, and every number is one the study already states. */
+const BEATS = [
+  {
+    key: 'corvette-hero',
+    kicker: 'The target',
+    line: 'A beauty shot, not a technical exercise.',
+  },
+  {
+    key: 'corvette-lighting',
+    kicker: 'Decision 01',
+    line: 'A mechanical rig, so animation is driven, not hand-placed.',
+  },
+  {
+    key: 'corvette-set',
+    kicker: 'Decision 03',
+    line: 'Light the room, not the car.',
+  },
+  {
+    key: 'corvette-render',
+    kicker: 'Outcome',
+    line: 'The render budget was the real lesson.',
+  },
+]
 
 export default function CinematicAutomotive() {
   const [report, setReport] = useState(false)
@@ -53,6 +79,33 @@ export default function CinematicAutomotive() {
           />
         </div>
       </CaseHeader>
+
+      <section className="cine" aria-labelledby="cine-h">
+        <div className="wrap cine__intro">
+          <Motes glyph="wheel" />
+          <div className="cine__say">
+            <p className="eyebrow">The shot in four frames</p>
+            <SplitHeading id="cine-h" text="Everyone has seen the real thing and knows instantly when it is off." />
+            <p className="cine__lede">
+              A car commercial beauty shot: high contrast, moody, with light flowing along the
+              panels as the camera moves. The geometry was licensed rather than modelled, which
+              bought the time to do the rigging, shading, lighting and render optimisation
+              properly. Every decision after that is mine.
+            </p>
+          </div>
+        </div>
+
+        <ScrollFilm beats={BEATS} label="Cinematic automotive animation, the shot in four frames" />
+
+        <div className="wrap cine__facts">
+          <div className="facts">
+            <Counter value={175} label="Frames at 24fps · 13 seconds at 1920×1080" />
+            <Counter value={3} label="Paint layers, because real paint has three" />
+            <Counter value={3.6} decimals={1} label="Hours · the whole render, in one session" />
+            <Counter value={1} label="Minute per frame after optimisation, down from five to eight" />
+          </div>
+        </div>
+      </section>
 
       <CaseBody>
         <CaseSection id="problem" eyebrow="Problem" title="A beauty shot, not a technical exercise">
