@@ -5,7 +5,7 @@
    hover-preview it instead of linking out. */
 export const vaultItems = [
   {
-    key: 'film-tape',
+    key: 'film-tape-bts',
     name: 'Stik-ie Tape Advert',
     kind: 'Advert',
     href: 'https://youtu.be/ig9jZU4F1Nw',

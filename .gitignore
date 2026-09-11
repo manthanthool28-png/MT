@@ -8,3 +8,4 @@ dist
 # `workflow` scope, so pushing it is rejected. Grant that scope (or paste the
 # file in via the web UI) and delete these two lines to enable CI deploys.
 .github/workflows/
+incoming/

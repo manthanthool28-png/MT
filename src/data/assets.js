@@ -388,6 +388,13 @@ export const assets = [
   // --- Videography (real files, from the previous portfolio repo) ---
   { key: 'film-showreel', src: './assets/film-showreel.jpg', w: 1400, h: 906, kind: 'still', pending: false,
     title: 'Showreel frame', alt: 'Frame from the videography showreel.' },
+  /* Behind the scenes on the tape advert. Kept separate from film-tape rather
+     than replacing it: that key is also the opening frame of the videography
+     case study, captioned as the advert itself, and this is the room it was
+     made in. */
+  { key: 'film-tape-bts', src: './assets/film-tape-bts.jpg', w: 1600, h: 1083, kind: 'photo', pending: false,
+    title: 'Shooting the advert',
+    alt: 'Two people working at a desk under a single warm lamp at night: one leans in holding a compact camera, the other sits at an open laptop with their hands in their hair.' },
   { key: 'film-tape', src: './assets/film-tape.jpg', w: 1050, h: 1400, kind: 'still', pending: false,
     title: 'Stik-ie tape advert', alt: 'Still from the Stik-ie tape advert.' },
   { key: 'film-diwali', src: './assets/film-diwali.jpg', w: 1050, h: 1400, kind: 'still', pending: false,
