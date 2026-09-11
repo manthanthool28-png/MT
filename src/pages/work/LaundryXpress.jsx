@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { CaseHeader, CaseBody, CaseSection, Decision, PrevNext } from '../../components/CaseStudy.jsx'
+import { Counter, Motes, ScrollFilm, SplitHeading } from '../../components/Cinema.jsx'
 import { useReveal } from '../../components/Reveal.jsx'
 import ModeSwitch from '../../components/ModeSwitch.jsx'
 import LaundryXpressReport from '../../components/LaundryXpressReport.jsx'
@@ -8,6 +9,32 @@ import { bySlug } from '../../data/projects.js'
 import { asset } from '../../data/assets.js'
 
 const project = bySlug('laundry-xpress')
+
+/* Four screens from the flow, in the order a customer meets them. Every line
+   is a sentence from the study below cut to length, and every frame is a
+   720-wide phone capture, which is what lets them share one frame box. */
+const BEATS = [
+  {
+    key: 'lx-services-men',
+    kicker: 'Decision 03',
+    line: 'The sorting choice sits on the garment, not in a settings screen.',
+  },
+  {
+    key: 'lx-review',
+    kicker: 'Review order',
+    line: 'Chosen inline, so the running subtotal is the real number.',
+  },
+  {
+    key: 'lx-schedule-slots',
+    kicker: 'Decision 02',
+    line: 'Two pickers, not one. The complaint was about timing.',
+  },
+  {
+    key: 'lx-payment',
+    kicker: 'Payment',
+    line: 'The price is settled before the payment step, not after it.',
+  },
+]
 
 export default function LaundryXpress() {
   const [report, setReport] = useState(false)
@@ -46,6 +73,35 @@ export default function LaundryXpress() {
               <img src={hero.src} alt={hero.alt} width={hero.w} height={hero.h} decoding="async" />
             </div>
           </CaseHeader>
+
+          <section className="cine" aria-labelledby="cine-h">
+            <div className="wrap cine__intro">
+              <Motes glyph="hanger" />
+              <div className="cine__say">
+                <p className="eyebrow">The flow in four screens</p>
+                <SplitHeading
+                  id="cine-h"
+                  text="Handing a stranger a bag of your clothes is the actual product problem."
+                />
+                <p className="cine__lede">
+                  Fifty teams, the same brief, forty-eight hours. The survey put convenient
+                  pickup first at 76.5% — but the second-most cited challenge was not logistics
+                  at all. It was whether the service could be trusted with your clothes.
+                </p>
+              </div>
+            </div>
+
+            <ScrollFilm beats={BEATS} label="Laundry Xpress, four screens from the flow" />
+
+            <div className="wrap cine__facts">
+              <div className="facts">
+                <Counter value={48} label="Hours · Dezignathon ’23" />
+                <Counter value={50} label="Teams · the same brief" />
+                <Counter value={76.5} decimals={1} suffix="%" label="Ranked convenient pickup essential" />
+                <Counter value={4} label="People on the team" />
+              </div>
+            </div>
+          </section>
 
           <CaseBody>
             <CaseSection id="problem" eyebrow="Problem" title="Forty-eight hours, and the hard part is trust">
