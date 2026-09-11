@@ -1,4 +1,4 @@
-import{r as pn,j as ut,s as qo}from"./index-a5SDYQEY.js";/**
+import{r as pn,j as ut,s as qo}from"./index-CAj142oR.js";/**
  * @license
  * Copyright 2010-2024 Three.js Authors
  * SPDX-License-Identifier: MIT
