@@ -3114,7 +3114,8 @@
   top: 46%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1;
+  /* Behind every frame. The name is the wall, not a layer in the stack. */
+  z-index: 0;
   margin: 0;
   width: max-content;
   max-width: 96vw;
@@ -3133,11 +3134,14 @@
 
 .namewall__cell {
   position: absolute;
+  z-index: 1;
   padding: 0;
   border: 0;
   background: var(--surface-media);
   cursor: zoom-in;
   will-change: transform;
+  transform-origin: top left;
+  transition: transform 0.46s cubic-bezier(0.16, 0.84, 0.32, 1);
   /* The frames are the page's own content, so they carry no chrome: a border
      here would read as a card and flatten the two planes back into one. */
 }
@@ -3147,6 +3151,33 @@
   object-fit: cover;
   display: block;
 }
+/* Popped: out of the wall's flow, above everything, and showing the whole
+   photograph rather than the slot's crop of it. The box is already cut to the
+   photograph's proportions, so contain and cover agree. */
+.namewall__cell[data-pop='true'] {
+  z-index: 60;
+  cursor: zoom-out;
+  box-shadow: 0 30px 90px rgb(0 0 0 / 45%);
+}
+.namewall__cell[data-pop='true'] img { object-fit: contain; }
+.namewall__cell[data-pop='true'] .namewall__cap { opacity: 1; transform: none; }
+
+/* The wall clips its frames, which is what keeps the composition tidy — but a
+   popped frame has to be able to leave it. */
+.namewall[data-pop='true'] { overflow: visible; }
+
+.namewall__scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  border: 0;
+  padding: 0;
+  background: var(--bg);
+  opacity: 0.86;
+  cursor: zoom-out;
+  animation: scrim-in 0.3s ease both;
+}
+@keyframes scrim-in { from { opacity: 0 } to { opacity: 0.86 } }
 .namewall__cell::after {
   content: '';
   position: absolute;
@@ -3193,7 +3224,9 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .lb__stage img { transition: none; }
-  .namewall__cell { transform: none !important; }
+  .namewall__cell { transition: none; }
+  .namewall__cell:not([data-pop='true']) { transform: none !important; }
+  .namewall__scrim { animation: none; }
 }
 
 /* --------------------------- 29. ABOUT HERO ------------------------------ */
@@ -3230,4 +3263,149 @@
   .about-hero__say { grid-row: 1; }
   .about-hero__aside { grid-row: 2; margin-top: clamp(1.75rem, 5vw, 2.5rem); }
   .about-hero__body { grid-row: 3; }
+}
+
+/* --------------------------- 30. VAULT DRUM ------------------------------ */
+/* Eight pieces mounted on the faces of a cylinder you can turn. */
+.drum { --drum-w: clamp(220px, 26vw, 380px); --drum-r: calc(var(--drum-w) * 1.28); }
+
+.drum__stage {
+  position: relative;
+  height: clamp(300px, 34vw, 440px);
+  /* The perspective lives on the stage, not the ring: put it on the rotating
+     element and every face shares one vanishing point that turns with them,
+     which flattens the whole thing back into a slideshow. */
+  perspective: 1500px;
+  perspective-origin: 50% 45%;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  outline-offset: 6px;
+}
+.drum__stage.is-held { cursor: grabbing; }
+
+.drum__ring {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.drum__face {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--drum-w);
+  margin-left: calc(var(--drum-w) / -2);
+  margin-top: calc(var(--drum-w) * -0.34);
+  backface-visibility: hidden;
+}
+.drum__face > * { width: 100%; }
+
+.drum__bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+  margin-top: clamp(1rem, 2.5vw, 1.75rem);
+}
+.drum__nudge {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--text);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color var(--dur-snap, 0.2s) ease, color var(--dur-snap, 0.2s) ease;
+}
+.drum__nudge:hover { border-color: var(--accent); color: var(--accent-text); }
+
+.drum__pips { display: flex; gap: 8px; list-style: none; margin: 0; padding: 0; }
+.drum__pips button {
+  width: 26px;
+  height: 3px;
+  padding: 0;
+  border: 0;
+  background: var(--line-strong);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.drum__pips button[data-on='true'] { background: var(--accent); }
+
+.drum__now {
+  margin-top: clamp(0.9rem, 2vw, 1.4rem);
+  text-align: center;
+}
+.drum__now-n {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.drum__now-k {
+  display: block;
+  margin-top: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+/* The face itself: media over a caption, no card chrome, because the depth is
+   doing the separating. */
+/* One of the eight faces is a button rather than a link, and an unreset
+   button paints the UA's grey buttonface behind its caption — which is how a
+   1.99:1 span ended up on an otherwise clean page. Reset it here rather than
+   at the call site, so the next button face cannot reintroduce it. */
+.drum__card {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+.drum__card .drum__media {
+  opacity: var(--face, 1);
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  background: var(--surface-media);
+}
+.drum__card img,
+.drum__card video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.drum__card .drum__cap {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 0.7rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.drum__card[data-front='true'] .drum__media { border-color: var(--accent); }
+.drum__card[data-front='true'] .drum__cap { opacity: 1; color: var(--accent-text); }
+/* The reduced-motion grid has no front face, so every caption shows. */
+.drum__grid .drum__cap { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .drum__ring { transition: none; }
+}
+.drum__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+  gap: clamp(1.25rem, 3vw, 2rem);
 }

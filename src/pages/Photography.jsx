@@ -80,11 +80,12 @@ export default function Photography() {
 
   return (
     <>
-      <NameWall
-        name="Manthan Thool"
-        items={wallPicks}
-        onOpen={(i, rect) => { if (cat !== 'all') setCat('all'); openAt(i, rect) }}
-      />
+      {/* The wall pops its own frames in place rather than handing them to the
+          lightbox: the photograph belongs to that composition and taking it
+          out of the page to show it larger loses the point of it. The lightbox
+          still serves the grid below, where stepping through the set and
+          zooming into a frame are what a viewer actually wants. */}
+      <NameWall name="Manthan Thool" items={wallPicks} />
 
       <section className="section wrap">
         <p className="tech tech--accent">[ Photography ]</p>
