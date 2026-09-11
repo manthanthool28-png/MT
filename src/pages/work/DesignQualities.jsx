@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { CaseHeader, CaseBody, CaseSection, PrevNext } from '../../components/CaseStudy.jsx'
 import { useReveal } from '../../components/Reveal.jsx'
+import { Counter, Motes, ScrollFilm, SplitHeading } from '../../components/Cinema.jsx'
 import ModeSwitch from '../../components/ModeSwitch.jsx'
 import DesignQualitiesReport from '../../components/DesignQualitiesReport.jsx'
 import { bySlug } from '../../data/projects.js'
@@ -74,6 +75,31 @@ const QUALITIES = [
   },
 ]
 
+/* The act, in the project's own words: every line below is a sentence from
+   the study cut to length, and every number is one the study already states. */
+const BEATS = [
+  {
+    key: 'dq-mapping-good',
+    kicker: '01 · Mapping',
+    line: 'A rotary dial gives a pulse you can feel for every digit.',
+  },
+  {
+    key: 'dq-afford-good',
+    kicker: '02 · Affordance',
+    line: 'A raised yellow line says stand back without relying on sight.',
+  },
+  {
+    key: 'dq-feedback-good',
+    kicker: '03 · Feedback',
+    line: 'Explanation on demand, without cluttering the interface.',
+  },
+  {
+    key: 'dq-constraint-good',
+    kicker: '04 · Constraint',
+    line: 'The doors will not close while someone is standing in them.',
+  },
+]
+
 export default function DesignQualities() {
   const [report, setReport] = useState(false)
   useReveal()
@@ -114,6 +140,31 @@ export default function DesignQualities() {
           ))}
         </ul>
       </CaseHeader>
+
+      <section className="cine" aria-labelledby="cine-h">
+        <div className="wrap cine__intro">
+          <Motes glyph="pair" />
+          <div className="cine__say">
+            <p className="eyebrow">The argument in four pairs</p>
+            <SplitHeading id="cine-h" text="One good example proves a principle exists. A pair proves it matters." />
+            <p className="cine__lede">
+              Each of the four principles is argued through two objects rather than one: something
+              that gets it right, and something that gets the same thing wrong. The failure is
+              what makes the success visible.
+            </p>
+          </div>
+        </div>
+
+        <ScrollFilm beats={BEATS} label="Design qualities, four of the eight objects" />
+
+        <div className="wrap cine__facts">
+          <div className="facts">
+            <Counter value={4} label="Qualities" />
+            <Counter value={8} label="Objects" />
+            <Counter value={4} label="Matched pairs · one right, one wrong" />
+          </div>
+        </div>
+      </section>
 
       <CaseBody>
         <CaseSection id="premise" eyebrow="Premise" title="The best design argument is a matched pair">
