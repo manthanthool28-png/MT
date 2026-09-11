@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { CaseHeader, CaseBody, CaseSection, Decision, PrevNext } from '../../components/CaseStudy.jsx'
+import { Counter, Motes, ScrollFilm, SplitHeading } from '../../components/Cinema.jsx'
 import { useReveal } from '../../components/Reveal.jsx'
 import ModeSwitch from '../../components/ModeSwitch.jsx'
 import KaleidoscopeReport from '../../components/KaleidoscopeReport.jsx'
@@ -8,6 +9,32 @@ import Figure from '../../components/Figure.jsx'
 import { bySlug } from '../../data/projects.js'
 
 const project = bySlug('detachable-kaleidoscope')
+
+/* The build in four frames. Each line is a sentence from the study below cut
+   to length — all four frames are portrait shots of the object, which is what
+   lets them share one frame box. */
+const BEATS = [
+  {
+    key: 'kal-tower',
+    kicker: 'The piece',
+    line: 'Five octagonal blocks. Rearranging them changes the order, and nothing else.',
+  },
+  {
+    key: 'kal-block-open',
+    kicker: 'Decision 01',
+    line: 'One resistor bridging a pair of faces. The block itself is passive.',
+  },
+  {
+    key: 'kal-resistors',
+    kicker: 'The four values',
+    line: '1k, 2.2k, 4.7k, 10k — chosen so no two subsets sum to the same total.',
+  },
+  {
+    key: 'kal-pd-patch',
+    kicker: 'Decision 03',
+    line: 'One byte over serial. Pure Data does no thresholding at all.',
+  },
+]
 
 export default function DetachableKaleidoscope() {
   const [report, setReport] = useState(false)
@@ -50,6 +77,32 @@ export default function DetachableKaleidoscope() {
               />
             </div>
           </CaseHeader>
+
+          <section className="cine" aria-labelledby="cine-h">
+            <div className="wrap cine__intro">
+              <Motes glyph="octagon" />
+              <div className="cine__say">
+                <p className="eyebrow">The build in four frames</p>
+                <SplitHeading id="cine-h" text="Rearrange the blocks. Nothing changes but the order." />
+                <p className="cine__lede">
+                  Five octagonal blocks, four carrying fragments of a police interview and one
+                  a working kaleidoscope. The whole stack reads as a single voltage, so there
+                  is nothing to pair, address or desync when a visitor lifts a block off.
+                </p>
+              </div>
+            </div>
+
+            <ScrollFilm beats={BEATS} label="Detachable Kaleidoscope, the build in four frames" />
+
+            <div className="wrap cine__facts">
+              <div className="facts">
+                <Counter value={5} label="Octagonal blocks · four audio, one kaleidoscope" />
+                <Counter value={8} label="Faces · eight ways to set a block down" />
+                <Counter value={15} label="Combinations the divider resolves" />
+                <Counter value={1} label="Analogue pin · replaces four sensors" />
+              </div>
+            </div>
+          </section>
 
           <CaseBody>
             <CaseSection id="problem" eyebrow="Problem" title="Same words, different order, different truth">

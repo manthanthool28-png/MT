@@ -165,6 +165,14 @@ export function Drift({ rate = 0.08, className = '', children }) {
 /* --- the pinned sequence -------------------------------------------------- */
 export function ScrollFilm({ beats, label }) {
   const reduce = useReduced()
+  /* The frame box is cut to the shape of the work rather than to a house
+     ratio: a 1600x1000 capture of a 3D tool and a 720x1600 phone screen want
+     opposite boxes, and a single box for both would pillar-box one of them.
+     The first beat sets it, so every beat in one act has to be the same
+     shape — which is a fair constraint on choosing them. */
+  const first = asset(beats[0].key)
+  const r = first.w / first.h
+  const tall = r < 1
   const track = useRef(null)
   const [i, setI] = useState(0)
 
@@ -184,7 +192,7 @@ export function ScrollFilm({ beats, label }) {
 
   if (reduce) {
     return (
-      <section className="film film--static" aria-label={label}>
+      <section className={`film film--static${tall ? ' film--tall' : ''}`} aria-label={label}>
         {beats.map((b) => {
           const a = asset(b.key)
           return (
@@ -203,10 +211,10 @@ export function ScrollFilm({ beats, label }) {
 
   return (
     <section
-      className="film"
+      className={`film${tall ? ' film--tall' : ''}`}
       ref={track}
       aria-label={label}
-      style={{ '--n': beats.length }}
+      style={{ '--n': beats.length, '--r': `${first.w} / ${first.h}` }}
     >
       <div className="film__stage" data-i={i}>
         <div className="film__frames">
@@ -248,14 +256,59 @@ export function ScrollFilm({ beats, label }) {
   )
 }
 
-/* --- drifting spike glyphs ------------------------------------------------
-   The project's own mark: a spike rising from a court location, which is the
-   whole encoding in one shape. Decorative, so it is hidden from the tree and
-   absent entirely under reduced motion. */
-export function Motes({ count = 7 }) {
+/* --- drifting marks ------------------------------------------------------
+   Each act drifts its own project's mark, not a house ornament: a spike
+   rising from a court location is Court Vision's entire encoding in one
+   shape, the octagon is the Kaleidoscope block, the hanger is the hung-or-
+   folded choice the laundry flow turns on. Decorative, so they are hidden
+   from the tree and absent entirely under reduced motion. */
+const GLYPHS = {
+  spike: {
+    box: '0 0 12 46',
+    art: (
+      <>
+        <path d="M6 44 V6" stroke="currentColor" strokeWidth="1.4" fill="none" />
+        <ellipse cx="6" cy="44" rx="5" ry="1.8" fill="currentColor" opacity="0.5" />
+        <circle cx="6" cy="5" r="2.6" fill="currentColor" />
+      </>
+    ),
+  },
+  octagon: {
+    box: '0 0 40 40',
+    art: (
+      <>
+        <polygon
+          points="11.7,0.7 28.3,0.7 39.3,11.7 39.3,28.3 28.3,39.3 11.7,39.3 0.7,28.3 0.7,11.7"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.3"
+        />
+        <circle cx="20" cy="20" r="2.2" fill="currentColor" opacity="0.7" />
+      </>
+    ),
+  },
+  hanger: {
+    box: '0 0 44 30',
+    art: (
+      <>
+        <path
+          d="M22 12c0-3.2 4-2.6 4-5.6A4 4 0 0 0 18 6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.3"
+          strokeLinecap="round"
+        />
+        <path d="M22 12 5 25.5h34z" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
+      </>
+    ),
+  },
+}
+
+export function Motes({ count = 7, glyph = 'spike' }) {
   const reduce = useReduced()
   if (reduce) return null
-  /* Kept to the right of the headline, which is capped at 17ch: a spike
+  const g = GLYPHS[glyph] || GLYPHS.spike
+  /* Kept to the right of the headline, which is capped at 17ch: a mark
      crossing the words reads as dirt on the screen rather than as depth. */
   const seeds = Array.from({ length: count }, (_, n) => ({
     x: [89, 95, 91, 86, 62, 74, 97][n % 7],
@@ -264,13 +317,11 @@ export function Motes({ count = 7 }) {
     r: [0.16, 0.09, 0.22, 0.06, 0.13, 0.19, 0.1][n % 7],
   }))
   return (
-    <div className="motes" aria-hidden="true">
+    <div className="motes" data-g={glyph} aria-hidden="true">
       {seeds.map((m, n) => (
         <Drift key={n} rate={m.r} className="motes__m">
-          <svg viewBox="0 0 12 46" style={{ left: `${m.x}%`, top: `${m.y}%`, '--s': m.s }}>
-            <path d="M6 44 V6" stroke="currentColor" strokeWidth="1.4" fill="none" />
-            <ellipse cx="6" cy="44" rx="5" ry="1.8" fill="currentColor" opacity="0.5" />
-            <circle cx="6" cy="5" r="2.6" fill="currentColor" />
+          <svg viewBox={g.box} style={{ left: `${m.x}%`, top: `${m.y}%`, '--s': m.s }}>
+            {g.art}
           </svg>
         </Drift>
       ))}
