@@ -1,5 +1,6 @@
 import { CaseHeader, CaseBody, CaseSection, Decision, PrevNext } from '../../components/CaseStudy.jsx'
 import { useReveal } from '../../components/Reveal.jsx'
+import { Counter, Motes, ScrollFilm, SplitHeading } from '../../components/Cinema.jsx'
 import Figure from '../../components/Figure.jsx'
 import { bySlug } from '../../data/projects.js'
 import { asset } from '../../data/assets.js'
@@ -15,6 +16,31 @@ const UL_GREENS = [
   ['UL Heritage Green', '#003726', 'PANTONE 3308 CP', 'Splash and sign-in, where the brand should feel institutional'],
 ]
 
+/* The act, in the project's own words: every line below is a sentence from
+   the study cut to length, and every number is one the study already states. */
+const BEATS = [
+  {
+    key: 'csis-login',
+    kicker: 'Decision 01',
+    line: 'One entry point, regardless of role.',
+  },
+  {
+    key: 'csis-dashboard',
+    kicker: 'Decision 02',
+    line: 'A dashboard that changes contents, not structure.',
+  },
+  {
+    key: 'csis-admin',
+    kicker: 'Decision 03',
+    line: 'Approval as a first-class screen, not a hidden mode.',
+  },
+  {
+    key: 'csis-cms',
+    kicker: 'Decision 04',
+    line: 'Content editing that does not need a mental model of the CMS.',
+  },
+]
+
 export default function CsisPortal() {
   useReveal()
   const hero = asset('csis-dashboard')
@@ -27,6 +53,33 @@ export default function CsisPortal() {
         </div>
         {hero.pending && <span className="ph-note">Asset pending: dashboard screenshot</span>}
       </CaseHeader>
+
+      <section className="cine" aria-labelledby="cine-h">
+        <div className="wrap cine__intro">
+          <Motes glyph="window" />
+          <div className="cine__say">
+            <p className="eyebrow">The system in four frames</p>
+            <SplitHeading id="cine-h" text="One system that presents itself differently depending on who is looking." />
+            <p className="cine__lede">
+              Three groups whose relationship to the platform is completely different: an
+              administrator managing the shape of the system, staff maintaining their own
+              material, students arriving with a specific question. The tempting answer is three
+              interfaces, and the reason that answer is wrong is cost.
+            </p>
+          </div>
+        </div>
+
+        <ScrollFilm beats={BEATS} label="CSIS portal, the system in four frames" />
+
+        <div className="wrap cine__facts">
+          <div className="facts">
+            <Counter value={3} label="User roles · one system" />
+            <Counter value={1} label="Navigation model to maintain, not three" />
+            <Counter value={3} label="Greens · one job each" />
+            <Counter value={5} label="Decisions from sign-in to administration" />
+          </div>
+        </div>
+      </section>
 
       <CaseBody>
         {/* 2. Problem / context */}
