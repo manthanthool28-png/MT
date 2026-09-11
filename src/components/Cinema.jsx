@@ -165,16 +165,31 @@ export function Drift({ rate = 0.08, className = '', children }) {
 /* --- the pinned sequence -------------------------------------------------- */
 export function ScrollFilm({ beats, label }) {
   const reduce = useReduced()
+  const stage = useRef(null)
   /* The frame box is cut to the shape of the work rather than to a house
      ratio: a 1600x1000 capture of a 3D tool and a 720x1600 phone screen want
-     opposite boxes, and a single box for both would pillar-box one of them.
-     The first beat sets it, so every beat in one act has to be the same
-     shape — which is a fair constraint on choosing them. */
-  const first = asset(beats[0].key)
-  const r = first.w / first.h
-  const tall = r < 1
+     opposite boxes, and one box for both pillar-boxes whichever it was not
+     built for. So the box follows the beat, and is animated between them —
+     which also means an act can mix a wide screenshot with a tall one
+     instead of the frames having to be chosen for their shape. */
+  const shots = beats.map((b) => asset(b.key))
+  const first = shots[0]
+  /* Column split is decided once, from the whole set: flipping the stage
+     layout beat to beat would move the caption out from under the reader. */
+  const tall = shots.some((a) => a.w / a.h < 1)
+  const frames = useRef(null)
+
   const track = useRef(null)
   const [i, setI] = useState(0)
+
+  useEffect(() => {
+    if (reduce || !frames.current) return
+    /* Keyed off beats, not the derived array: that is rebuilt on every render
+       and would run this on every render for no reason. */
+    const a = asset(beats[i].key)
+    frames.current.style.aspectRatio = `${a.w} / ${a.h}`
+    frames.current.dataset.tall = a.w / a.h < 1 ? 'true' : 'false'
+  }, [reduce, i, beats])
 
   useEffect(() => {
     if (reduce) return
@@ -186,15 +201,24 @@ export function ScrollFilm({ beats, label }) {
       const p = clamp(-r.top / travel, 0, 1)
       /* The last beat needs its own screen at the end of the track, so the
          index is taken across n stops rather than n-1 boundaries. */
-      setI(clamp(Math.floor(p * beats.length), 0, beats.length - 1))
+      const exact = p * beats.length
+      const idx = clamp(Math.floor(exact), 0, beats.length - 1)
+      /* Progress inside the current beat, written straight to the DOM rather
+         than held in state. It drives the filling tick and a few pixels of
+         drift on the frame, which is the whole answer to a pinned section
+         reading as a frozen one: between two beats nothing was moving, so
+         the page felt stuck rather than held. It also cannot go through
+         React — this changes every frame and the beat index does not. */
+      stage.current.style.setProperty('--sub', clamp(exact - idx, 0, 1).toFixed(3))
+      setI(idx)
     })
   }, [reduce, beats.length])
 
   if (reduce) {
     return (
       <section className={`film film--static${tall ? ' film--tall' : ''}`} aria-label={label}>
-        {beats.map((b) => {
-          const a = asset(b.key)
+        {beats.map((b, n) => {
+          const a = shots[n]
           return (
             <figure className="film__still" key={b.key}>
               <img src={a.src} alt={a.alt} width={a.w} height={a.h} loading="lazy" decoding="async" />
@@ -216,10 +240,14 @@ export function ScrollFilm({ beats, label }) {
       aria-label={label}
       style={{ '--n': beats.length, '--r': `${first.w} / ${first.h}` }}
     >
-      <div className="film__stage" data-i={i}>
-        <div className="film__frames">
+      <div className="film__stage" data-i={i} ref={stage}>
+        <div
+          className="film__frames"
+          ref={frames}
+          data-tall={first.w / first.h < 1 ? 'true' : 'false'}
+        >
           {beats.map((b, n) => {
-            const a = asset(b.key)
+            const a = shots[n]
             return (
               <img
                 key={b.key}
@@ -248,7 +276,9 @@ export function ScrollFilm({ beats, label }) {
             </div>
           ))}
           <ol className="film__ticks" aria-hidden="true">
-            {beats.map((b, n) => <li key={b.key} data-on={n === i ? 'true' : 'false'} />)}
+            {beats.map((b, n) => (
+              <li key={b.key} data-on={n === i ? 'true' : 'false'} data-done={n < i ? 'true' : 'false'} />
+            ))}
           </ol>
         </div>
       </div>
@@ -284,6 +314,86 @@ const GLYPHS = {
           strokeWidth="1.3"
         />
         <circle cx="20" cy="20" r="2.2" fill="currentColor" opacity="0.7" />
+      </>
+    ),
+  },
+  box: {
+    box: '0 0 36 30',
+    art: (
+      <>
+        <rect x="0.7" y="6.7" width="34.6" height="22.6" fill="none" stroke="currentColor" strokeWidth="1.3" />
+        <path d="M0.7 6.7 6 0.7h24l5.3 6M12 6.7v22.6M24 6.7v22.6" fill="none" stroke="currentColor" strokeWidth="1.3" />
+      </>
+    ),
+  },
+  pin: {
+    box: '0 0 26 36',
+    art: (
+      <>
+        <path d="M13 34.5C13 34.5 24.3 22.6 24.3 13.3A11.3 11.3 0 1 0 1.7 13.3C1.7 22.6 13 34.5 13 34.5Z"
+          fill="none" stroke="currentColor" strokeWidth="1.3" />
+        <circle cx="13" cy="13" r="3.4" fill="currentColor" opacity="0.75" />
+      </>
+    ),
+  },
+  window: {
+    box: '0 0 40 30',
+    art: (
+      <>
+        <rect x="0.7" y="0.7" width="38.6" height="28.6" fill="none" stroke="currentColor" strokeWidth="1.3" />
+        <path d="M0.7 8.4h38.6M12 8.4v20.9" fill="none" stroke="currentColor" strokeWidth="1.3" />
+        <circle cx="4.6" cy="4.5" r="1.1" fill="currentColor" />
+      </>
+    ),
+  },
+  ring: {
+    box: '0 0 36 36',
+    art: (
+      <>
+        <circle cx="18" cy="18" r="17.3" fill="none" stroke="currentColor" strokeWidth="1.2" />
+        <circle cx="18" cy="18" r="11" fill="none" stroke="currentColor" strokeWidth="1.2" opacity="0.75" />
+        <circle cx="18" cy="18" r="4.8" fill="none" stroke="currentColor" strokeWidth="1.2" opacity="0.55" />
+      </>
+    ),
+  },
+  wheel: {
+    box: '0 0 34 34',
+    art: (
+      <>
+        <circle cx="17" cy="17" r="16.3" fill="none" stroke="currentColor" strokeWidth="1.3" />
+        <circle cx="17" cy="17" r="4.6" fill="none" stroke="currentColor" strokeWidth="1.3" />
+        <path d="M17 0.7v11.7M17 21.6v11.7M0.7 17h11.7M21.6 17h11.7" stroke="currentColor" strokeWidth="1.1" />
+      </>
+    ),
+  },
+  chevron: {
+    box: '0 0 28 34',
+    art: (
+      <>
+        <path d="M2 2l12 9 12-9M2 15l12 9 12-9" fill="none" stroke="currentColor" strokeWidth="1.4"
+          strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M2 28l12 5 12-5" fill="none" stroke="currentColor" strokeWidth="1.4" opacity="0.5"
+          strokeLinecap="round" strokeLinejoin="round" />
+      </>
+    ),
+  },
+  frame: {
+    box: '0 0 40 28',
+    art: (
+      <>
+        <rect x="0.7" y="0.7" width="38.6" height="26.6" fill="none" stroke="currentColor" strokeWidth="1.3" />
+        <path d="M6.5 0.7v26.6M33.5 0.7v26.6" stroke="currentColor" strokeWidth="1.1" />
+        <path d="M2.6 4.5h2M2.6 11h2M2.6 17.5h2M2.6 24h2M35.4 4.5h2M35.4 11h2M35.4 17.5h2M35.4 24h2"
+          stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      </>
+    ),
+  },
+  pair: {
+    box: '0 0 38 22',
+    art: (
+      <>
+        <rect x="0.7" y="0.7" width="16" height="20.6" fill="none" stroke="currentColor" strokeWidth="1.3" />
+        <rect x="21.3" y="0.7" width="16" height="20.6" fill="currentColor" opacity="0.45" />
       </>
     ),
   },
