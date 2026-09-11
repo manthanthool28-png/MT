@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { CaseHeader, CaseBody, CaseSection, Decision, PrevNext } from '../../components/CaseStudy.jsx'
 import { useReveal } from '../../components/Reveal.jsx'
+import { Counter, Motes, ScrollFilm, SplitHeading } from '../../components/Cinema.jsx'
 import ModeSwitch from '../../components/ModeSwitch.jsx'
 import TrinityReport from '../../components/TrinityReport.jsx'
 import Figure from '../../components/Figure.jsx'
@@ -12,6 +13,31 @@ const project = bySlug('now-i-am-become-death')
 /* Figures quoted here come from the submitted sketch rather than the written
    report, because the two drift apart in several places and the code is the
    thing that actually ran. The divergence is listed at the end of report mode. */
+/* The act, in the project's own words: every line below is a sentence from
+   the study cut to length, and every number is one the study already states. */
+const BEATS = [
+  {
+    key: 'vc-orbits',
+    kicker: 'Act I · 9s',
+    line: 'Counter-rotating rings, because interference is free structure.',
+  },
+  {
+    key: 'vc-chain-warm',
+    kicker: 'Act II · 27s',
+    line: 'The logistic map, because the algorithm should be the theme.',
+  },
+  {
+    key: 'vc-flash',
+    kicker: '30.5s',
+    line: 'Withhold the fire for thirty seconds.',
+  },
+  {
+    key: 'vc-dying',
+    kicker: 'Act III',
+    line: 'Trails, not frames: the persistence rectangle.',
+  },
+]
+
 export default function NowIAmBecomeDeath() {
   const [report, setReport] = useState(false)
   useReveal()
@@ -68,6 +94,32 @@ export default function NowIAmBecomeDeath() {
               redistributed with this capture.
             </p>
           </CaseHeader>
+
+          <section className="cine" aria-labelledby="cine-h">
+            <div className="wrap cine__intro">
+              <Motes glyph="ring" />
+              <div className="cine__say">
+                <p className="eyebrow">The piece in four frames</p>
+                <SplitHeading id="cine-h" text="The same era produced the detonation and the machine Whitney made beauty with." />
+                <p className="cine__lede">
+                  John Whitney built his first motion-control camera out of a surplus antiaircraft gun
+                  director — a device designed to compute weapon trajectories — and reassembled it to
+                  aim light at film.
+                </p>
+              </div>
+            </div>
+
+            <ScrollFilm beats={BEATS} label="Now I Am Become Death, the piece in four frames" />
+
+            <div className="wrap cine__facts">
+              <div className="facts">
+                <Counter value={3} label="Acts, on a fixed frame budget" />
+                <Counter value={5} label="Counter-rotating rings in Act I" />
+                <Counter value={30.5} decimals={1} label="Seconds before the ignition flash" />
+                <Counter value={4} label="Decisions that carry the piece" />
+              </div>
+            </div>
+          </section>
 
           <CaseBody>
             <CaseSection id="problem" eyebrow="Premise" title="Two things that turn out to share a machine">
