@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { CaseHeader, CaseBody, CaseSection, Decision, PrevNext } from '../../components/CaseStudy.jsx'
 import { useReveal } from '../../components/Reveal.jsx'
+import { Counter, Motes, ScrollFilm, SplitHeading } from '../../components/Cinema.jsx'
 import ModeSwitch from '../../components/ModeSwitch.jsx'
 import KingRunReport from '../../components/KingRunReport.jsx'
 import Figure from '../../components/Figure.jsx'
@@ -8,6 +9,31 @@ import { bySlug } from '../../data/projects.js'
 import { asset } from '../../data/assets.js'
 
 const project = bySlug('king-run')
+
+/* The act, in the project's own words: every line below is a sentence from
+   the study cut to length, and every number is one the study already states. */
+const BEATS = [
+  {
+    key: 'kingrun-physics',
+    kicker: 'Decision 01',
+    line: 'Rigidbody physics instead of moving the transform.',
+  },
+  {
+    key: 'kingrun-hero',
+    kicker: 'Decision 02',
+    line: 'Lane clamping, so the runner cannot fall off its own level.',
+  },
+  {
+    key: 'kingrun-arch',
+    kicker: 'Decision 03',
+    line: 'The player never calculates the score.',
+  },
+  {
+    key: 'kingrun-level',
+    kicker: 'Decision 04',
+    line: 'Procedural chunks with calculated Z-offsets.',
+  },
+]
 
 export default function KingRun() {
   const [report, setReport] = useState(false)
@@ -59,6 +85,32 @@ export default function KingRun() {
           </div>
         )}
       </CaseHeader>
+
+      <section className="cine" aria-labelledby="cine-h">
+        <div className="wrap cine__intro">
+          <Motes glyph="chevron" />
+          <div className="cine__say">
+            <p className="eyebrow">The build in four frames</p>
+            <SplitHeading id="cine-h" text="Swapping the input for head tracking should be one component, not a rewrite." />
+            <p className="cine__lede">
+              An endless runner is a solved genre; the reason to build it was what comes after. A
+              headset build was not the deliverable, so the question became architectural, which
+              is why almost every decision is about separation rather than gameplay.
+            </p>
+          </div>
+        </div>
+
+        <ScrollFilm beats={BEATS} label="King Run, the build in four frames" />
+
+        <div className="wrap cine__facts">
+          <div className="facts">
+            <Counter value={60} label="FPS held with physics and generation running together" />
+            <Counter value={3} label="Lanes, clamped, ready to be driven by lean" />
+            <Counter value={1} label="Component to swap for head tracking" />
+            <Counter value={4} label="Decisions that keep the door open" />
+          </div>
+        </div>
+      </section>
 
       <CaseBody>
         <CaseSection id="problem" eyebrow="Problem" title="Build the game you can afford to rebuild as VR">
