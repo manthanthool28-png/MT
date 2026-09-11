@@ -179,6 +179,16 @@ export const assets = [
 
 
   // --- About ------------------------------------------------------------
+  /* Held in reserve. Not referenced by any page yet — imported so they are
+     sized, oriented and registered when a use turns up, rather than arriving
+     as a raw HEIC at the moment they are wanted. */
+  { key: 'portrait-studio', src: './assets/portrait-studio.jpg', w: 1200, h: 1499, kind: 'photo', pending: false,
+    title: 'Studio portrait',
+    alt: 'Studio headshot of Manthan Thool in a black shirt and jacket against a grey backdrop.' },
+  { key: 'portrait-night', src: './assets/portrait-night.jpg', w: 1200, h: 1600, kind: 'photo', pending: false,
+    title: 'Night portrait',
+    alt: 'Black and white photograph of Manthan Thool standing on a leaf-covered path at night, looking up into bare branches.' },
+
   { key: 'profile', src: './assets/profile.jpg', w: 800, h: 1000, kind: 'photo', pending: false,
     title: 'Profile photo',
     alt: 'Manthan Thool standing alone in the middle of an open green field under a wide blue sky, hands on hips, looking up.' },
