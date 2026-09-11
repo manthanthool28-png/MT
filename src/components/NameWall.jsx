@@ -23,19 +23,25 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
    pop still happens, it just arrives.
    ========================================================================== */
 
-/* Percentages of the wall, so the composition holds at any width. The top and
-   bottom rows run into the name from either side and stop short of its middle,
-   so the letters are read across their waist while the frames take the tops
-   and the feet. `r` is the parallax rate. */
+/* Percentages of the wall, so the composition holds at any width. `r` is the
+   parallax rate.
+
+   The name occupies roughly 40.5% to 56.5% of the wall's height. The top row
+   stops just above that band and the bottom row starts just below it, so the
+   frames come close to the letters without cutting them: a near miss reads as
+   a composition, and biting 30 to 46 pixels out of the letterforms read as a
+   collision. Nothing is ever drawn over a photograph either way — the name is
+   behind all eight — but being behind them is not the same as being clear of
+   them, and the type is quieter for having its own band. */
 const SLOTS = [
-  { x: 3,  y: 6,  w: 15.5, h: 37, r: 0.10 },
-  { x: 25, y: 10, w: 16.5, h: 34, r: 0.17 },
-  { x: 51, y: 5,  w: 15,   h: 36, r: 0.06 },
-  { x: 75, y: 9,  w: 16,   h: 33, r: 0.20 },
-  { x: 6,  y: 52, w: 16,   h: 42, r: 0.13 },
-  { x: 29, y: 56, w: 15,   h: 40, r: 0.08 },
-  { x: 54, y: 51, w: 16.5, h: 43, r: 0.18 },
-  { x: 77, y: 55, w: 15.5, h: 39, r: 0.11 },
+  { x: 3,  y: 6,    w: 15.5, h: 33,   r: 0.10 },
+  { x: 25, y: 10,   w: 16.5, h: 29,   r: 0.17 },
+  { x: 51, y: 5,    w: 15,   h: 33,   r: 0.06 },
+  { x: 75, y: 9,    w: 16,   h: 30,   r: 0.20 },
+  { x: 6,  y: 58,   w: 16,   h: 36,   r: 0.13 },
+  { x: 29, y: 60.5, w: 15,   h: 33.5, r: 0.08 },
+  { x: 54, y: 57.5, w: 16.5, h: 37,   r: 0.18 },
+  { x: 77, y: 59,   w: 15.5, h: 35,   r: 0.11 },
 ]
 
 /* The popped size: as big as the viewport comfortably allows, at the

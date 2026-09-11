@@ -3129,6 +3129,9 @@
   text-transform: uppercase;
   white-space: nowrap;
   color: var(--text);
+  /* Held back so it sits behind the photographs in weight as well as in
+     stacking order. */
+  opacity: 0.7;
   pointer-events: none;
 }
 
@@ -3267,11 +3270,11 @@
 
 /* --------------------------- 30. VAULT DRUM ------------------------------ */
 /* Eight pieces mounted on the faces of a cylinder you can turn. */
-.drum { --drum-w: clamp(220px, 26vw, 380px); --drum-r: calc(var(--drum-w) * 1.28); }
+.drum { --drum-w: clamp(250px, 32vw, 470px); --drum-r: calc(var(--drum-w) * 1.28); }
 
 .drum__stage {
   position: relative;
-  height: clamp(300px, 34vw, 440px);
+  height: clamp(340px, 40vw, 540px);
   /* The perspective lives on the stage, not the ring: put it on the rotating
      element and every face shares one vanishing point that turns with them,
      which flattens the whole thing back into a slideshow. */
@@ -3370,7 +3373,13 @@
   text-decoration: none;
   color: inherit;
   cursor: pointer;
+  /* Steps towards you on hover. The face itself carries the drum's rotation,
+     so the lift goes on the card inside it and the two compose. */
+  transform-origin: 50% 50%;
+  transition: transform 0.35s cubic-bezier(0.16, 0.84, 0.32, 1);
 }
+.drum__card:hover,
+.drum__card:focus-visible { transform: scale(1.055); }
 .drum__card .drum__media {
   opacity: var(--face, 1);
   aspect-ratio: 16 / 10;
@@ -3408,4 +3417,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
   gap: clamp(1.25rem, 3vw, 2rem);
+}
+@media (prefers-reduced-motion: reduce) {
+  .drum__card { transition: none; }
+  .drum__card:hover, .drum__card:focus-visible { transform: none; }
 }
