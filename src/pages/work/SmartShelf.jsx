@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { CaseHeader, CaseBody, CaseSection, Decision, PrevNext } from '../../components/CaseStudy.jsx'
 import { useReveal } from '../../components/Reveal.jsx'
+import { Counter, Motes, ScrollFilm, SplitHeading } from '../../components/Cinema.jsx'
 import ModeSwitch from '../../components/ModeSwitch.jsx'
 import SmartShelfReport from '../../components/SmartShelfReport.jsx'
 import FlowMap from '../../components/FlowMap.jsx'
@@ -42,6 +43,31 @@ const SCENARIOS = [
   ['Scenario 3', 'Removing expired medicines'],
 ]
 
+/* The act, in the project's own words: every line below is a sentence from
+   the study cut to length, and every number is one the study already states. */
+const BEATS = [
+  {
+    key: 'shelf-mindmap',
+    kicker: 'Method',
+    line: 'Fifteen problems down to one.',
+  },
+  {
+    key: 'shelf-build',
+    kicker: 'The rig',
+    line: 'Cardboard, foil and an Arduino.',
+  },
+  {
+    key: 'shelf-prototype',
+    kicker: 'Decision 03',
+    line: 'The same colour code on the shelf and on the screen.',
+  },
+  {
+    key: 'cs-forecast',
+    kicker: 'Decision 04',
+    line: 'Analytics that predict rather than report.',
+  },
+]
+
 export default function SmartShelf() {
   const [report, setReport] = useState(false)
   useReveal()
@@ -75,6 +101,33 @@ export default function SmartShelf() {
       <CaseHeader project={project}>
         <Shot k="shelf-overview" />
       </CaseHeader>
+
+      <section className="cine" aria-labelledby="cine-h">
+        <div className="wrap cine__intro">
+          <Motes glyph="box" />
+          <div className="cine__say">
+            <p className="eyebrow">The build in four frames</p>
+            <SplitHeading id="cine-h" text="Running out of a medicine has consequences beyond a lost sale." />
+            <p className="cine__lede">
+              Pharmacy inventory is largely manual: time-consuming, repetitive and prone to human
+              error. A pharmacist already running digital inventory software named the two that
+              matter — expired stock going unnoticed on the shelf, and no real-time signal when
+              stock runs low.
+            </p>
+          </div>
+        </div>
+
+        <ScrollFilm beats={BEATS} label="Smart Shelf, the build in four frames" />
+
+        <div className="wrap cine__facts">
+          <div className="facts">
+            <Counter value={15} label="Problems found · narrowed to one" />
+            <Counter value={3} label="Personas · all strategic users" />
+            <Counter value={6} label="Decisions · half shelf, half screen" />
+            <Counter value={1} label="Pharmacist interviewed · already using inventory software" />
+          </div>
+        </div>
+      </section>
 
       <CaseBody>
         <CaseSection id="problem" eyebrow="Problem" title="Counting stock by hand is where the errors come from">
