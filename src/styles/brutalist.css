@@ -3099,3 +3099,135 @@
    not on top of the words, so below this they are gone. */
 @media (max-width: 1100px) { .motes { display: none; } }
 .cine__facts { padding-bottom: clamp(3rem, 9vh, 5.5rem); }
+
+/* --------------------------- 28. NAME WALL ------------------------------- */
+/* The photography opening: the name at architectural size with the frames hung
+   in front of and behind it. */
+.namewall {
+  position: relative;
+  min-height: 100svh;
+  overflow: clip;
+  border-bottom: 1px solid var(--line);
+}
+.namewall__type {
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  margin: 0;
+  width: max-content;
+  max-width: 96vw;
+  font-family: var(--font-display);
+  /* Sized off the viewport rather than the type scale: this is the one place
+     on the site where the name is a structure and not a heading. */
+  font-size: clamp(2.6rem, 11.2vw, 13.5rem);
+  font-weight: 700;
+  line-height: 0.82;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--text);
+  pointer-events: none;
+}
+
+.namewall__cell {
+  position: absolute;
+  padding: 0;
+  border: 0;
+  background: var(--surface-media);
+  cursor: zoom-in;
+  will-change: transform;
+  /* The frames are the page's own content, so they carry no chrome: a border
+     here would read as a card and flatten the two planes back into one. */
+}
+.namewall__cell img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.namewall__cell::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  opacity: 0;
+  mix-blend-mode: multiply;
+  transition: opacity var(--dur-snap, 0.2s) ease;
+}
+.namewall__cell:hover::after,
+.namewall__cell:focus-visible::after { opacity: 0.22; }
+.namewall__cell:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.namewall__cap {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  padding: 0.3rem 0.55rem;
+  background: var(--text);
+  color: var(--bg);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.namewall__cell:hover .namewall__cap,
+.namewall__cell:focus-visible .namewall__cap { opacity: 1; transform: none; }
+
+/* Below this the eight frames have nowhere to go that is not on top of the
+   name, and the name is the point. The photographs are all still in the wall
+   underneath. */
+@media (max-width: 900px) {
+  .namewall { min-height: 54svh; }
+  .namewall__cell { display: none; }
+  .namewall__type { font-size: clamp(2.2rem, 13vw, 5rem); white-space: normal; text-align: center; }
+}
+
+.lb__stage img {
+  transition: transform 0.42s cubic-bezier(0.16, 0.84, 0.32, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .lb__stage img { transition: none; }
+  .namewall__cell { transform: none !important; }
+}
+
+/* --------------------------- 29. ABOUT HERO ------------------------------ */
+/* Statement first, portrait beside it, body underneath: the page leads with a
+   sentence at display size rather than with a title and a paragraph. */
+.about-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  column-gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: start;
+}
+.about-hero__say { grid-column: 1; grid-row: 1; }
+/* Spans both rows so the portrait can hang beside the statement and the body
+   without a second column of its own under it. */
+.about-hero__aside { grid-column: 2; grid-row: 1 / span 2; }
+.about-hero__body { grid-column: 1; grid-row: 2; margin-top: clamp(1.75rem, 4vw, 3rem); }
+
+.about-hero__h {
+  margin-top: 1.1rem;
+  font-size: clamp(1.9rem, 1.1rem + 3.4vw, 4.6rem);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  max-width: 22ch;
+}
+.about-hero__body .about-subline { margin-top: 0; margin-bottom: clamp(1.25rem, 3vw, 1.9rem); }
+.about-hero__body .bio { max-width: 56ch; }
+.about-hero__body .about-cta { margin-top: clamp(1.5rem, 3.5vw, 2.25rem); }
+
+@media (max-width: 860px) {
+  .about-hero { grid-template-columns: minmax(0, 1fr); }
+  .about-hero__say,
+  .about-hero__aside,
+  .about-hero__body { grid-column: 1; }
+  .about-hero__say { grid-row: 1; }
+  .about-hero__aside { grid-row: 2; margin-top: clamp(1.75rem, 5vw, 2.5rem); }
+  .about-hero__body { grid-row: 3; }
+}

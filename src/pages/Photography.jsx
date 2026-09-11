@@ -2,21 +2,30 @@ import { useCallback, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useReveal } from '../components/Reveal.jsx'
 import Lightbox from '../components/Lightbox.jsx'
+import NameWall from '../components/NameWall.jsx'
 import { CATEGORIES, STORIES, photos, posters } from '../data/photos.js'
 
 /* ==========================================================================
    Photography.
 
-   A masonry wall with a lightbox. The lightbox is a real modal: focus moves
-   into it, Escape and the arrow keys work, the page behind it cannot scroll,
-   and focus returns to the thumbnail you opened it from. A gallery that traps
-   you or loses your place is worse than no gallery.
+   The page opens on the name at architectural size with eight frames hung in
+   front of and behind it, then settles into a masonry wall.
+
+   The lightbox is a real modal: focus moves into it, Escape and the arrow
+   keys work, the page behind it cannot scroll, and focus returns to the
+   thumbnail you opened it from. A gallery that traps you or loses your place
+   is worse than no gallery. Opening from anywhere on the page hands it the
+   rectangle that was clicked, so the photograph grows out of the frame you
+   pointed at.
    ========================================================================== */
 
 export default function Photography() {
   useReveal()
   const [cat, setCat] = useState('all')
   const [open, setOpen] = useState(-1)
+  /* Kept separately from the index: it is the rectangle the lightbox grows
+     out of, and it is only meaningful for the click that set it. */
+  const [origin, setOrigin] = useState(null)
 
   const shown = useMemo(
     () => (cat === 'all' ? photos : photos.filter((p) => p.cat === cat)),
@@ -44,6 +53,17 @@ export default function Photography() {
     return seen
   }, [shown])
 
+  /* Eight frames spread evenly across the whole set rather than the first
+     eight, so the opening is not four stage shots in a row. Sequence frames
+     are skipped: they only mean anything next to each other. */
+  const wallPicks = useMemo(() => {
+    const pool = photos.map((p, i) => ({ p, i })).filter(({ p }) => !p.story)
+    const step = Math.max(1, Math.floor(pool.length / 8))
+    const out = []
+    for (let k = 0; out.length < 8 && k < pool.length; k += step) out.push(pool[k])
+    return out.slice(0, 8)
+  }, [])
+
   const counts = useMemo(() => {
     const c = { all: photos.length }
     for (const k of CATEGORIES) if (k.id !== 'all') c[k.id] = photos.filter((p) => p.cat === k.id).length
@@ -55,15 +75,22 @@ export default function Photography() {
     (d) => setOpen((i) => (i < 0 ? i : (i + d + shown.length) % shown.length)),
     [shown.length],
   )
-  const close = useCallback(() => setOpen(-1), [])
+  const close = useCallback(() => { setOpen(-1); setOrigin(null) }, [])
+  const openAt = useCallback((i, rect) => { setOrigin(rect || null); setOpen(i) }, [])
 
   return (
     <>
+      <NameWall
+        name="Manthan Thool"
+        items={wallPicks}
+        onOpen={(i, rect) => { if (cat !== 'all') setCat('all'); openAt(i, rect) }}
+      />
+
       <section className="section wrap">
         <p className="tech tech--accent">[ Photography ]</p>
-        <h1 className="matrix-title" style={{ marginTop: '0.7rem', maxWidth: '20ch' }}>
+        <h2 className="matrix-title" style={{ marginTop: '0.7rem', maxWidth: '20ch' }}>
           Light, mostly borrowed
-        </h1>
+        </h2>
         <div className="prose" style={{ marginTop: '1.25rem' }}>
           <p>
             Shot on a phone, almost all of it. A stage lighting rig does the hard work in
@@ -100,7 +127,7 @@ export default function Photography() {
               type="button"
               key={p.src}
               className={`wall__cell${p.span === 'tall' ? ' wall__cell--tall' : ''}`}
-              onClick={() => setOpen(i)}
+              onClick={(e) => openAt(i, e.currentTarget.getBoundingClientRect())}
               aria-label={`Open ${p.title}, image ${i + 1} of ${shown.length}`}
             >
               <img src={p.src} alt={p.alt} width={p.w} height={p.h} loading="lazy" decoding="async" />
@@ -123,7 +150,7 @@ export default function Photography() {
                 <button
                   type="button"
                   className="strip__frame"
-                  onClick={() => setOpen(f.i)}
+                  onClick={(e) => openAt(f.i, e.currentTarget.getBoundingClientRect())}
                   aria-label={`Open ${f.title}, image ${f.i + 1} of ${shown.length}`}
                 >
                   <img src={f.src} alt={f.alt} width={f.w} height={f.h} loading="lazy" decoding="async" />
@@ -153,7 +180,7 @@ export default function Photography() {
       </section>
 
       {open >= 0 && (
-        <Lightbox items={shown} index={open} onClose={close} onMove={move} />
+        <Lightbox items={shown} index={open} origin={origin} onClose={close} onMove={move} />
       )}
     </>
   )

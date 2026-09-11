@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 /* ==========================================================================
    Lightbox with zoom and pan.
@@ -11,18 +11,46 @@ import { useCallback, useEffect, useRef, useState } from 'react'
    with object-fit, which cannot overflow whatever the row height turns out to be.
 
    Zoom is a transform on top of that fit, so 1x always means "the whole frame".
+
+   `origin` is the rectangle the thumbnail occupied when it was clicked. Given
+   one, the photograph starts at that rectangle and grows into the stage, so
+   the viewer sees the frame they pointed at expand rather than a new picture
+   land on top of the page. Without it — or under reduced motion — it simply
+   appears, which is the same modal either way.
    ========================================================================== */
 
 const STEPS = [1, 1.75, 2.75, 4]
 
-export default function Lightbox({ items, index, onClose, onMove }) {
+export default function Lightbox({ items, index, origin, onClose, onMove }) {
   const dialogRef = useRef(null)
   const stageRef = useRef(null)
   const [step, setStep] = useState(0)
   const [off, setOff] = useState({ x: 0, y: 0 })
   const drag = useRef(null)
+  const [panning, setPanning] = useState(false)
+  /* The opening transform: set once, then cleared on the next frame so the
+     image transitions from the thumbnail's rectangle into the stage. */
+  const [grow, setGrow] = useState(null)
   const item = items[index]
   const scale = STEPS[step]
+
+  useLayoutEffect(() => {
+    if (!origin || !stageRef.current) return
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const s = stageRef.current.getBoundingClientRect()
+    if (!s.width || !s.height) return
+    const k = Math.max(origin.width / s.width, 0.04)
+    const tx = origin.left + origin.width / 2 - (s.left + s.width / 2)
+    const ty = origin.top + origin.height / 2 - (s.top + s.height / 2)
+    setGrow(`translate(${tx.toFixed(1)}px, ${ty.toFixed(1)}px) scale(${k.toFixed(4)})`)
+    /* Two frames: one for the browser to paint the start state, one to leave
+       it. A single rAF lands in the same frame and the transition never runs. */
+    let b = 0
+    const a = requestAnimationFrame(() => { b = requestAnimationFrame(() => setGrow(null)) })
+    return () => { cancelAnimationFrame(a); cancelAnimationFrame(b) }
+    /* Only on open: moving between photographs should not re-run it. */
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   /* A new photograph always starts fitted, otherwise you arrive somewhere
      arbitrary inside the next image. */
@@ -86,6 +114,7 @@ export default function Lightbox({ items, index, onClose, onMove }) {
   const onPointerDown = (e) => {
     if (scale <= 1) return
     drag.current = { x: e.clientX, y: e.clientY, ox: off.x, oy: off.y }
+    setPanning(true)
     e.currentTarget.setPointerCapture?.(e.pointerId)
   }
   const onPointerMove = (e) => {
@@ -93,7 +122,7 @@ export default function Lightbox({ items, index, onClose, onMove }) {
     const d = drag.current
     setOff(clamp({ x: d.ox + (e.clientX - d.x), y: d.oy + (e.clientY - d.y) }, scale))
   }
-  const endDrag = () => { drag.current = null }
+  const endDrag = () => { drag.current = null; setPanning(false) }
 
   return (
     <div
@@ -127,7 +156,12 @@ export default function Lightbox({ items, index, onClose, onMove }) {
           src={item.src}
           alt={item.alt}
           draggable={false}
-          style={{ transform: `translate(${off.x}px, ${off.y}px) scale(${scale})` }}
+          style={{
+            transform: grow || `translate(${off.x}px, ${off.y}px) scale(${scale})`,
+            /* No transition while a finger is on it, or the image lags the
+               pointer by the length of the ease. */
+            transition: panning ? 'none' : undefined,
+          }}
         />
       </div>
 
