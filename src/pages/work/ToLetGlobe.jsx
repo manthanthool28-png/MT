@@ -1,5 +1,6 @@
 import { CaseHeader, CaseBody, CaseSection, Decision, PrevNext } from '../../components/CaseStudy.jsx'
 import { useReveal } from '../../components/Reveal.jsx'
+import { Counter, Motes, ScrollFilm, SplitHeading } from '../../components/Cinema.jsx'
 import Figure from '../../components/Figure.jsx'
 import Embedder from '../../components/Embedder.jsx'
 import { bySlug } from '../../data/projects.js'
@@ -11,6 +12,31 @@ const project = bySlug('tolet-globe')
 const PROTOTYPE =
   'https://embed.figma.com/proto/AFR1ajWllBGsFrsRQD6c2S/To-Let-homepage' +
   '?node-id=1145-4388&page-id=0%3A1&starting-point-node-id=1145%3A4388&embed-host=share'
+
+/* The act, in the project's own words: every line below is a sentence from
+   the study cut to length, and every number is one the study already states. */
+const BEATS = [
+  {
+    key: 'tolet-hero-after',
+    kicker: 'Decision 01',
+    line: 'Lead with the promise, not the search box.',
+  },
+  {
+    key: 'tolet-cities',
+    kicker: 'Decision 02',
+    line: 'City first, because coverage is finite.',
+  },
+  {
+    key: 'tolet-services',
+    kicker: 'Decision 03',
+    line: 'Six property types, weighted equally.',
+  },
+  {
+    key: 'tolet-listing',
+    kicker: 'Decision 04',
+    line: 'Put the owner on the card.',
+  },
+]
 
 export default function ToLetGlobe() {
   useReveal()
@@ -24,6 +50,32 @@ export default function ToLetGlobe() {
           </a>
         </p>
       </CaseHeader>
+
+      <section className="cine" aria-labelledby="cine-h">
+        <div className="wrap cine__intro">
+          <Motes glyph="pin" />
+          <div className="cine__say">
+            <p className="eyebrow">The entry in four frames</p>
+            <SplitHeading id="cine-h" text="Let the two contact each other directly, at zero brokerage." />
+            <p className="cine__lede">
+              A broker stands between an owner with a vacant property and a tenant looking for
+              one, and charges both. If the product looks like every other listings portal, the
+              thing that makes it worth using is invisible.
+            </p>
+          </div>
+        </div>
+
+        <ScrollFilm beats={BEATS} label="To-Let Globe, the entry in four frames" />
+
+        <div className="wrap cine__facts">
+          <div className="facts">
+            <Counter value={22} label="Designers on the team I led" />
+            <Counter value={6} label="Property types, weighted equally" />
+            <Counter value={0} label="Brokerage · the whole premise" />
+            <Counter value={4} label="Decisions that shape the entry" />
+          </div>
+        </div>
+      </section>
 
       <CaseBody>
         <CaseSection id="problem" eyebrow="Problem" title="A marketplace whose whole value is removing the middleman">
