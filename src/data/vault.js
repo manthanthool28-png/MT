@@ -46,20 +46,6 @@ export const vaultItems = [
     href: 'https://youtu.be/mPFqpOsAZ4I',
     video: null,
   },
-  {
-    key: 'bts-1',
-    name: 'Reflective Piece',
-    kind: 'Reflection',
-    href: 'https://www.youtube.com/watch?v=WXWgiBLmJ18',
-    video: null,
-  },
-  {
-    key: 'film-showreel',
-    name: 'Showreel',
-    kind: 'Reel',
-    href: null,
-    video: null,
-  },
 ]
 
 export const repos = [
