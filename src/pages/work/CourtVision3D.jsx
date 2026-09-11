@@ -1,6 +1,7 @@
 import { CaseHeader, CaseBody, CaseSection, Decision, PrevNext } from '../../components/CaseStudy.jsx'
 import { useReveal } from '../../components/Reveal.jsx'
 import Figure from '../../components/Figure.jsx'
+import { Counter, Motes, ScrollFilm, SplitHeading } from '../../components/Cinema.jsx'
 import ShotChartHero from '../../components/ShotChartLazy.jsx'
 import { bySlug } from '../../data/projects.js'
 import { site } from '../../data/site.js'
@@ -18,6 +19,32 @@ const TLX = [
   ['Frustration', 1.8],
 ]
 
+/* The opening act, in four frames. Every line is a sentence from the case
+   study below cut to length — the act is a way into the argument, not a second
+   version of it that could drift out of step with the first. */
+const BEATS = [
+  {
+    key: 'cv-2d-baseline',
+    kicker: 'The standard',
+    line: 'Volume and efficiency competing for one visual channel.',
+  },
+  {
+    key: 'cv-decision-spike',
+    kicker: 'Decision 01',
+    line: 'Height carries efficiency. Read the skyline, not the legend.',
+  },
+  {
+    key: 'cv-decision-colour',
+    kicker: 'Decision 02',
+    line: 'Colour stays categorical. Made and missed, nothing to interpolate.',
+  },
+  {
+    key: 'cv-decision-camera',
+    kicker: 'Decision 03',
+    line: 'From overhead the spikes collapse. That is why the camera exists.',
+  },
+]
+
 export default function CourtVision3D() {
   useReveal()
   return (
@@ -26,6 +53,33 @@ export default function CourtVision3D() {
       <CaseHeader project={project}>
         <ShotChartHero />
       </CaseHeader>
+
+      {/* 1b. The argument, before it is written down */}
+      <section className="cine" aria-labelledby="cine-h">
+        <div className="wrap cine__intro">
+          <Motes />
+          <div className="cine__say">
+            <p className="eyebrow">The argument in four frames</p>
+            <SplitHeading id="cine-h" text="Everyone could describe the picture. Nobody could read it." />
+            <p className="cine__lede">
+              The 2D shot chart encodes two things in colour alone: how often a player
+              shoots from a spot, and how well. Court Vision 3D gives efficiency a
+              dimension of its own, then measures whether that actually helped anyone.
+            </p>
+          </div>
+        </div>
+
+        <ScrollFilm beats={BEATS} label="Court Vision 3D, the argument in four frames" />
+
+        <div className="wrap cine__facts">
+          <div className="facts">
+            <Counter value={1025} label="Shots in the dataset · Luka Dončić, 2024–25" />
+            <Counter value={2} label="Study phases · formative, then comparative" />
+            <Counter value={4} label="Participants · Phase 2" />
+            <Counter value={25.1} decimals={1} label="Raw NASA-TLX · mean of four" />
+          </div>
+        </div>
+      </section>
 
       <CaseBody>
         {/* 2. Problem / context */}
