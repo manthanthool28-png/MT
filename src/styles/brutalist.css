@@ -612,7 +612,11 @@
   overflow: hidden;
 }
 @media (max-width: 860px) {
-  .portrait { max-width: 300px; }
+  /* Cap the rig, not just the photo. Once the columns stack, the hung body is
+     as wide as the whole column, so capping only .portrait would leave the pin
+     and the wire hanging off the middle of the column while the photo sat at
+     its left edge. */
+  .about-shell .hang, .portrait { max-width: 300px; }
 }
 .portrait img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -2753,3 +2757,68 @@
   text-underline-offset: 3px;
 }
 .bio a:hover { color: var(--text); }
+
+/* --------------------------- 26. HUNG RIG -------------------------------- */
+/* Set pieces flown from a batten. The hardware is drawn — batten, wire, pin —
+   because the depth has to read before anything moves, and for anyone with
+   reduced motion it is the only thing that will. No drop shadows: --shadow is
+   `none` in both themes on purpose, so depth here comes from the rig and from
+   the perspective tilt rather than from a fake light source. */
+.hang { position: relative; perspective: 1100px; }
+
+.hang__rail {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--line-strong);
+}
+.hang__pin {
+  position: absolute;
+  top: -3.5px;
+  width: 8px;
+  height: 8px;
+  margin-left: -4px;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: var(--bg);
+}
+.hang__rig {
+  position: relative;
+  padding-top: var(--hang-len, 56px);
+  transform-origin: var(--pivot, 50%) 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.hang__wire {
+  position: absolute;
+  top: 0;
+  width: 1px;
+  height: var(--hang-len, 56px);
+  margin-left: -0.5px;
+  background: var(--line-strong);
+  transform-origin: top center;
+}
+.hang__body { position: relative; }
+
+/* Whatever you can take hold of says so: accent pins and a grab cursor. touch-action keeps vertical scrolling with
+   the page on touch: the swing is a horizontal gesture. */
+.hang--grab .hang__pin { background: var(--accent); border-color: var(--accent); }
+.hang--grab .hang__body {
+  cursor: grab;
+  /* The swing is horizontal, so vertical panning has to stay with the page. */
+  touch-action: pan-y;
+  /* Without these the browser's own image drag and text selection both fire
+     on the way into a swing, and you end up dragging a ghost of the photo. */
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.hang--grab .hang__body img { -webkit-user-drag: none; pointer-events: none; }
+.hang--grab .hang__body.is-held { cursor: grabbing; }
+
+/* Shorter drops once the columns stack, or the wires eat the fold. */
+@media (max-width: 700px) {
+  .hang__rig { padding-top: calc(var(--hang-len, 56px) * 0.6); }
+  .hang__wire { height: calc(var(--hang-len, 56px) * 0.6); }
+}

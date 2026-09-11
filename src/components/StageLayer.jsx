@@ -1,3 +1,4 @@
+import Hang from './Hang.jsx'
 import Reveal from './Reveal.jsx'
 import { asset } from '../data/assets.js'
 
@@ -69,6 +70,7 @@ export default function StageLayer() {
           ))}
         </Reveal>
 
+        <Hang len={40} give={0.28} damp={1.5} tilt={2} pins={[0.08, 0.5, 0.92]}>
         <Reveal className="mosaic">
           {MOSAIC.map((m) => {
             const a = asset(m.key)
@@ -80,6 +82,7 @@ export default function StageLayer() {
             )
           })}
         </Reveal>
+        </Hang>
 
         <div className="nutshell">
           <Reveal>

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import Hang from '../components/Hang.jsx'
 import Reveal, { useReveal } from '../components/Reveal.jsx'
 import StageLayer from '../components/StageLayer.jsx'
 import ToolStrip from '../components/ToolStrip.jsx'
@@ -30,9 +31,11 @@ export default function About() {
       <section className="section wrap">
         <div className="about-shell">
           <Reveal>
-            <div className="portrait">
-              <img src={photo.src} alt={photo.alt} width={photo.w} height={photo.h} decoding="async" />
-            </div>
+            <Hang len={92} damp={1.15} drag pins={[0.22, 0.78]}>
+              <div className="portrait">
+                <img src={photo.src} alt={photo.alt} width={photo.w} height={photo.h} decoding="async" />
+              </div>
+            </Hang>
             {photo.pending && <p className="tech" style={{ marginTop: '0.6rem' }}>Asset pending: portrait</p>}
             <p className="tech" style={{ marginTop: '0.9rem' }}>{site.location}</p>
           </Reveal>
@@ -70,7 +73,9 @@ export default function About() {
             </div>
           </Reveal>
           <Reveal>
-            <ToolStrip />
+            <Hang len={44} give={0.45} damp={1.35} tilt={2} pins={[0.12, 0.88]}>
+              <ToolStrip />
+            </Hang>
           </Reveal>
           <Reveal>
             <p className="tech" style={{ marginTop: '1.25rem' }}>
