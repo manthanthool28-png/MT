@@ -1,11 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import Drum from '../components/Drum.jsx'
 import Reveal, { useReveal } from '../components/Reveal.jsx'
 import { vaultItems, repos } from '../data/vault.js'
 import { asset } from '../data/assets.js'
 
-/** One face of the drum. Muted preview plays on hover; click opens the piece. */
-function VaultTile({ item, onOpen, front }) {
+/** One masonry tile. Muted preview plays on hover; click opens the player. */
+function VaultTile({ item, onOpen }) {
   const a = asset(item.key)
   const external = !item.video && item.href
   const videoRef = useRef(null)
@@ -28,15 +27,14 @@ function VaultTile({ item, onOpen, front }) {
 
   return (
     <Tag
-      className="drum__card snap"
-      data-front={front ? 'true' : 'false'}
+      className="vault__item snap"
       onMouseEnter={enter}
       onMouseLeave={leave}
       onFocus={enter}
       onBlur={leave}
       {...props}
     >
-      <div className="drum__media">
+      <div className="vault__media">
         {item.video ? (
           <video
             ref={videoRef}
@@ -50,11 +48,12 @@ function VaultTile({ item, onOpen, front }) {
         ) : (
           <img src={a.src} alt={a.alt} width={a.w} height={a.h} loading="lazy" decoding="async" />
         )}
+        {external && <span className="vault__badge">Watch ↗</span>}
       </div>
-      <span className="drum__cap">
-        <span>{item.name}</span>
-        <span>{external ? 'Watch \u2197' : item.kind}</span>
-      </span>
+      <div className="vault__meta">
+        <span className="vault__name">{item.name}</span>
+        <span className="vault__kind">{item.kind}</span>
+      </div>
     </Tag>
   )
 }
@@ -88,20 +87,16 @@ export default function Vault() {
           <h1>Media vault</h1>
           <p>
             Motion work, performances and process captures, plus direct links to live files
-            and source repositories. Turn the drum — drag it, or use the arrow keys.
+            and source repositories.
           </p>
         </Reveal>
       </header>
 
-      <section className="section wrap" aria-label="Media">
-        <Drum
-          items={vaultItems}
-          label="Media vault"
-          render={(it, front) => <VaultTile item={it} onOpen={setOpen} front={front} />}
-        />
-      </section>
+      <section className="vault" aria-label="Media grid">
+        {vaultItems.map((it) => (
+          <VaultTile key={it.key} item={it} onOpen={setOpen} />
+        ))}
 
-      <section className="vault wrap" aria-label="Repositories and live files">
         {repos.map((r) =>
           r.href ? (
             <a
