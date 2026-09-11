@@ -2,7 +2,7 @@ import Reveal from './Reveal.jsx'
 import { asset } from '../data/assets.js'
 
 /* ==========================================================================
-   The CS4071 King Run report in its own visual language: violet gradient
+   The King Run report in its own visual language: violet gradient
    header on a light ground. Content transcribed from
    "King Run _Manthan Thool.pdf".
    ========================================================================== */
@@ -69,7 +69,7 @@ export default function KingRunReport() {
         <div className="rep-head__bg">
           <img src={hero.src} alt={hero.alt} />
         </div>
-        <p className="rep-head__kicker">CS4071 · Virtual &amp; Augmented Reality Design</p>
+        <p className="rep-head__kicker">Virtual &amp; Augmented Reality Design</p>
         <h1 className="rep-head__title">King Run</h1>
         <p className="rep-head__meta">
           A 3D endless runner designed to test player reflexes and spatial awareness while
@@ -78,7 +78,7 @@ export default function KingRunReport() {
           Built on Unity 6 with physics-based movement and modular architecture.
         </p>
         <div className="rep-stats" style={{ maxWidth: '640px' }}>
-          {[['Manthan Thool', '25065394'], ['Platform', 'Unity 6 · C#'], ['Date', 'December 2025']].map(([k, v]) => (
+          {[['Platform', 'Unity 6 · C#'], ['Date', 'December 2025']].map(([k, v]) => (
             <div className="rep-stat" key={k}>
               <p className="rep-stat__k">{k}</p>
               <p className="rep-stat__v" style={{ fontSize: 'var(--step-0)' }}>{v}</p>

@@ -1,8 +1,8 @@
 /* ==========================================================================
    Algorithmic Soundscape — report mode.
 
-   A transcription of the submitted score sheet (CS6042 Interactive Media
-   Project / Workshop 2, 2025/6 SEM2) in the deck's own visual language: black
+   A transcription of the submitted score sheet in the deck's own visual
+   language: black
    table, the four UNO colours used as the encoding they actually are.
 
    The performance sheet is reproduced bar by bar because that is what the
@@ -91,7 +91,7 @@ export default function SoundscapeReport() {
   return (
     <div className="wrap">
       <Reveal className="rep-head uno-head">
-        <p className="rep-head__kicker">CS6042 · Interactive Media Project / Workshop 2 · 2025/6 SEM2</p>
+        <p className="rep-head__kicker">Interactive Media</p>
         <h1 className="rep-head__title">
           <span className="uno-word" data-c="red">U</span>
           <span className="uno-word" data-c="green">N</span>

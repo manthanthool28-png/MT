@@ -2,8 +2,8 @@ import Reveal from './Reveal.jsx'
 import { asset } from '../data/assets.js'
 
 /* ==========================================================================
-   The CS4151 report, rendered in its own visual language rather than the
-   site's. Content is transcribed from Manthan_Thool_25065394_CS4151.pdf.
+   The report, rendered in its own visual language rather than the
+   site's. Content is transcribed from the submitted PDF.
    Section numbering follows the report exactly.
    ========================================================================== */
 
@@ -39,12 +39,10 @@ export default function CorvetteReport() {
         <div className="rep-head__bg">
           <img src={hero.src} alt={hero.alt} />
         </div>
-        <p className="rep-head__kicker">CS4151 | Digital Modelling &amp; Animation</p>
+        <p className="rep-head__kicker">Digital Modelling &amp; Animation</p>
         <h1 className="rep-head__title">Cinematic Automotive Animation</h1>
         <p className="rep-head__meta">
-          Manthan Thool · 25065394
-          <br />
-          Instructor: Simon Colreavy
+          Manthan Thool
         </p>
       </Reveal>
 

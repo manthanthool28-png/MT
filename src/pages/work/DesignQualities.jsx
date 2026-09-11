@@ -9,7 +9,7 @@ import { asset } from '../../data/assets.js'
 const project = bySlug('design-qualities')
 
 /* Four qualities, each with the object that gets it right and the one that
-   does not. Transcribed from the CS6431 Assignment 1 submission.
+   does not. Transcribed from the submitted report.
 
    The original essay illustrated these with sourced reference photography
    (stock libraries, brand assets, social media). None of it is Manthan's own

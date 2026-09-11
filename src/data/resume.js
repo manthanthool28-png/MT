@@ -36,7 +36,7 @@ export const education = [
     title: 'MSc Interaction & Experience Design',
     org: 'University of Limerick, Ireland',
     when: '2025 – 2026',
-    note: 'Thesis module CS6572, supervised by Dr. Nicholas Ward. Transforming familiar 2D sports data visualisations into interactive 3D experiences for non-expert users.',
+    note: 'Supervised by Dr. Nicholas Ward. Transforming familiar 2D sports data visualisations into interactive 3D experiences for non-expert users.',
   },
   {
     title: 'B.E. Computer Engineering',

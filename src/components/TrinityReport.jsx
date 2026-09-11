@@ -1,7 +1,7 @@
 /* ==========================================================================
    Now I Am Become Death — report mode.
 
-   A transcription of the CS4049 Assessment 3 submission in the piece's own
+   A transcription of the submitted report in the piece's own
    colour arc: cold structure, fire held back for the accent.
 
    Where the written report and the shipped sketch disagree on a number, the
@@ -45,7 +45,7 @@ const REFS = [
   'May, R. M. (1976). Simple mathematical models with very complicated dynamics. Nature, 261(5560), 459–467.',
   'McLaren, N. (1971). Synchromy [Film]. National Film Board of Canada.',
   'Oppenheimer, J. R. (1965). The decision to drop the bomb [TV interview]. NBC News.',
-  'Parmar, R. (2025). John Whitney [CS4049 course lecture slides]. University of Limerick.',
+  'Parmar, R. (2025). John Whitney [lecture slides]. University of Limerick.',
   'Perlin, K. (1985). An image synthesizer. ACM SIGGRAPH Computer Graphics, 19(3), 287–296.',
   'Russett, R., & Starr, C. (1976). Experimental animation: Origins of a new art. Van Nostrand Reinhold.',
   'Whitney, J. (1968). Permutations [Film]. USA.',
@@ -74,10 +74,10 @@ export default function TrinityReport() {
   return (
     <div className="wrap">
       <Reveal className="rep-head">
-        <p className="rep-head__kicker">CS4049 · Assessment 3 · Creative Coding · 2025/26</p>
+        <p className="rep-head__kicker">Creative Coding · 2025</p>
         <h1 className="rep-head__title">Now I Am Become Death</h1>
         <p className="rep-head__meta">
-          A generative animation inspired by John Whitney. Manthan Thool · 25065394.
+          A generative animation inspired by John Whitney. Manthan Thool.
         </p>
         <div className="rep-stats" style={{ maxWidth: '820px' }}>
           {FACTS.map(([k, v]) => (
@@ -163,7 +163,7 @@ export default function TrinityReport() {
         <Figure
           assetKey="vc-mandala"
           label="Act I"
-          caption="Harmonic orbit convergence in the finished piece: five counter-rotating rings, the star-polygon mesh and the spiral overlapping at the moment they reach visual consonance. The report reproduces three Whitney diagrams from Digital Harmony here, from the CS4049 course materials; they are not reproduced on this page."
+          caption="Harmonic orbit convergence in the finished piece: five counter-rotating rings, the star-polygon mesh and the spiral overlapping at the moment they reach visual consonance. The report reproduces three Whitney diagrams from Digital Harmony here; they are not reproduced on this page."
         />
 
         <div className="rep-section__head" style={{ marginTop: '2.5rem' }}>

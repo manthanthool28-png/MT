@@ -17,7 +17,7 @@ export const projects = [
       Role: 'Sole designer and developer: research, IxD, front-end',
       Tools: 'Three.js, WebGL, Figma, NASA-TLX',
       Timeline: 'MSc thesis project, 2025–26',
-      Context: 'CS6572, University of Limerick',
+      Context: 'MSc thesis · University of Limerick',
     },
   },
   {
@@ -97,7 +97,7 @@ export const projects = [
       Role: 'Research and writing',
       Tools: 'Observational analysis',
       Timeline: '2025',
-      Context: 'CS6431 Foundations of Interaction & Experience Design, University of Limerick',
+      Context: 'University of Limerick',
     },
   },
   {
@@ -126,7 +126,7 @@ export const projects = [
       Methods: 'Mind-mapping, brainstorming, interviews, cognitive walkthrough',
       Tools: 'Arduino, RFID, ESP8266, Figma',
       Timeline: '2025',
-      Context: 'CS6431 Foundations of Interaction & Experience Design, University of Limerick',
+      Context: 'University of Limerick',
     },
   },
   {
@@ -146,7 +146,7 @@ export const projects = [
       Role: 'Rigging, shading, lighting, animation, render pipeline',
       Tools: 'Blender 4.0, Cycles, OpenImageDenoise',
       Timeline: 'December 2025',
-      Context: 'CS4151 Digital Modelling & Animation, University of Limerick',
+      Context: 'University of Limerick',
     },
   },
   {
@@ -166,7 +166,7 @@ export const projects = [
       Role: 'Sole designer and developer',
       Tools: 'Unity 6, C#, Rigidbody physics, Mixamo',
       Timeline: 'December 2025',
-      Context: 'CS4071 Virtual & Augmented Reality Design, University of Limerick',
+      Context: 'University of Limerick',
     },
   },
   {
@@ -189,7 +189,7 @@ export const projects = [
       Role: 'Sole author: concept, algorithms, code, edit',
       Tools: 'Processing 4.x, Minim',
       Timeline: 'Submitted 8 May 2026',
-      Context: 'CS4049 Creative Coding, University of Limerick',
+      Context: 'University of Limerick',
     },
   },
   {
@@ -249,7 +249,7 @@ export const projects = [
       Role: 'Director, camera, editor',
       Tools: 'Adobe Premiere Pro',
       Timeline: '2024 to 2025',
-      Context: 'Client and university work',
+      Context: 'Client and personal work',
     },
   },
 ]

@@ -117,10 +117,10 @@ export default function DesignQualitiesReport() {
   return (
     <div className="wrap">
       <Reveal className="rep-head">
-        <p className="rep-head__kicker">CS6431 · Foundations of Interaction and Experience Design</p>
+        <p className="rep-head__kicker">Interaction &amp; Experience Design</p>
         <h1 className="rep-head__title">Design Qualities in Everyday Objects</h1>
         <p className="rep-head__meta">
-          Manthan Thool · 25065394 · University of Limerick
+          Manthan Thool · University of Limerick
         </p>
       </Reveal>
 

@@ -1,8 +1,7 @@
 /* ==========================================================================
    Smart Shelf / Predictive Restocking — report mode.
 
-   A transcription of the CS6431 Assignment 4 submission, "Testing and
-   Redesign", in a clinical register: white ground, pharmacy teal, tabular
+   A transcription of the "Testing and Redesign" report, in a clinical register: white ground, pharmacy teal, tabular
    data. The report evaluates the group's original Smart Shelf Management
    System and specifies the predictive module that replaced its reactive core.
 
@@ -14,7 +13,6 @@ import Reveal from './Reveal.jsx'
 import Figure from './Figure.jsx'
 
 const FACTS = [
-  ['Module', 'CS6431 · Foundations of Interaction & Experience Design'],
   ['Method', 'Cognitive Walkthrough + qualitative interviews'],
   ['Personas', 'Three, all strategic users'],
   ['Output', 'Predictive Restocking Intelligence Module'],
@@ -177,11 +175,11 @@ export default function SmartShelfReport() {
   return (
     <div className="wrap">
       <Reveal className="rep-head">
-        <p className="rep-head__kicker">CS6431 · Assignment 4 · 2025/6 SEM1</p>
+        <p className="rep-head__kicker">Interaction &amp; Experience Design</p>
         <h1 className="rep-head__title">Testing and Redesign</h1>
         <p className="rep-head__meta">
           Evaluating the Smart Shelf Management System and specifying the predictive
-          restocking module that replaced its reactive core. Manthan Thool · 25065394.
+          restocking module that replaced its reactive core.
         </p>
         <div className="rep-stats" style={{ maxWidth: '860px' }}>
           {FACTS.map(([k, v]) => (

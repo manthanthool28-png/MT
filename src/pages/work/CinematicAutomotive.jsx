@@ -67,7 +67,7 @@ export default function CinematicAutomotive() {
             <p>
               <strong>The car model was licensed from CGTrader rather than modelled.</strong>{' '}
               That was deliberate. Modelling a vehicle to that standard would have consumed
-              the whole assignment and taught me the one skill I was not being assessed on.
+              the whole project and taught me the one skill the work was not about.
               Buying the asset bought the time to do the rigging, shading, lighting and
               render optimisation properly. Every decision below is mine; the geometry is
               not.

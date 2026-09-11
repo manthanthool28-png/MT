@@ -72,7 +72,7 @@ export default function KingRun() {
               The brief was VR and AR design, and the honest constraint was that a headset
               build was not the deliverable. So the question became architectural: how do you
               write a keyboard-driven runner so that swapping the input for head tracking is
-              a change of one component rather than a rewrite? That is what the module was
+              a change of one component rather than a rewrite? That is what the work was
               really testing, and it is the reason almost every decision below is about
               separation rather than about gameplay.
             </p>
