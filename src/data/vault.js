@@ -19,14 +19,14 @@ export const vaultItems = [
     video: null,
   },
   {
-    key: 'film-vfx',
+    key: 'sound-session',
     name: 'Algorithmic Soundscape',
     kind: 'Performance',
     href: 'https://www.youtube.com/watch?v=vi7EpUg3cZo',
     video: null,
   },
   {
-    key: 'interactive-hero',
+    key: 'kal-lasercut-bed',
     name: 'Detachable Kaleidoscope',
     kind: 'Interactive sculpture',
     href: 'https://www.youtube.com/watch?v=QLhWnRbSY3s',

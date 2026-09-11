@@ -225,7 +225,7 @@ export const projects = [
     tracks: ['creative-tech'],
     size: 'md',
     video: 'https://www.youtube.com/embed/vi7EpUg3cZo',
-    thumb: { src: './assets/interactive-hero.jpg', alt: 'A digital audio workstation with a dozen coloured, labelled audio tracks laid out across a timeline.' },
+    thumb: { src: './assets/sound-session.jpg', alt: 'A digital audio workstation with a dozen coloured, labelled audio tracks laid out across a timeline.' },
     meta: {
       Role: 'Concept, rule system and performance',
       Tools: 'Generative audio, live performance',

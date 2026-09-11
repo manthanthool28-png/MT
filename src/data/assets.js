@@ -392,10 +392,18 @@ export const assets = [
     title: 'Stik-ie tape advert', alt: 'Still from the Stik-ie tape advert.' },
   { key: 'film-diwali', src: './assets/film-diwali.jpg', w: 1050, h: 1400, kind: 'still', pending: false,
     title: 'UL Diwali Festival 2025', alt: 'Still from UL Diwali Festival 2025 coverage.' },
-  { key: 'film-vfx', src: './assets/film-vfx.jpg', w: 900, h: 1200, kind: 'still', pending: false,
-    title: 'Performance still', alt: 'Still from the algorithmic soundscape performance.' },
-  { key: 'interactive-hero', src: './assets/interactive-hero.jpg', w: 1400, h: 759, kind: 'still', pending: false,
-    title: 'Interactive sculpture', alt: 'The Detachable Kaleidoscope interactive sculpture.' },
+  /* Both of these were named for what they were assumed to hold rather than
+     for what they hold, and the vault was wired from the names: the DAW
+     session was filed as the interactive sculpture and pointed at the
+     Kaleidoscope tile, while an edit-bench photograph was filed as a
+     soundscape performance still and pointed at the Soundscape tile. Named
+     for their contents now, so the next thing to read them gets it right. */
+  { key: 'film-edit', src: './assets/film-edit.jpg', w: 900, h: 1200, kind: 'photo', pending: false,
+    title: 'At the edit bench',
+    alt: 'Cutting footage on a laptop at a desk lit by a single warm lamp, the timeline and preview visible on screen.' },
+  { key: 'sound-session', src: './assets/sound-session.jpg', w: 1400, h: 759, kind: 'screenshot', pending: false,
+    title: 'The soundscape session',
+    alt: 'A digital audio workstation with a dozen coloured, labelled audio tracks — taiko, nagara, bird FX, bass and synth — laid out across a timeline at 75bpm.' },
 
   { key: 'bts-1', src: './assets/bts-1.jpg', w: 900, h: 1200, kind: 'photo', pending: false,
     title: 'Behind the scenes', alt: 'Behind the scenes on a shoot.' },

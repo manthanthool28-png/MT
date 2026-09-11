@@ -25,7 +25,7 @@ const OVERRIDE = {
      the soundscape's own work, so it moves there; the sculpture gets its own
      photograph. */
   'detachable-kaleidoscope': 'kal-tower',
-  'algorithmic-soundscape': 'interactive-hero',
+  'algorithmic-soundscape': 'sound-session',
   videography: 'film-diwali',
 }
 
